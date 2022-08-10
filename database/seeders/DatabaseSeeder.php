@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $this->call([
-            M_user_group::class,
-            M_user_bo::class,
-            M_menu::class,
-            M_hak_akses::class,
+            M_user_group_bo_seeder::class,
+            M_user_bo_seeder::class,
+            M_menu_bo_seeder::class,
+            M_hak_akses_bo_seeder::class,
         ]);
     }
 }

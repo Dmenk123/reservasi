@@ -12,7 +12,7 @@
                       </div>
                       <!--Search Form -->
                       <div class="card-body mt-2">
-                        Welcome to Documentation System App of PRAMITA
+                        Welcome to Backoffice App
                       </div>
 
                     </div>

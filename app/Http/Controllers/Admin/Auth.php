@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use DB;
 use App\Models\M_user_bo;
-use App\Models\M_user_group;
+use App\Models\M_user_group_bo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -62,11 +62,10 @@ class Auth extends Controller
             } else if ($cek_hash === true) {
                 $request->session()->put('logged_in', 'true');
                 $request->session()->put('logged_in.id_m_user_bo', $cek->id_m_user_bo);
-                $request->session()->put('logged_in.id_m_branch', $cek->id_m_branch);
-                $request->session()->put('logged_in.nm_user', $cek->nm_user);
+                $request->session()->put('logged_in.nm_user_bo', $cek->nm_user_bo);
                 $request->session()->put('logged_in.username', $cek->username);
-                $request->session()->put('logged_in.nm_user_group', M_user_group::where('id_m_user_group',$cek->id_m_user_group)->first()->nm_user_group);
-                $request->session()->put('logged_in.id_m_user_group', $cek->id_m_user_group);
+                $request->session()->put('logged_in.nm_user_group_bo', M_user_group_bo::where('id_m_user_group_bo',$cek->id_m_user_group_bo)->first()->nm_user_group_bo);
+                $request->session()->put('logged_in.id_m_user_group_bo', $cek->id_m_user_group_bo);
                 $cek->last_login = now();
                 $cek->save();
             }

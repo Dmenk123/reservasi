@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMHakAksesTable extends Migration
+class CreateMHakAksesBoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateMHakAksesTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_hak_akses', function (Blueprint $table) {
-            $table->integer('id_m_hak_akses');
-            $table->primary('id_m_hak_akses');
-            $table->integer('id_m_user_group');
-            $table->integer('id_m_menu');
+        Schema::create('m_hak_akses_bo', function (Blueprint $table) {
+            $table->integer('id_m_hak_akses_bo');
+            $table->primary('id_m_hak_akses_bo');
+            $table->integer('id_m_user_group_bo');
+            $table->integer('id_m_menu_bo');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
@@ -30,6 +31,6 @@ class CreateMHakAksesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('m_hak_akses');
+        Schema::dropIfExists('m_hak_akses_bo');
     }
 }
