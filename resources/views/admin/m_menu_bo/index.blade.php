@@ -11,7 +11,7 @@
                       <div class="card-header border-bottom">
                         <h4 class="card-title">{{$page_title}}</h4>
 
-                        <a href="{{route('admin.m_menu.add')}}" class="btn btn-success float-right"><i data-feather="plus"></i> Add New</a>
+                        <a href="{{route('admin.m_menu_bo.add')}}" class="btn btn-success float-right"><i data-feather="plus"></i> Add New</a>
                       </div>
 
                       <hr class="my-0" />
@@ -60,7 +60,7 @@ $(document).ready( function () {
         serverside: true,
         pageLength: 20,
         ajax: {
-            url: '{{ route('admin.m_menu.datatable') }}',
+            url: '{{ route('admin.m_menu_bo.datatable') }}',
             method: 'post'
         },
     });
@@ -81,7 +81,7 @@ $('#datatable').on('click', '.delete', function(){
 
         if(e.value){
             $.ajax({
-                url:"{{ route('admin.m_menu.delete') }}",
+                url:"{{ route('admin.m_menu_bo.delete') }}",
                 method:"post",
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 data:{id_m_menu:id_m_menu},

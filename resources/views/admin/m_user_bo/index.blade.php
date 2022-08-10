@@ -21,7 +21,6 @@
                               <th>No</th>
                               <th>Username</th>
                               <th>Name</th>
-                              <th>Branch</th>
                               <th>Group</th>
                               <th>Last Login</th>
                               <th>Created at</th>

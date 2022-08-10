@@ -36,8 +36,8 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <select class="form-select" id="aktif" name="aktif">
-                                                <option {{($old->is_active_m_user_group_bo=='1') ? 'selected' : ''}} value="1">Yes</option>
-                                                <option {{($old->is_active_m_user_group_bo!='1') ? 'selected' : ''}} value="0">No</option>
+                                                <option {{($old->aktif=='1') ? 'selected' : ''}} value="1">Yes</option>
+                                                <option {{($old->aktif!='1') ? 'selected' : ''}} value="0">No</option>
                                               </select>
                                         </div>
                                     </div>

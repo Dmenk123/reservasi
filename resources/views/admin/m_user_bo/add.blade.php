@@ -21,26 +21,10 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-2">
-                                        <label class="col-form-label" for="nm_user">Full Name</label>
+                                        <label class="col-form-label" for="nm_user_bo">Full Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                        <input type="text" id="nm_user" class="form-control" name="nm_user">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="mb-1 row">
-                                        <div class="col-sm-2">
-                                        <label class="col-form-label" for="id_m_branch">Branch</label>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <select class="select2 form-control" id="id_m_branch" name="id_m_branch">
-                                              <option value="">Please Select</option>
-                                              @foreach($m_branch as $item)
-                                                <option value="{{$item->id_m_branch}}">{{$item->nm_m_branch}}</option>
-                                              @endforeach
-                                            </select>
+                                        <input type="text" id="nm_user_bo" class="form-control" name="nm_user_bo">
                                         </div>
                                     </div>
                                 </div>
@@ -84,30 +68,13 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-2">
-                                        <label class="col-form-label" for="id_m_user_group">User Group</label>
+                                        <label class="col-form-label" for="id_m_user_group_bo">User Group</label>
                                         </div>
                                         <div class="col-sm-4">
-                                            <select class="select2 form-control" id="id_m_user_group" name="id_m_user_group">
+                                            <select class="select2 form-control" id="id_m_user_group_bo" name="id_m_user_group_bo">
                                               <option value="">Please Select</option>
-                                              @foreach($m_user_group as $rol)
-                                                <option value="{{$rol->id_m_user_group}}">{{$rol->nm_user_group}}</option>
-                                              @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-12">
-                                    <div class="mb-1 row">
-                                        <div class="col-sm-2">
-                                        <label class="col-form-label" for="id_m_user_project_group">Project Group</label>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <select class="select2 form-control" id="id_m_user_project_group" name="id_m_user_project_group">
-                                              <option value="">Please Select</option>
-                                              @foreach($m_user_project_group as $rol)
-                                                <option value="{{$rol->id_m_user_project_group}}">{{$rol->nm_m_user_project_group}}</option>
+                                              @foreach($m_user_group_bo as $rol)
+                                                <option value="{{$rol->id_m_user_group_bo}}">{{$rol->nm_user_group_bo}}</option>
                                               @endforeach
                                             </select>
                                         </div>
