@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Admin\Main;
 use App\Http\Controllers\My_library;
+use App\Http\Controllers\BookingController;
 
 
 // use App\Models\M_module;
@@ -48,6 +49,17 @@ Route::group([
         // Route::post('/authenticate_out_bypass', [App\Http\Controllers\Web\CheckOut::class, 'authenticate_out_bypass'])->name('authenticate_out_bypass');
         // Route::post('/checkout', [App\Http\Controllers\Web\CheckOut::class, 'chm_menu_boeckout'])->name('checkout');
     });
+
+});
+
+Route::group([
+    'prefix' => 'booking',
+    'as' => 'booking.',
+    // 'middleware' => ['web', 'validasi_req_token'],  //iki durung gawe filter login fo
+    // 'middleware' => ['web'],  //iki durung gawe filter login fo
+], function (){
+    Route::get('/jadwal', [BookingController::class, 'jadwal'])->name('jadwal');
+   
 
 });
 
