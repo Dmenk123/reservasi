@@ -25,7 +25,7 @@
           @foreach($menu as $m)
 
           @php
-          $cek_by_role = \App\Models\M_hak_akses_bo::where('id_m_user_group_bo', request()->get('id_m_user_group'))->where('id_m_menu_bo', $m->id_m_menu_bo)->first();
+          $cek_by_role = \App\Models\M_hak_akses_bo::where('id_m_user_group_bo', request()->get('id_m_user_group_bo'))->where('id_m_menu_bo', $m->id_m_menu_bo)->first();
           $is_check = ($cek_by_role) ? 'checked' : '';
           @endphp
           <tr>

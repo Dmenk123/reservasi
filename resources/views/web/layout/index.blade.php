@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Heebo:300,400" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="{{asset('assets')}}/docs/css/main.css" />
-    <script src="{{asset('assets')}}/docs/js/uikit.js"></script>
+    {{-- <script src="{{asset('assets')}}/docs/js/uikit.js"></script> --}}
 
     <link rel="stylesheet" href="{{asset('assets/fo/css/bootstrap.min.css')}}" />
     <link rel="stylesheet" href="{{asset('assets/fo/css/owlCarousel.min.css')}}" />
@@ -77,7 +77,8 @@
     <!-- End Video Popup -->
     <!-- Scripts -->
     <script src="{{asset('assets/fo/js/vendor/modernizr-3.5.0.min.js')}}"></script>
-    <script src="{{asset('assets/fo/js/vendor/jquery-1.12.4.min.js')}}"></script>
+    {{-- <script src="{{asset('assets/fo/js/vendor/jquery-1.12.4.min.js')}}"></script> --}}
+    <script src="{{asset('assets/fo/js/jquery-2.2.4.min.js')}}"></script>
     <script src="{{asset('assets/fo/js/mailchimp.min.js')}}"></script>
     <script src="{{asset('assets/fo/js/owlCarousel.min.js')}}"></script>
     <script src="{{asset('assets/fo/js/tamjid-counter.min.js')}}"></script>

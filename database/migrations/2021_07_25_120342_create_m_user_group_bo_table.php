@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMMenuTable extends Migration
+class CreateMUserGroupBoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateMMenuTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_menu', function (Blueprint $table) {
-            $table->integer('id_m_menu');
-            $table->primary('id_m_menu');
-            $table->string('nm_menu',100);
+        Schema::create('m_user_group_bo', function (Blueprint $table) {
+            $table->integer('id_m_user_group_bo');
+            $table->primary('id_m_user_group_bo');
+            $table->string('nm_user_group_bo',40)->nullable();
             $table->string('aktif',1);
-            $table->string('icon',50);
-            $table->string('route',100)->nullable();
-            $table->integer('id_parent')->nullable();
+            $table->string('keterangan',255)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 
@@ -33,6 +32,6 @@ class CreateMMenuTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('m_menu');
+        Schema::dropIfExists('m_user_group_bo');
     }
 }

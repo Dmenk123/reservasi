@@ -20,10 +20,10 @@ class Master_user_group_bo extends Controller
     public function index()
     {
         $data = [
-            'head_title' => 'User Group BO',
-            'page_title' => 'User Group BO',
+            'head_title' => 'User Group',
+            'page_title' => 'User Group',
             'parent_menu_active' => 'Master Data',
-            'child_menu_active'   => 'User Group BO',
+            'child_menu_active'   => 'User Group',
         ];
 
         return view('admin.m_user_group_bo.index')->with($data);
@@ -64,7 +64,7 @@ class Master_user_group_bo extends Controller
         DB::beginTransaction();
         $object = new M_user_group_bo;
         $object->id_m_user_group_bo = M_user_group_bo::MaxId();
-        $object->is_active_m_user_group_bo = $request->aktif;
+        $object->aktif = $request->aktif;
         $object->nm_user_group_bo = $request->nm_user_group_bo;
         // $object->keterangan = $request->keterangan;
         try{
@@ -97,10 +97,10 @@ class Master_user_group_bo extends Controller
 
 
         $data = [
-            'head_title' => 'User Group BO',
-            'page_title' => 'User Group BO',
+            'head_title' => 'User Group',
+            'page_title' => 'User Group',
             'parent_menu_active' => 'Master Data',
-            'child_menu_active'   => 'User Group BO',
+            'child_menu_active'   => 'User Group',
             'old' => $old,
         ];
 
@@ -142,7 +142,7 @@ class Master_user_group_bo extends Controller
             ]);
         }
 
-        $update->is_active_m_user_group_bo = $request->aktif;
+        $update->aktif = $request->aktif;
         $update->nm_user_group_bo = $request->nm_user_group_bo;
         // $update->keterangan = $request->keterangan;
         try{
@@ -215,7 +215,7 @@ class Master_user_group_bo extends Controller
     		$datas[$key][] = $i++;
             $datas[$key][] = $value->nm_user_group_bo;
             $datas[$key][] = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d-m-Y H:i:s');
-            $datas[$key][] = ($value->is_active_m_user_group_bo=='1') ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Non Active</span>';
+            $datas[$key][] = ($value->aktif=='1') ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Non Active</span>';
             $datas[$key][] = '<div class="btn-group">
                                     <button class="btn btn-sm btn-primary dropdown-toggle waves-effect waves-float waves-light hide" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
                                     actions
@@ -234,8 +234,6 @@ class Master_user_group_bo extends Controller
 
     	return response()->json($data);
     }
-
-
 
 
     public function hakakses()

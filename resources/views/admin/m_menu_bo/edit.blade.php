@@ -25,8 +25,8 @@
                                         <label class="col-form-label" for="nm_menu">Menu Name</label>
                                         </div>
                                         <div class="col-sm-9">
-                                        <input type="hidden" id="id_m_menu" value="{{$old->id_m_menu}}" class="form-control" name="id_m_menu">
-                                        <input type="text" id="nm_menu" value="{{$old->nm_menu}}" class="form-control" name="nm_menu">
+                                        <input type="hidden" id="id_m_menu_bo" value="{{$old->id_m_menu_bo}}" class="form-control" name="id_m_menu_bo">
+                                        <input type="text" id="nm_menu_bo" value="{{$old->nm_menu_bo}}" class="form-control" name="nm_menu_bo">
                                         </div>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                             <select class="form-select" id="id_parent" name="id_parent">
                                                 <option value="">No Parent</option>
                                                 @foreach($id_parent as $parent)
-                                                <option {{($old->id_parent == $parent->id_m_menu) ? 'selected' : null}} value="{{$parent->id_m_menu}}">{{$parent->nm_menu}}</option>
+                                                <option {{($old->id_parent == $parent->id_m_menu) ? 'selected' : null}} value="{{$parent->id_m_menu}}">{{$parent->nm_menu_bo}}</option>
                                                 @endforeach
                                               </select>
                                         </div>
@@ -89,10 +89,10 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-2">
-                                        <label class="col-form-label" for="order_m_menu">Menu Order (urut ascending)</label>
+                                        <label class="col-form-label" for="order_m_menu_bo">Menu Order (urut ascending)</label>
                                         </div>
                                         <div class="col-sm-4">
-                                        <input type="text" id="order_m_menu" value="{{$old->order_m_menu}}" class="form-control" name="order_m_menu">
+                                        <input type="text" id="order_m_menu_bo" value="{{$old->order_m_menu_bo}}" class="form-control" name="order_m_menu">
                                         </div>
                                     </div>
                                 </div>
@@ -100,7 +100,7 @@
 
                                 <div class="col-sm-9 offset-sm-2">
                                 <button id="submitform" type="submit" class="btn btn-success me-1 waves-effect waves-float waves-light"><span>Submit</span></button>
-                                <a href="{{route('admin.m_menu.index')}}" class="btn btn-secondary waves-effect">Back</a>
+                                <a href="{{route('admin.m_menu_bo.index')}}" class="btn btn-secondary waves-effect">Back</a>
                                 </div>
                             </div>
                         </form>
@@ -125,7 +125,7 @@
         $("#submitform span").text(loading_text);
 
         $.ajax({
-            url:"{{ route("admin.m_menu.update") }}",
+            url:"{{ route("admin.m_menu_bo.update") }}",
             method:"POST",
             headers: { "X-CSRF-TOKEN": $("meta[name=csrf-token]").attr("content") },
             data: data,

@@ -9,7 +9,7 @@ use App\Http\Controllers\My_library;
 
 $prefix_fo = request()->segment(1);
 
-
+######### FO ##########
 Route::group([
     'prefix' => '/',
     'as' => 'web.',
@@ -46,10 +46,12 @@ Route::group([
         // Route::post('/checkin', [App\Http\Controllers\Web\CheckIn::class, 'checkin'])->name('checkin');
         // Route::post('/authenticate_out', [App\Http\Controllers\Web\CheckOut::class, 'authenticate_out'])->name('authenticate_out');
         // Route::post('/authenticate_out_bypass', [App\Http\Controllers\Web\CheckOut::class, 'authenticate_out_bypass'])->name('authenticate_out_bypass');
-        // Route::post('/checkout', [App\Http\Controllers\Web\CheckOut::class, 'checkout'])->name('checkout');
+        // Route::post('/checkout', [App\Http\Controllers\Web\CheckOut::class, 'chm_menu_boeckout'])->name('checkout');
     });
 
 });
+
+######### END FO ##########
 
 Route::get('/admin/login', [Auth::class, 'login'])->name('login');
 Route::post('/admin/authenticate', [Auth::class, 'authenticate'])->name('authenticate');
@@ -90,27 +92,23 @@ Route::group([
         Route::post('/user_group_modal', [\App\Http\Controllers\Admin\T_content_management::class, 'user_group_modal'])->name('user_group_modal');
     });
 
-     /**
+    /**
      * master user group fo
      */
-    Route::group([
-        'prefix' => 'm_user_group',
-        'as' => 'm_user_group.',
-    ], function () {
-        Route::get('/', [\App\Http\Controllers\Admin\Master_user_group::class, 'index'])->name('index');
-        Route::get('/add', [\App\Http\Controllers\Admin\Master_user_group::class, 'add'])->name('add');
-        Route::post('/save', [\App\Http\Controllers\Admin\Master_user_group::class, 'save'])->name('save');
-        Route::get('/edit', [\App\Http\Controllers\Admin\Master_user_group::class, 'edit'])->name('edit');
-        Route::post('/update', [\App\Http\Controllers\Admin\Master_user_group::class, 'update'])->name('update');
-        Route::post('/delete', [\App\Http\Controllers\Admin\Master_user_group::class, 'delete'])->name('delete');
-        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_user_group::class, 'datatable'])->name('datatable');
-        Route::get('/manage', [\App\Http\Controllers\Admin\Master_user_group::class, 'manage'])->name('manage');
-        Route::post('/manage', [\App\Http\Controllers\Admin\Master_user_group::class, 'manage_post'])->name('manage_post');
-
-        // Route::get('/open_modal_setting', [\App\Http\Controllers\Admin\Master_user_group::class, 'open_modal_setting'])->name('open_modal_setting');
-        // Route::post('/save_modal_setting', [\App\Http\Controllers\Admin\Master_user_group::class, 'save_modal_setting'])->name('save_modal_setting');
-        // Route::post('/set_exist_branch', [\App\Http\Controllers\Admin\Master_user_group::class, 'set_exist_branch'])->name('set_exist_branch');
-    });
+    // Route::group([
+    //     'prefix' => 'm_user_group',
+    //     'as' => 'm_user_group.',
+    // ], function () {
+    //     Route::get('/', [\App\Http\Controllers\Admin\Master_user_group::class, 'index'])->name('index');
+    //     Route::get('/add', [\App\Http\Controllers\Admin\Master_user_group::class, 'add'])->name('add');
+    //     Route::post('/save', [\App\Http\Controllers\Admin\Master_user_group::class, 'save'])->name('save');
+    //     Route::get('/edit', [\App\Http\Controllers\Admin\Master_user_group::class, 'edit'])->name('edit');
+    //     Route::post('/update', [\App\Http\Controllers\Admin\Master_user_group::class, 'update'])->name('update');
+    //     Route::post('/delete', [\App\Http\Controllers\Admin\Master_user_group::class, 'delete'])->name('delete');
+    //     Route::post('/datatable', [\App\Http\Controllers\Admin\Master_user_group::class, 'datatable'])->name('datatable');
+    //     Route::get('/manage', [\App\Http\Controllers\Admin\Master_user_group::class, 'manage'])->name('manage');
+    //     Route::post('/manage', [\App\Http\Controllers\Admin\Master_user_group::class, 'manage_post'])->name('manage_post');
+    // });
 
     /**
      * master user group bo
@@ -132,6 +130,60 @@ Route::group([
         // Route::get('/open_modal_setting', [\App\Http\Controllers\Admin\Master_user_group::class, 'open_modal_setting'])->name('open_modal_setting');
         // Route::post('/save_modal_setting', [\App\Http\Controllers\Admin\Master_user_group::class, 'save_modal_setting'])->name('save_modal_setting');
         // Route::post('/set_exist_branch', [\App\Http\Controllers\Admin\Master_user_group::class, 'set_exist_branch'])->name('set_exist_branch');
+    });
+
+    /**
+     * master user bo
+     */
+    Route::group([
+        'prefix' => 'm_user_bo',
+        'as' => 'm_user_bo.',
+    ], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\Master_user_bo::class, 'index'])->name('index');
+        Route::get('/add', [\App\Http\Controllers\Admin\Master_user_bo::class, 'add'])->name('add');
+        Route::post('/save', [\App\Http\Controllers\Admin\Master_user_bo::class, 'save'])->name('save');
+        Route::get('/edit', [\App\Http\Controllers\Admin\Master_user_bo::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Admin\Master_user_bo::class, 'update'])->name('update');
+        Route::post('/delete', [\App\Http\Controllers\Admin\Master_user_bo::class, 'delete'])->name('delete');
+        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_user_bo::class, 'datatable'])->name('datatable');
+        Route::get('/manage', [\App\Http\Controllers\Admin\Master_user_bo::class, 'manage'])->name('manage');
+        Route::post('/manage', [\App\Http\Controllers\Admin\Master_user_bo::class, 'manage_post'])->name('manage_post');
+    });
+
+    /**
+     * master user bo
+     */
+    Route::group([
+        'prefix' => 'm_menu_bo',
+        'as' => 'm_menu_bo.',
+    ], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'index'])->name('index');
+        Route::get('/add', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'add'])->name('add');
+        Route::post('/save', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'save'])->name('save');
+        Route::get('/edit', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'update'])->name('update');
+        Route::post('/delete', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'delete'])->name('delete');
+        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'datatable'])->name('datatable');
+        // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
+        // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
+    });
+
+     /**
+     * master schedule
+     */
+    Route::group([
+        'prefix' => 'm_menu_bo',
+        'as' => 'm_menu_bo.',
+    ], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'index'])->name('index');
+        Route::get('/add', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'add'])->name('add');
+        Route::post('/save', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'save'])->name('save');
+        Route::get('/edit', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'update'])->name('update');
+        Route::post('/delete', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'delete'])->name('delete');
+        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'datatable'])->name('datatable');
+        // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
+        // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });
 });
 

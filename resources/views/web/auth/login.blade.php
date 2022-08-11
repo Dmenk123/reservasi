@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>Backoffice Pramita Docs</title>
+    <title>Backoffice</title>
     {{-- <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico"> --}}
     <link href="{{asset('assets/fonts/montserrat/montserrat.css')}}" rel="stylesheet">
@@ -21,15 +21,7 @@
     <!-- BEGIN: Theme CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/bootstrap-extended.min.css">
-    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/colors.min.css"> --}}
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/components.min.css">
-    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/dark-layout.min.css">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/bordered-layout.min.css">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/semi-dark-layout.min.css"> --}}
-
-    <!-- BEGIN: Page CSS-->
-    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/vertical-menu.min.css">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/form-flat-pickr.min.css"> --}}
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/page-auth.min.css">
     <!-- END: Page CSS-->
 
@@ -62,7 +54,7 @@
           {{-- <h2 class="brand-text text-primary ms-1">Backoffice</h2> --}}
         </a>
 
-        <h4 class="card-title mb-1">Welcome to Pramita Documentation App</h4>
+        <h4 class="card-title mb-1">Welcome to Backoffice</h4>
         <p class="card-text mb-2">Please Login to continue</p>
 
         <form class="auth-login-form mt-2" id="login_form" method="POST">

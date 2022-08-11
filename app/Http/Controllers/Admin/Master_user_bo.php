@@ -1,15 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use DB;
-use App\Models\M_user_group;
+
+use Carbon\Carbon;
+use App\Models\M_branch;
 use App\Models\M_user_bo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
+use App\Models\M_user_group_bo;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\M_branch;
 use App\Models\M_user_project_group;
+use Illuminate\Support\Facades\Validator;
 
 class Master_user_bo extends Controller
 {
@@ -33,9 +34,7 @@ class Master_user_bo extends Controller
             'page_title' => 'User',
             'parent_menu_active' => 'Master Data',
             'child_menu_active'   => 'User',
-            'm_user_group'   => M_user_group::where('id_m_user_group','<>',1)->whereNotNull('aktif')->get(),
-            'm_branch'   => M_branch::get(),
-            'm_user_project_group'   => M_user_project_group::get(),
+            'm_user_group_bo'   => M_user_group_bo::where('id_m_user_group_bo','<>',1)->whereNotNull('aktif')->get(),
         ];
 
     	return view('admin.m_user_bo.add')->with($data);
@@ -44,34 +43,31 @@ class Master_user_bo extends Controller
     public function save(Request $request)
     {
         $messages = [
-            'nm_user.required' => 'please fill out this field',
+            'nm_user_bo.required' => 'please fill out this field',
             'username.required' => 'please fill out this field',
             'username.min' => 'at least 6 characters letters or numbers',
             'username.alphanum' => 'enter letters or numbers',
             'password.required' => 'please fill out this field',
             'password.min' => 'at least 6 characters letters or numbers',
             'password.alphanum' => 'enter letters or numbers',
-            'id_m_user_group.required' => 'please choose one',
-            'id_m_branch.required' => 'please choose one',
+            'id_m_user_group_bo.required' => 'please choose one',
         ];
 
         $validator = Validator::make($request->all(), [
-            'nm_user' => ['required'],
+            'nm_user_bo' => ['required'],
             'username' => ['required','min:6','alphanum'],
             'password' => ['required','min:6','alphanum'],
-            'id_m_user_group' => ['required'],
-            'id_m_branch' => ['required'],
+            'id_m_user_group_bo' => ['required'],
         ], $messages);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
             return response()->json([
             'error' => [
-                'nm_user' => $errors->first('nm_user'),
+                'nm_user_bo' => $errors->first('nm_user_bo'),
                 'username' => $errors->first('username'),
                 'password' => $errors->first('password'),
-                'id_m_user_group' => $errors->first('id_m_user_group'),
-                'id_m_branch' => $errors->first('id_m_branch'),
+                'id_m_user_group_bo' => $errors->first('id_m_user_group_bo'),
             ]
             ]);
         }
@@ -79,14 +75,11 @@ class Master_user_bo extends Controller
         DB::beginTransaction();
         $object = new M_user_bo;
         $object->id_m_user_bo = M_user_bo::MaxId();
-        $object->nm_user = $request->nm_user;
+        $object->nm_user_bo = $request->nm_user_bo;
         $object->aktif = $request->aktif;
         $object->username = $request->username;
         $object->password = bcrypt($request->password);
-        $object->id_m_user_group = $request->id_m_user_group;
-        $object->id_m_branch = $request->id_m_branch;
-        $object->id_m_user_project_group = $request->id_m_user_project_group;
-
+        $object->id_m_user_group_bo = $request->id_m_user_group_bo;
 
         try{
             $object->save();
@@ -122,9 +115,7 @@ class Master_user_bo extends Controller
             'parent_menu_active' => 'Master Data',
             'child_menu_active'   => 'User',
             'old' => $old,
-            'm_user_group'   => M_user_group::where('id_m_user_group','<>',1)->whereNotNull('aktif')->get(),
-            'm_branch'   => M_branch::get(),
-            'm_user_project_group'   => M_user_project_group::get(),
+            'm_user_group'   => M_user_group_bo::where('id_m_user_group_bo','<>',1)->whereNotNull('aktif')->get(),
         ];
 
         return view('admin.m_user_bo.edit')->with($data);
@@ -133,31 +124,30 @@ class Master_user_bo extends Controller
     public function update(Request $request)
     {
         $messages = [
-            'nm_user.required' => 'please fill out this field',
+            'nm_user_bo.required' => 'please fill out this field',
             'username.required' => 'please fill out this field',
             'username.min' => 'at least 6 characters letters or numbers',
             'username.alphanum' => 'enter letters or numbers',
             'password.min' => 'at least 6 characters letters or numbers',
             'password.alphanum' => 'enter letters or numbers',
-            'id_m_user_group.required' => 'please choose one',
-            'id_m_branch.required' => 'please choose one',
+            'id_m_user_group_bo.required' => 'please choose one',
         ];
 
         $validator = Validator::make($request->all(), [
-            'nm_user' => ['required'],
+            'nm_user_bo' => ['required'],
             'username' => ['required','min:6','alphanum'],
             'password' => ['nullable','min:6','alphanum'],
-            'id_m_branch' => ['required'],
+            'id_m_user_group_bo' => ['required'],
         ], $messages);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
             return response()->json([
             'error' => [
-                'nm_user' => $errors->first('nm_user'),
+                'nm_user_bo' => $errors->first('nm_user_bo'),
                 'username' => $errors->first('username'),
                 'password' => $errors->first('password'),
-                'id_m_branch' => $errors->first('id_m_branch'),
+                'id_m_user_group_bo' => $errors->first('id_m_user_group_bo'),
             ]
             ]);
         }
@@ -192,14 +182,15 @@ class Master_user_bo extends Controller
             }
         }
 
-        $update->nm_user = $request->nm_user;
+        $update->nm_user_bo = $request->nm_user_bo;
         $update->aktif = $request->aktif;
         $update->username = $request->username;
-        $update->id_m_branch = $request->id_m_branch;
+
         if($request->filled('password')){
             $update->password = bcrypt($request->password);
         }
-        $update->id_m_user_group = $request->id_m_user_group;
+
+        $update->id_m_user_group_bo = $request->id_m_user_group_bo;
         try{
             $update->save();
             DB::commit();
@@ -261,8 +252,6 @@ class Master_user_bo extends Controller
         ]);
     }
 
-
-
     public function datatable(Request $request)
     {
         $table = M_user_bo::orderByDesc('id_m_user_bo')->get();
@@ -270,9 +259,9 @@ class Master_user_bo extends Controller
     	$i = 1;
     	foreach ($table as $key => $value) {
 
-            if($value->id_m_user_bo == session()->get('logged_in.id_m_user_bo')){
-                $action_button = '';
-            }else{
+            // if($value->id_m_user_bo == session()->get('logged_in.id_m_user_bo')){
+            //     $action_button = '';
+            // }else{
                 $action_button = '<div class="btn-group">
                                         <button class="btn btn-sm btn-primary dropdown-toggle waves-effect waves-float waves-light hide" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
                                         actions
@@ -282,14 +271,13 @@ class Master_user_bo extends Controller
                                             <a class="dropdown-item delete" data-id_m_user_bo="'.$value->id_m_user_bo.'" href="#">delete</a>
                                         </div>
                                     </div>';
-            }
+            // }
             // $ug= M_user_group::where('id_m_user_group', $value->id_m_user_group)->first();
     		$datas[$key][] = $i++;
             $datas[$key][] = $value->username;
-            $datas[$key][] = $value->nm_user;
-            $datas[$key][] = ($value->id_m_branch)?M_branch::where('id_m_branch', $value->id_m_branch)->first()->nm_m_branch:'-';
+            $datas[$key][] = $value->nm_user_bo;
             // dump($ug);
-            $datas[$key][] = M_user_group::where('id_m_user_group',$value->id_m_user_group)->first()->nm_user_group;
+            $datas[$key][] = M_user_group_bo::where('id_m_user_group_bo',$value->id_m_user_group_bo)->first()->nm_user_group_bo;
             $datas[$key][] = $value->last_login ? \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->last_login)->format('d-m-Y H:m:s') : null;
             $datas[$key][] = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d-m-Y H:i:s');
             $datas[$key][] = ($value->aktif=='1') ? '<span class="badge bg-success">Aktif</span>' : '<span class="badge bg-danger">Tidak Aktif</span>';

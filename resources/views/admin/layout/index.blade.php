@@ -7,10 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>Pramita Lab</title>
-    {{-- <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
-    <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico"> --}}
-    {{-- <link href="{{asset('assets/fonts/montserrat/montserrat.css')}}" rel="stylesheet"> --}}
+    <title>Backoffice</title>
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/vendors.min.css">
@@ -73,7 +70,7 @@
             </li> --}}
 
           <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">Hi, {{session()->get('logged_in.nm_user')}}</span><span class="user-status">You logged in as <span class="text-success">{{session()->get('logged_in.nm_user_group')}}</span></span></div><span class="avatar">
+              <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">Hi, {{session()->get('logged_in.nm_user_bo')}}</span><span class="user-status">You logged in as <span class="text-success">{{session()->get('logged_in.nm_user_group_bo')}}</span></span></div><span class="avatar">
                   {{-- <img class="round" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"> --}}
                   <span class="avatar-status-online"></span></span></a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
@@ -100,7 +97,7 @@
           <li class="nav-item me-auto"><a class="navbar-brand" href="{{route('admin.main')}}">
             <span class="brand-logo">
           </span>
-              <h2 class="brand-text">Pramita Docs</h2></a></li>
+              <h2 class="brand-text">Backoffice</h2></a></li>
           <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
         </ul>
       </div>
@@ -112,18 +109,11 @@
           </li>
 
           @php
-         // $convert_module_to_id = \App\Models\M_module::where('slug_m_module', request()->segment(2))->firstOrFail()->id_m_module;
-
-
-        // $hak_akses = \App\Models\M_hak_akses::whereHas('menu', function(\Illuminate\Database\Eloquent\Builder $query){
-        //     $query->whereNull('id_parent');
-        //   })->where('id_m_user_group', session('logged_in.id_m_user_group'))->where('id_m_module',$convert_module_to_id)
-        //   ->join('m_menu', 'm_menu.id_m_menu','=','m_hak_akses.id_m_menu')->orderBy('m_menu.order_m_menu')->get();
 
           $hak_akses = \App\Models\M_hak_akses_bo::whereHas('menu', function(\Illuminate\Database\Eloquent\Builder $query){
             $query->whereNull('id_parent');
           })
-            ->where('id_m_user_group_bo', session('logged_in.id_m_user_group'))
+            ->where('id_m_user_group_bo', session('logged_in.id_m_user_group_bo'))
             ->join('m_menu_bo', 'm_menu_bo.id_m_menu_bo','=','m_hak_akses_bo.id_m_menu_bo')
             ->orderBy('m_menu_bo.order_m_menu_bo')
             ->groupBy('m_menu_bo.id_m_menu_bo')
@@ -140,7 +130,7 @@
                         ->where('m_menu_bo.id_parent',$parent)
                         ->groupBy('m_menu_bo.id_m_menu_bo')
                         ->orderBy('m_menu_bo.order_m_menu_bo')
-                        ->where('m_hak_akses_bo.id_m_user_group_bo', session('logged_in.id_m_user_group'))->get();
+                        ->where('m_hak_akses_bo.id_m_user_group_bo', session('logged_in.id_m_user_group_bo'))->get();
             @endphp
 
             @if($sub->count() > 0)
@@ -212,7 +202,7 @@
 
     <!-- BEGIN: Footer-->
     <footer class="footer footer-static footer-light">
-      <p class="clearfix mb-0"><span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT  &copy; 2022 Pramita Lab<span class="d-none d-sm-inline-block"></span></span></p>
+      <p class="clearfix mb-0"><span class="float-md-start d-block d-md-inline-block mt-25">COPYRIGHT  &copy; 2022 Cipto Djunaedy<span class="d-none d-sm-inline-block"></span></span></p>
     </footer>
 
     <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
