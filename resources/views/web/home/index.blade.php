@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h3 class="text-success text-center">Check In Page</h3>
+<h3 class="text-success text-center">Check In Page tes</h3>
 <div class="alert alert-info">
     @if($old->id_m_branch == null and $old->id_m_branch_company != null)
 
