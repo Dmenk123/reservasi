@@ -1,0 +1,28 @@
+### t_reservasi => done migration, model
+id_t_reservasi,
+nm_t_reservasi,
+email_t_reservasi,
+kode_t_reservasi,
+telp_t_reservasi,
+id_m_proses,
+hari_t_reservasi,
+jam_t_reservasi,
+jenis_t_reservasi, //cash //credit
+metode_pembayaran_t_reservasi, //upload //payment gateway
+kode_payment_t_reservasi, //kode payment gateway
+created_at
+updated_at
+deleted_at
+
+### m_proses => done migration, seeder, model
+id_m_proses
+nm_m_proses
+created_at
+updated_at
+deleted_at
+
+
+### t_log_proses => done migration, model
+id_t_log_proses
+id_t_reservasi
+id_m_proses

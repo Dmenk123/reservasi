@@ -22,6 +22,7 @@ class T_jadwal_rutin_seeder extends Seeder
                 'jam_mulai' => '07:00:00',
                 'jam_akhir' => '16:00:00',
                 'id_m_interval' => 4,
+                'status' => 1,
                 'hari' => 'senin',
             ],
             [
@@ -29,6 +30,7 @@ class T_jadwal_rutin_seeder extends Seeder
                 'jam_mulai' => '07:00:00',
                 'jam_akhir' => '16:00:00',
                 'id_m_interval' => 4,
+                'status' => 1,
                 'hari' => 'selasa',
             ],
             [
@@ -36,6 +38,7 @@ class T_jadwal_rutin_seeder extends Seeder
                 'jam_mulai' => '07:00:00',
                 'jam_akhir' => '16:00:00',
                 'id_m_interval' => 4,
+                'status' => 1,
                 'hari' => 'rabu',
             ],
             [
@@ -43,6 +46,7 @@ class T_jadwal_rutin_seeder extends Seeder
                 'jam_mulai' => '07:00:00',
                 'jam_akhir' => '16:00:00',
                 'id_m_interval' => 4,
+                'status' => 1,
                 'hari' => 'kamis',
             ],
             [
@@ -50,6 +54,7 @@ class T_jadwal_rutin_seeder extends Seeder
                 'jam_mulai' => '07:00:00',
                 'jam_akhir' => '16:00:00',
                 'id_m_interval' => 4,
+                'status' => 1,
                 'hari' => 'jumat',
             ],
             [
@@ -57,6 +62,7 @@ class T_jadwal_rutin_seeder extends Seeder
                 'jam_mulai' => '07:00:00',
                 'jam_akhir' => '16:00:00',
                 'id_m_interval' => 4,
+                'status' => 1,
                 'hari' => 'sabtu',
             ],
             [
@@ -64,6 +70,7 @@ class T_jadwal_rutin_seeder extends Seeder
                 'jam_mulai' => '07:00:00',
                 'jam_akhir' => '16:00:00',
                 'id_m_interval' => 4,
+                'status' => 1,
                 'hari' => 'minggu',
             ],
         ]);

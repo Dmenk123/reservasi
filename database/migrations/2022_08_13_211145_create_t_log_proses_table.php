@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTJadwalRutinTable extends Migration
+class CreateTLogProsesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateTJadwalRutinTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_jadwal_rutin', function (Blueprint $table) {
-            $table->integer('id_t_jadwal_rutin');
-            $table->primary('id_t_jadwal_rutin');
-            $table->integer('id_m_interval');
-            $table->time("jam_mulai");
-            $table->time("jam_akhir");
-            $table->string('hari',100);
-            $table->smallInteger('status')->nullable();
+        Schema::create('t_log_proses', function (Blueprint $table) {
+            $table->integer('id_t_log_proses');
+            $table->primary('id_t_log_proses');
+            $table->integer('id_t_reservasi');
+            $table->integer('id_m_proses');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
@@ -34,6 +31,6 @@ class CreateTJadwalRutinTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_jadwal_rutin');
+        Schema::dropIfExists('t_log_proses');
     }
 }
