@@ -85,7 +85,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-12 col-md-12 text-center">
-                    <p class="mb-0">© 2022 Workplex. Designd By <a href="https://themezhub.com">ThemezHub</a>.</p>
+                    <p class="mb-0">© 2022 Melek Aplikasi. </p>
                 </div>
             </div>
         </div>

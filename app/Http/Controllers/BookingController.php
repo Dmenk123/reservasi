@@ -75,11 +75,14 @@ class BookingController extends Controller
 
     public function getJam(Request $request)
     {
-        $date = Carbon::parse('2022-08-13 10:00:00')->addHour(2);
-        $start = Carbon::parse('2022-08-13 10:00:00');
-        $end = Carbon::parse('2022-08-13 16:00:00');
+        $mil = $request->tanggal;
+        $seconds = $mil / 1000;
+        $tanggal = date("Y-m-d", $seconds);
 
-        $start_loop = Carbon::parse('2022-08-13 10:00:00');
+        $start = Carbon::parse($tanggal.' 10:00:00');
+        $end = Carbon::parse($tanggal.' 16:00:00');
+
+        $start_loop = Carbon::parse($tanggal.' 10:00:00');
 
         // $period = CarbonPeriod::create('2022-08-13 10:00:00', '2022-08-13 14:00:00');
 
@@ -100,8 +103,11 @@ class BookingController extends Controller
         $res = null;
         foreach ($interval as $value) {
             $time = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i');
+            $time_url = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i:s');
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('Y-m-d');
 
-            $res .= '<a href="javascript:void(0)" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
+            $url = route('booking.konfirmasi-data-diri') .'?type=lunas&date='.$date.'&time='.$time_url;
+            $res .= '<a href="'.$url.'" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
         }
 
 
@@ -109,6 +115,21 @@ class BookingController extends Controller
         // $dates = $period->toArray();
         // dd($date);
         echo $res;
+    }
+
+    public function konfirmasiDataDiri(Request $request)
+    {
+        $type = $request->type;
+        $date = $request->date;
+        $time = $request->time;
+
+        $data = [
+            'type' => $type,
+            'date' => $date,
+            'time' => $time
+        ];
+
+        return view('web.fo.pages.data-diri')->with($data);
     }
 
 

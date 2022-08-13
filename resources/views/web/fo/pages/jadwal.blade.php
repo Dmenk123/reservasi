@@ -34,7 +34,7 @@
                 <h5>Pilih Jam :</h5>
                 <div class="row" id="pilihjam">
                 </div>
-                <div class="loading rowgit" style="justify-content: center">
+                <div class="loading row" style="justify-content: center">
                     <span class="throbber-loader" style="display: none">
                     </span>
                 </div>

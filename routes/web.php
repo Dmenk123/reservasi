@@ -60,7 +60,7 @@ Route::group([
 ], function (){
     Route::get('/jadwal/', [BookingController::class, 'jadwal'])->name('jadwal');
     Route::post('/get-jam', [BookingController::class, 'getJam'])->name('get-jam');
-   
+    Route::get('/konfirmasi-data-diri/', [BookingController::class, 'konfirmasiDataDiri'])->name('konfirmasi-data-diri');
 
 });
 

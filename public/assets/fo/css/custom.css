@@ -91,3 +91,43 @@ a:hover {
     animation: throbber-loader 2000ms 450ms infinite ease-out;
     right: -1.6em;
   }
+
+  .border-div {
+    border-radius: 25px;
+    border: 2px solid 
+    #314d97;
+    padding: 20px;
+    width: auto;
+    height: auto;
+  }
+
+  .tulisan-custom {
+    color: #314d97!important;
+    font-family: "Jost", sans-serif !important;
+    font-size: 1 rem!important;
+  }
+
+  @keyframes bg-blink {  
+        0% { background-color:#ff0000; }
+        100% { background-color:#ffffff; }
+    }
+    @-webkit-keyframes bg-blink {
+        0% { background-color:#ff0000; }
+        100% { background-color:#ffffff; }
+    }
+    .bg-blink {
+        -webkit-animation: bg-blink 1s linear infinite;
+        -moz-animation: bg-blink 1s linear infinite;
+        animation: bg-blink 1s linear infinite;
+    } 
+    .blink {
+    animation: blink 1s steps(5, start) infinite;
+    -webkit-animation: blink 1s steps(5, start) infinite;
+    color:#ffffff;
+    }
+    @keyframes blink {
+    to { visibility: hidden; }
+    }
+    @-webkit-keyframes blink {
+    to { visibility: hidden; }
+    }
