@@ -5,7 +5,7 @@
         <div class="st-footer-logo">
           <img src="{{asset('assets/fo/img/light-img/footer-logo.png')}}" alt="demo">
         </div>
-        <div class="st-footer-text">We understand that it is better to morph virally than to embrace intuitively.<br>
+        <div class="st-footer-text"> tesWe understand that it is better to morph virally than to embrace intuitively.<br>
           We will matrix the power of schemas to redefine.</div>
         <div class="st-footer-social">
           <ul class="st-footer-social-btn st-flex st-mp0">
