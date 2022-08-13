@@ -9,20 +9,16 @@
 <section class="space gray">
     <br>
     <div class="container">
-    
+        <textarea type="hidden" value="{{ $get_data }}" id="get-data" style="display: none">{{ $get_data }}</textarea>
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center mb-5">
                     <h6 class="text-muted mb-0"></h6>
-                    <h2 class="ft-bold">Pilih Jadwal</h2>
+                    <h2 class="ft-bold tulisan-custom">PILIH JADWAL</h2>
                 </div>
             </div>
         </div>
         
-
-    
-
-
         
         <div class="row">
             <div class="icon-box" style="transition: none;transform: none;">
@@ -49,7 +45,7 @@
 @endsection
 @section('custom_js')
 <script type="text/javascript">
-    var get_data = '[{"id":52,"title":"12","rutin":2,"start":"2022-08-12","color":"#00e12a"},{"id":52,"title":"19","rutin":2,"start":"2022-08-19","color":"#00e12a"}]';
+    var get_data = $('#get-data').val();
     $(document).ready(function() {
         $('.date-picker').datepicker();
         $('#calendarIO').fullCalendar({
@@ -91,7 +87,7 @@
             data: {
             'id': +event.id,
             'tanggal': +event.start,
-            'rutin': +event.rutin
+            'type': +event.type
             },
             async: false,
             beforeSend: function() {

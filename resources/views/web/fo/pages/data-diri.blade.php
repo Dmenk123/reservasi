@@ -14,7 +14,7 @@
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center mb-5">
                     <h6 class="text-muted mb-0"></h6>
-                    <h2 class="ft-bold">Konfirmasi Reservasi</h2>
+                    <h2 class="ft-bold tulisan-custom">KONFIRMASI RESERVASI</h2>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
                                 <div class="cats-box-caption">
                                     <br>
                                     <h4 class="tulisan-custom" >Jadwal</h4>
-                                    <span class="text-muted blink">{!! 'Tanggal : '. ($date ?? '').'<br>Pukul : '.$time  !!}</span>
+                                    <span class="text-muted blink">{!! 'Tanggal : <b>'. (\Carbon\Carbon::parse($date)->isoFormat('D MMMM Y') ?? '').'</b><br>Pukul : <b>'.\Carbon\Carbon::parse($time)->format('H:i').'<b> WIB'  !!}</span>
                                 </div>
                             </div>
                         </div>
