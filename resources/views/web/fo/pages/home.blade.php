@@ -270,7 +270,7 @@
 					<div class="row align-items-center text-center align-content-center" style="justify-content: center;">
                         <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
                             <div class="cats-wrap text-center">
-                                <a href="{{ url('booking/jadwal') }}" class="cats-box d-block rounded bg-white px-2 py-4">
+                                <a href="{{ url('booking/jadwal?type=lunas') }}" class="cats-box d-block rounded bg-white px-2 py-4">
                                     <div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><img src="{{ asset('assets/fo/flaticon/money.png') }}" width="100"></div>
                                     <div class="cats-box-caption">
                                         <h2 class="fs-md mb-0 ft-medium m-catrio" style="color: #000000!important;">Lunas</h2>
@@ -282,7 +282,7 @@
                         
                         <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
                             <div class="cats-wrap text-center">
-                                <a href="job-search-v1.html" class="cats-box d-block rounded bg-white px-2 py-4">
+                                <a href="{{ url('booking/jadwal?type=kredit') }}" class="cats-box d-block rounded bg-white px-2 py-4">
                                     <div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><img src="{{ asset('assets/fo/flaticon/debit-card.png') }}" width="100"></div>
                                     <div class="cats-box-caption">
                                         <h2 class="fs-md mb-0 ft-medium m-catrio" style="color: #000000!important;">Angsuran</h2>

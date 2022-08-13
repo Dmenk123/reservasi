@@ -58,7 +58,8 @@ Route::group([
     // 'middleware' => ['web', 'validasi_req_token'],  //iki durung gawe filter login fo
     // 'middleware' => ['web'],  //iki durung gawe filter login fo
 ], function (){
-    Route::get('/jadwal', [BookingController::class, 'jadwal'])->name('jadwal');
+    Route::get('/jadwal/', [BookingController::class, 'jadwal'])->name('jadwal');
+    Route::post('/get-jam', [BookingController::class, 'getJam'])->name('get-jam');
    
 
 });
