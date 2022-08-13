@@ -17,6 +17,7 @@
         "phpoffice/phpspreadsheet": "^1.18",
         "phpoffice/phpword": "^0.18.2",
         "simplesoftwareio/simple-qrcode": "^4.2",
+        "yajra/laravel-datatables": "^1.0",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

@@ -53,6 +53,24 @@ class M_menu_bo_seeder extends Seeder
                 'id_parent' => 1,
                 'order_m_menu_bo' => 99,
             ],
+            [
+                'id_m_menu_bo' => 5,
+                'nm_menu_bo' => 'Transaksi',
+                'aktif' => '1',
+                'icon' => 'trello',
+                'route' => null,
+                'id_parent' => null,
+                'order_m_menu_bo' => 2,
+            ],
+            [
+                'id_m_menu_bo' => 6,
+                'nm_menu_bo' => 'Reservasi',
+                'aktif' => '1',
+                'icon' => 'circle',
+                'route' => 'admin.t_reservasi_index',
+                'id_parent' => 5,
+                'order_m_menu_bo' => 3,
+            ],
         ]);
     }
 }
