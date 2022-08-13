@@ -172,8 +172,8 @@ Route::group([
      * master schedule
      */
     Route::group([
-        'prefix' => 'm_menu_bo',
-        'as' => 'm_menu_bo.',
+        'prefix' => 'm_schedule',
+        'as' => 'm_schedule.',
     ], function () {
         Route::get('/', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'index'])->name('index');
         Route::get('/add', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'add'])->name('add');
