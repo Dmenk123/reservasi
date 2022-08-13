@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             M_user_bo_seeder::class,
             M_menu_bo_seeder::class,
             M_hak_akses_bo_seeder::class,
+            M_interval_seeder::class,
+            T_jadwal_rutin_seeder::class,
         ]);
     }
 }
