@@ -261,7 +261,7 @@
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
 							<div class="sec_title position-relative text-center mb-5">
 								<h6 class="text-muted mb-0">Ayo mulai</h6>
-								<h2 class="ft-bold">Pilih jenis pembayaran</h2>
+								<h2 class="ft-bold tulisan-custom">PILIH JENIS PEMBAYARAN</h2>
 							</div>
 						</div>
 					</div>

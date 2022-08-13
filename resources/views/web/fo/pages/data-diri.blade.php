@@ -29,7 +29,7 @@
                                 <div class="cats-box-caption">
                                     <br>
                                     <h4 class="tulisan-custom">Kategori Pembayaran</h4>
-                                    <span class="text-muted">{!! ($type ?? '').'<br>&nbsp;' !!}</span>
+                                    <span class="text-muted">{!! ( ($type == 'lunas') ? 'Lunas':'Angsuran').'<br>&nbsp;' !!}</span>
                                 </div>
                             </div>
                         </div>
@@ -57,31 +57,50 @@
                         
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Nama</label>
-                                <input type="text" class="form-control" placeholder="First Name">
+                                <input type="text" class="form-control" placeholder="Nama Lengkap">
                             </div>
                             
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Email</label>
-                                <input type="email" class="form-control" placeholder="themezhub@gmail.com">
+                                <input type="email" class="form-control" placeholder="emailanda@gmail.com">
                             </div>
                             
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Telepon / wa:</label>
-                                <input type="text" class="form-control" placeholder="+91 245 256 2548">
+                                <input type="text" class="form-control" placeholder="081xxxxxxx">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="text-dark mb-1 ft-medium medium radio-custom-label">Metode Pembayaran:</label>
+                                <input id="aa2" class="radio-custom form-control" name="pembayaran" type="text" value="Manual">
+                                <input id="aa2" class="radio-custom form-control" name="pembayaran" type="radio" value="Payment Gateway">
                             </div>
                             
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Upload Resume:<font>pdf, doc, docx</font></label>
                                 <div class="custom-file">
                                   <input type="file" class="custom-file-input" id="customFile">
                                   <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
-                            </div>
+                            </div> --}}
                             
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <div class="terms_con">
                                     <input id="aa3" class="checkbox-custom" name="Coffee" type="checkbox">
                                     <label for="aa3" class="checkbox-custom-label">Submit</label>
+                                </div>
+                            </div> --}}
+                            <div class="form-group">
+                                <div class="selector">
+                                    <div class="selecotr-item">
+                                        <input type="radio" id="radio1" name="selector" class="selector-item_radio" checked>
+                                        <label for="radio1" class="selector-item_label">Manual</label>
+                                    </div>
+                                    <div class="selecotr-item">
+                                        <input type="radio" id="radio2" name="selector" class="selector-item_radio">
+                                        <label for="radio2" class="selector-item_label">Payment Gateway</label>
+                                    </div>
+                                   
                                 </div>
                             </div>
                             
