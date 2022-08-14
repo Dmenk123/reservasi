@@ -14,6 +14,8 @@ class M_proses extends Model
     protected $primaryKey = "id_m_proses";
     protected $dates = ['deleted_at'];
 
+    const ID_M_PROSES_KONFIRMASI_PEMBAYARAN = 4;
+
     protected $fillable = ['nm_m_proses'];
 
     /* fungsi untuk menjalankan event ketika melakukan 'creating' pada model */
@@ -32,4 +34,5 @@ class M_proses extends Model
     {
         return $query->max($this->primaryKey)+1;
     }
+
 }

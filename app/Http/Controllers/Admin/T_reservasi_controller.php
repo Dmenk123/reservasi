@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Models\M_app;
 use App\Models\M_menu;
-use App\Models\M_component;
+use App\Models\M_proses;
 use App\Models\T_reservasi;
 use App\Models\M_user_group;
 use Illuminate\Http\Request;
@@ -14,18 +14,22 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\Collection;
+use Yajra\Datatables\Datatables;
 
 class T_reservasi_controller extends Controller
 {
 
     public function index()
     {
+        $proses = M_proses::orderBy('urut_m_proses')->get();
+
         $data = [
             'head_title' => 'Reservasi',
             'page_title' => 'Reservasi',
             'parent_menu_active' => 'Transaksi',
             'child_menu_active'   => 'Reservasi',
-
+            'proses' => $proses
         ];
 
         return view('admin.t_reservasi.index')->with($data);
@@ -33,66 +37,88 @@ class T_reservasi_controller extends Controller
 
     public function datatable(Request $request)
     {
-        $table = T_reservasi::with(['m_app', 'm_menu', 'm_user_group', 'T_reservasi_det'])->IsActive()->orderByDesc('created_at')->get();
+        $month = $request->month ?? null;
+        $year = $request->year ?? null;
+        $proses = $request->proses ?? null;
+        $metode_bayar = $request->metode_bayar ?? null;
 
-    	$datas = [];
-    	$i = 1;
+        if ($request->ajax()) {
+            $query = T_reservasi::with(['m_proses'])
+                        ->when($month, function ($q, $month) {
+                            return $q->whereMonth('tanggal_t_reservasi', '=', $month);
+                        })
+                        ->when($year, function ($q, $year) {
+                            return $q->whereYear('tanggal_t_reservasi', '=', $year);
+                        })
+                        ->when($proses, function ($q, $proses) {
+                            return $q->where('id_m_proses', $proses);
+                        })
+                        ->when($metode_bayar, function ($q, $metode_bayar) {
+                            return $q->where('metode_pembayaran_t_reservasi', $metode_bayar);
+                        })
+                        ->orderByDesc('created_at')->get();
+            $data  = [];
+            foreach ($query as $key => $val) {
+                // dd($val, $val->id_t_reservasi, $val->m_proses->nm_m_proses);
+                $obj = new \stdClass;
+                // $obj->no = $key+1;
+                $obj->id_t_reservasi = $val->id_t_reservasi;
+                $obj->nm_t_reservasi = $val->nm_t_reservasi;
+                $obj->email_t_reservasi = $val->email_reservasi;
+                $obj->kode_t_reservasi = $val->kode_t_reservasi;
+                $obj->telp_t_reservasi = $val->telp_t_reservasi;
+                $obj->nm_m_proses = $val->m_proses->nm_m_proses;
+                $obj->tgl_t_reservasi = $val->hari_t_reservasi.' / '.Carbon::parse($val->tanggal_t_reservasi)->format('d-m-Y');
+                $obj->jam_t_reservasi = Carbon::parse($val->jam_t_reservasi)->format('H:i');
+                $obj->jenis_t_reservasi = $val->jenis_t_reservasi;
+                $obj->metode_pembayaran_t_reservasi = $val->metode_pembayaran_t_reservasi;
+                $obj->kode_payment_t_reservasi = $val->kode_payment_t_reservasi;
+                ### wajib menggunakan nama object action
+                if($val->id_m_proses == M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN) {
+                    $str_aksi = '
+                        <a class="dropdown-item detail" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">View Detail</a>
+                        <a class="dropdown-item verifikasi" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">Verifikasi</a>
+                    ';
+                }else{
+                    $str_aksi = '
+                        <a class="dropdown-item detail" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">View Detail</a>
+                    ';
+                }
 
-        // dd($table);
 
-    	foreach ($table as $key => $value) {
-            $is_user_group_exist = false;
-
-    		$datas[$key][] = $i++;
-            $datas[$key][] = $value->m_app->nm_m_app;
-            $datas[$key][] = $value->m_menu->nm_menu;
-            $datas[$key][] = $value->title_T_reservasi;
-            $datas[$key][] = $value->subtitle_T_reservasi;
-
-            $list = '<ul>';
-            foreach ($value->m_user_group as $k => $v) {
-                $is_user_group_exist = true;
-                $list .= '<li>'.$v->nm_user_group.'</li>';
+                $obj->action = '<div class="btn-group">
+                                <button class="btn btn-sm btn-primary dropdown-toggle waves-effect waves-float waves-light hide" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
+                                actions
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
+                                    '.$str_aksi.'
+                                </div>
+                            </div>';
+                // $val->created_at = Carbon::now();
+                // $val->updated_at = Carbon::now();
+                $data[] = $obj;
             }
-            $list .= '<ul>';
 
-            $datas[$key][] = $list;
+            // dd($data);
 
-            $datas[$key][] = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d-m-Y H:i:s');
+            $datatable = new Collection($data);
 
-            if($is_user_group_exist) {
-                $datas[$key][] = '<div class="btn-group">
-                                    <button class="btn btn-sm btn-primary dropdown-toggle waves-effect waves-float waves-light hide" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
-                                    actions
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
-                                        <a class="dropdown-item setting" href="'.route('admin.T_reservasi.seT_reservasi').'?id_T_reservasi='.$value->id_T_reservasi.'">set content</a>
-                                        <a class="dropdown-item user-group" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="javascript:void(0)">user group</a>
-                                        <a class="dropdown-item edit" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="javascript:void(0)">edit</a>
-                                        <a class="dropdown-item delete" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="#">delete</a>
-                                    </div>
-                                </div>';
-            }else{
-                $datas[$key][] = '<div class="btn-group">
-                                    <button class="btn btn-sm btn-primary dropdown-toggle waves-effect waves-float waves-light hide" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
-                                    actions
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
-                                        <a class="dropdown-item user-group" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="javascript:void(0)">user group</a>
-                                        <a class="dropdown-item edit" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="javascript:void(0)">edit</a>
-                                        <a class="dropdown-item delete" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="#">delete</a>
-                                    </div>
-                                </div>';
-            }
+            return Datatables::of($datatable)->addIndexColumn()->rawColumns(['action'])->make(true);
+        }
+    }
 
+    public function detail_modal(Request $request)
+    {
+        $query = T_reservasi::with(['m_proses'])->firstOrFail();
+        $data = [
+            'head_title' => 'Reservasi',
+            'page_title' => 'Reservasi',
+            'parent_menu_active' => 'Transaksi',
+            'child_menu_active'   => 'Reservasi',
+            'old' => $query,
+        ];
 
-    	}
-
-    	$data = [
-    		'data' => $datas
-    	];
-
-    	return response()->json($data);
+        return view('admin.t_reservasi.detail_modal')->with($data);
     }
 
     public function seT_reservasi()
@@ -451,22 +477,7 @@ class T_reservasi_controller extends Controller
         }
     }
 
-    public function edit_modal_order(Request $request)
-    {
-        $old = T_reservasi_det::where([
-            'id_T_reservasi_det' => $request->id_T_reservasi_det,
-        ])->firstOrFail();
 
-        $data = [
-            'head_title' => 'Content Data',
-            'page_title' => 'Content Data',
-            'parent_menu_active' => 'Content Management',
-            'child_menu_active'   => 'Content Data',
-            'old' => $old,
-        ];
-
-        return view('admin.T_reservasi_management.edit_modal_order')->with($data);
-    }
 
     public function edit_modal_content(Request $request)
     {

@@ -137,9 +137,6 @@
             <ul class="menu-content">
             @endif
               @foreach($sub as $s)
-                {{-- @php
-                    dd($sub);
-                @endphp --}}
               {{-- @if($s->id_m_menu_bo != 42 and $s->id_parent == 41) --}}
               {{-- hide semua menu sub laporan { KARENA NANTINYA DIJADIKAN SATU CONSOLE } --}}
               {{-- @else --}}

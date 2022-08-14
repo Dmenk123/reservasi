@@ -33,4 +33,9 @@ class T_reservasi extends Model
     {
         return $query->max($this->primaryKey)+1;
     }
+
+    public function m_proses()
+    {
+        return $this->belongsTo(\App\Models\M_proses::class, 'id_m_proses', 'id_m_proses');
+    }
 }

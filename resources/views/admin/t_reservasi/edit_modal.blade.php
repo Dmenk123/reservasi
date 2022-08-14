@@ -1,5 +1,5 @@
 {{-- tinyMCE include --}}
-<script src="{{asset('assets/js/tinymce')}}/tinymce.min.js"></script>
+{{-- <script src="{{asset('assets/js/tinymce')}}/tinymce.min.js"></script> --}}
 
 <form method="post" id="form">
 
