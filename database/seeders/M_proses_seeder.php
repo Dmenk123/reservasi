@@ -19,43 +19,33 @@ class M_proses_seeder extends Seeder
         DB::table('m_proses')->insert([
             [
                 'id_m_proses' => 1,
-                'nm_m_proses' => 'Pilih Jadwal',
+                'nm_m_proses' => 'Pengisian Data Diri',
                 'urut_m_proses' => 1,
             ],
             [
                 'id_m_proses' => 2,
-                'nm_m_proses' => 'Pemesanan',
+                'nm_m_proses' => 'Pengisian Metode Bayar',
                 'urut_m_proses' => 2,
             ],
             [
                 'id_m_proses' => 3,
-                'nm_m_proses' => 'Pengisian Data Diri',
-                'urut_m_proses' => 3,
+                'nm_m_proses' => 'Pembayaran',
+                'urut_m_proses' => 3
             ],
             [
                 'id_m_proses' => 4,
-                'nm_m_proses' => 'Pengisian Metode Bayar',
-                'urut_m_proses' => 4,
+                'nm_m_proses' => 'Konfirmasi Pembayaran',
+                'urut_m_proses' => 4
             ],
             [
                 'id_m_proses' => 5,
-                'nm_m_proses' => 'Pembayaran',
+                'nm_m_proses' => 'Verifikasi Pembayaran',
                 'urut_m_proses' => 5
             ],
             [
                 'id_m_proses' => 6,
-                'nm_m_proses' => 'Konfirmasi Pembayaran',
-                'urut_m_proses' => 6
-            ],
-            [
-                'id_m_proses' => 7,
-                'nm_m_proses' => 'Verifikasi Pembayaran',
-                'urut_m_proses' => 7
-            ],
-            [
-                'id_m_proses' => 8,
                 'nm_m_proses' => 'Transaksi Selesai',
-                'urut_m_proses' => 8
+                'urut_m_proses' => 6
             ],
         ]);
     }

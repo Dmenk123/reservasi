@@ -190,13 +190,13 @@ Route::group([
         'prefix' => 't_reservasi',
         'as' => 't_reservasi.',
     ], function () {
-        Route::get('/', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'index'])->name('index');
-        Route::get('/add', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'add'])->name('add');
-        Route::post('/save', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'save'])->name('save');
-        Route::get('/edit', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'edit'])->name('edit');
-        Route::post('/update', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'update'])->name('update');
-        Route::post('/delete', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'delete'])->name('delete');
-        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'datatable'])->name('datatable');
+        Route::get('/', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'index'])->name('index');
+        Route::get('/add', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'add'])->name('add');
+        Route::post('/save', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'save'])->name('save');
+        Route::get('/edit', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'update'])->name('update');
+        Route::post('/delete', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'delete'])->name('delete');
+        Route::post('/datatable', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'datatable'])->name('datatable');
         // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
         // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });

@@ -4,17 +4,18 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use App\Models\M_app;
 use App\Models\M_menu;
-use App\Models\T_content;
 use App\Models\M_component;
+use App\Models\T_reservasi;
 use App\Models\M_user_group;
 use Illuminate\Http\Request;
-use App\Models\T_content_det;
 use App\Models\T_group_content;
+use App\Models\T_reservasi_det;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 
-class T_reservasi extends Controller
+class T_reservasi_controller extends Controller
 {
 
     public function index()
@@ -32,7 +33,7 @@ class T_reservasi extends Controller
 
     public function datatable(Request $request)
     {
-        $table = T_content::with(['m_app', 'm_menu', 'm_user_group', 't_content_det'])->IsActive()->orderByDesc('created_at')->get();
+        $table = T_reservasi::with(['m_app', 'm_menu', 'm_user_group', 'T_reservasi_det'])->IsActive()->orderByDesc('created_at')->get();
 
     	$datas = [];
     	$i = 1;
@@ -45,8 +46,8 @@ class T_reservasi extends Controller
     		$datas[$key][] = $i++;
             $datas[$key][] = $value->m_app->nm_m_app;
             $datas[$key][] = $value->m_menu->nm_menu;
-            $datas[$key][] = $value->title_t_content;
-            $datas[$key][] = $value->subtitle_t_content;
+            $datas[$key][] = $value->title_T_reservasi;
+            $datas[$key][] = $value->subtitle_T_reservasi;
 
             $list = '<ul>';
             foreach ($value->m_user_group as $k => $v) {
@@ -65,10 +66,10 @@ class T_reservasi extends Controller
                                     actions
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
-                                        <a class="dropdown-item setting" href="'.route('admin.t_content.set_content').'?id_t_content='.$value->id_t_content.'">set content</a>
-                                        <a class="dropdown-item user-group" data-id_t_content="'.$value->id_t_content.'" href="javascript:void(0)">user group</a>
-                                        <a class="dropdown-item edit" data-id_t_content="'.$value->id_t_content.'" href="javascript:void(0)">edit</a>
-                                        <a class="dropdown-item delete" data-id_t_content="'.$value->id_t_content.'" href="#">delete</a>
+                                        <a class="dropdown-item setting" href="'.route('admin.T_reservasi.seT_reservasi').'?id_T_reservasi='.$value->id_T_reservasi.'">set content</a>
+                                        <a class="dropdown-item user-group" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="javascript:void(0)">user group</a>
+                                        <a class="dropdown-item edit" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="javascript:void(0)">edit</a>
+                                        <a class="dropdown-item delete" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="#">delete</a>
                                     </div>
                                 </div>';
             }else{
@@ -77,9 +78,9 @@ class T_reservasi extends Controller
                                     actions
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
-                                        <a class="dropdown-item user-group" data-id_t_content="'.$value->id_t_content.'" href="javascript:void(0)">user group</a>
-                                        <a class="dropdown-item edit" data-id_t_content="'.$value->id_t_content.'" href="javascript:void(0)">edit</a>
-                                        <a class="dropdown-item delete" data-id_t_content="'.$value->id_t_content.'" href="#">delete</a>
+                                        <a class="dropdown-item user-group" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="javascript:void(0)">user group</a>
+                                        <a class="dropdown-item edit" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="javascript:void(0)">edit</a>
+                                        <a class="dropdown-item delete" data-id_T_reservasi="'.$value->id_T_reservasi.'" href="#">delete</a>
                                     </div>
                                 </div>';
             }
@@ -94,10 +95,10 @@ class T_reservasi extends Controller
     	return response()->json($data);
     }
 
-    public function set_content()
+    public function seT_reservasi()
     {
-        $content = T_content::with(['m_app', 'm_menu', 't_content_det', 'm_user_group'])->where('id_t_content', request()->get('id_t_content'))->firstOrFail();
-        $content_det = T_content_det::with('m_component')->where('id_t_content',  request()->get('id_t_content'))->orderBy('sort_t_content_det')->get();
+        $content = T_reservasi::with(['m_app', 'm_menu', 'T_reservasi_det', 'm_user_group'])->where('id_T_reservasi', request()->get('id_T_reservasi'))->firstOrFail();
+        $content_det = T_reservasi_det::with('m_component')->where('id_T_reservasi',  request()->get('id_T_reservasi'))->orderBy('sort_T_reservasi_det')->get();
         $data = [
             'head_title' => 'Content Data',
             'page_title' => 'Content Data',
@@ -108,7 +109,7 @@ class T_reservasi extends Controller
             'component' => M_component::orderBy('nm_m_component', 'asc')->get(),
         ];
 
-    	return view('admin.t_content_management.set_content')->with($data);
+    	return view('admin.T_reservasi_management.seT_reservasi')->with($data);
     }
 
     public function add_modal(Request $request)
@@ -123,7 +124,7 @@ class T_reservasi extends Controller
             'app_data' => $app_data
         ];
 
-        return view('admin.t_content_management.add_modal')->with($data);
+        return view('admin.T_reservasi_management.add_modal')->with($data);
     }
 
     public function load_user_group(Request $request)
@@ -157,16 +158,16 @@ class T_reservasi extends Controller
             'id_m_app.required' => 'please choose one',
             // 'id_m_user_group.required' => 'please choose one',
             'id_m_menu.required' => 'please choose one',
-            'title_t_content.required' => 'please fill this field',
-            'subtitle_t_content.required' => 'please fill this field',
+            'title_T_reservasi.required' => 'please fill this field',
+            'subtitle_T_reservasi.required' => 'please fill this field',
         ];
 
         $validator = Validator::make($request->all(), [
             'id_m_app' => ['required'],
             // 'id_m_user_group' => ['required'],
             'id_m_menu' => ['required'],
-            'title_t_content' => ['required'],
-            'subtitle_t_content' => ['required'],
+            'title_T_reservasi' => ['required'],
+            'subtitle_T_reservasi' => ['required'],
 
         ], $messages);
 
@@ -177,14 +178,14 @@ class T_reservasi extends Controller
                     'id_m_app' => $errors->first('id_m_app'),
                     // 'id_m_user_group' => $errors->first('id_m_user_group'),
                     'id_m_menu' => $errors->first('id_m_menu'),
-                    'title_t_content' => $errors->first('title_t_content'),
-                    'subtitle_t_content' => $errors->first('subtitle_t_content'),
+                    'title_T_reservasi' => $errors->first('title_T_reservasi'),
+                    'subtitle_T_reservasi' => $errors->first('subtitle_T_reservasi'),
                 ]
             ]);
         }
 
         // cek exist
-        $cek = T_content::where(['id_m_app' => $request->id_m_app, 'id_m_menu' => $request->id_m_menu])->first();
+        $cek = T_reservasi::where(['id_m_app' => $request->id_m_app, 'id_m_menu' => $request->id_m_menu])->first();
 
         if($cek) {
             return response()->json([
@@ -195,15 +196,15 @@ class T_reservasi extends Controller
 
 
         DB::beginTransaction();
-        $object = new T_content;
-        $object->id_t_content = T_content::MaxId();
+        $object = new T_reservasi;
+        $object->id_T_reservasi = T_reservasi::MaxId();
         $object->id_m_app = $request->id_m_app;
         // $object->id_m_user_group = $request->id_m_user_group;
         $object->id_m_menu = $request->id_m_menu;
         $object->id_m_user_bo = session()->get('logged_in.id_m_user_bo');
-        $object->title_t_content = $request->title_t_content;
-        $object->is_active_t_content = 1;
-        $object->subtitle_t_content = $request->subtitle_t_content;
+        $object->title_T_reservasi = $request->title_T_reservasi;
+        $object->is_active_T_reservasi = 1;
+        $object->subtitle_T_reservasi = $request->subtitle_T_reservasi;
         $object->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
         try{
@@ -213,7 +214,7 @@ class T_reservasi extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data Saved',
-                'redirect' => route('admin.t_content.index'),
+                'redirect' => route('admin.T_reservasi.index'),
             ]);
         }catch(\Exception $e){
             DB::rollback();
@@ -225,14 +226,14 @@ class T_reservasi extends Controller
 
     }
 
-    public function save_set_content(Request $request)
+    public function save_seT_reservasi(Request $request)
     {
         // dd($request->all());
-        if(!$request->filled('id_t_content')) {
+        if(!$request->filled('id_T_reservasi')) {
             return response()->json([
                 'status' => false,
                 'message' => 'Content not found',
-                'redirect' => route('admin.t_content.index'),
+                'redirect' => route('admin.T_reservasi.index'),
             ]);
         }
 
@@ -299,25 +300,25 @@ class T_reservasi extends Controller
         try{
 
             DB::beginTransaction();
-            $object = new T_content_det();
-            $object->id_t_content_det = T_content_det::MaxId();
-            $object->id_t_content = $request->id_t_content;
+            $object = new T_reservasi_det();
+            $object->id_T_reservasi_det = T_reservasi_det::MaxId();
+            $object->id_T_reservasi = $request->id_T_reservasi;
 
             if(in_array($request->form_type, [M_component::ID_M_COMPONENT_IMAGE, M_component::ID_M_COMPONENT_VIDEO])) {
                 $object->value_m_component = $request->caption_field;
                 if($request->file('content_field')) {
                     $filename = time() . '_' . $request->file('content_field')->getClientOriginalName();
                     $folder = 'files_content';
-                    $f = $folder.'/'.$request->id_t_content;
+                    $f = $folder.'/'.$request->id_T_reservasi;
                     $path = \Storage::disk('public')->putFileAs($f, $request->file('content_field'), $filename);
-                    $object->path_t_content_det = $path;
+                    $object->path_T_reservasi_det = $path;
                 }
             }else{
                 $object->value_m_component = $request->content_field;
             }
 
             $object->id_m_component = $request->form_type;
-            $object->sort_t_content_det = T_content_det::where('id_t_content', $request->id_t_content)->SortData();
+            $object->sort_T_reservasi_det = T_reservasi_det::where('id_T_reservasi', $request->id_T_reservasi)->SortData();
             $object->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
             $object->save();
@@ -325,7 +326,7 @@ class T_reservasi extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data Saved',
-                'redirect' => route('admin.t_content.set_content', ['id_t_content' => $request->id_t_content]),
+                'redirect' => route('admin.T_reservasi.seT_reservasi', ['id_T_reservasi' => $request->id_T_reservasi]),
             ]);
         }catch(\Exception $e){
             DB::rollback();
@@ -452,8 +453,8 @@ class T_reservasi extends Controller
 
     public function edit_modal_order(Request $request)
     {
-        $old = T_content_det::where([
-            'id_t_content_det' => $request->id_t_content_det,
+        $old = T_reservasi_det::where([
+            'id_T_reservasi_det' => $request->id_T_reservasi_det,
         ])->firstOrFail();
 
         $data = [
@@ -464,13 +465,13 @@ class T_reservasi extends Controller
             'old' => $old,
         ];
 
-        return view('admin.t_content_management.edit_modal_order')->with($data);
+        return view('admin.T_reservasi_management.edit_modal_order')->with($data);
     }
 
     public function edit_modal_content(Request $request)
     {
-        $old = T_content_det::where([
-            'id_t_content_det' => $request->id_t_content_det,
+        $old = T_reservasi_det::where([
+            'id_T_reservasi_det' => $request->id_T_reservasi_det,
         ])->firstOrFail();
 
         $data = [
@@ -481,7 +482,7 @@ class T_reservasi extends Controller
             'old' => $old,
         ];
 
-        return view('admin.t_content_management.edit_modal_content')->with($data);
+        return view('admin.T_reservasi_management.edit_modal_content')->with($data);
     }
 
     public function edit_modal(Request $request)
@@ -489,8 +490,8 @@ class T_reservasi extends Controller
         $app_data = M_app::IsActive()->orderBy('nm_m_app')->get();
         $menu_data = M_menu::IsActive()->orderBy('nm_menu')->get();
 
-        $old = T_content::where([
-            'id_t_content' => $request->id_t_content,
+        $old = T_reservasi::where([
+            'id_T_reservasi' => $request->id_T_reservasi,
         ])->firstOrFail();
 
         $data = [
@@ -504,18 +505,18 @@ class T_reservasi extends Controller
         ];
 
 
-        return view('admin.t_content_management.edit_modal')->with($data);
+        return view('admin.T_reservasi_management.edit_modal')->with($data);
     }
 
     public function user_group_modal(Request $request)
     {
 
-        $old = T_content::where([
-            'id_t_content' => $request->id_t_content,
+        $old = T_reservasi::where([
+            'id_T_reservasi' => $request->id_T_reservasi,
         ])->firstOrFail();
 
         $role = M_user_group::where('id_m_app', $old->id_m_app)->orderBy('nm_user_group')->get();
-        $grup_konten = T_group_content::where(['id_m_app' => $old->id_m_app, 'id_t_content' => $old->id_t_content])->get();
+        $grup_konten = T_group_content::where(['id_m_app' => $old->id_m_app, 'id_T_reservasi' => $old->id_T_reservasi])->get();
 
         $arr_user_group = $grup_konten->map(function($item) {
             // $item->id_m_user_group;
@@ -535,7 +536,7 @@ class T_reservasi extends Controller
         ];
 
 
-        return view('admin.t_content_management.user_group_modal')->with($data);
+        return view('admin.T_reservasi_management.user_group_modal')->with($data);
     }
 
     public function update(Request $request)
@@ -544,15 +545,15 @@ class T_reservasi extends Controller
             'id_m_app.required' => 'please choose one',
             // 'id_m_user_group.required' => 'please choose one',
             'id_m_menu.required' => 'please choose one',
-            'title_t_content.required' => 'please fill this field',
+            'title_T_reservasi.required' => 'please fill this field',
         ];
 
         $validator = Validator::make($request->all(), [
             'id_m_app' => ['required'],
             // 'id_m_user_group' => ['required'],
             'id_m_menu' => ['required'],
-            'title_t_content' => ['required'],
-            'subtitle_t_content' => ['required'],
+            'title_T_reservasi' => ['required'],
+            'subtitle_T_reservasi' => ['required'],
         ], $messages);
 
         if ($validator->fails()) {
@@ -562,30 +563,30 @@ class T_reservasi extends Controller
                     'id_m_app' => $errors->first('id_m_app'),
                     // 'id_m_user_group' => $errors->first('id_m_user_group'),
                     'id_m_menu' => $errors->first('id_m_menu'),
-                    'title_t_content' => $errors->first('title_t_content'),
-                    'subtitle_t_content' => $errors->first('subtitle_t_content'),
+                    'title_T_reservasi' => $errors->first('title_T_reservasi'),
+                    'subtitle_T_reservasi' => $errors->first('subtitle_T_reservasi'),
                 ]
             ]);
         }
 
         DB::beginTransaction();
-        $update = T_content::where([
-            'id_t_content' => $request->id_t_content,
+        $update = T_reservasi::where([
+            'id_T_reservasi' => $request->id_T_reservasi,
         ])->first();
 
         if($update == null) {
             $errors = $validator->errors();
             return response()->json([
                 'error' => [
-                    'id_t_content' => 'Data not found !',
+                    'id_T_reservasi' => 'Data not found !',
                 ]
             ]);
         }
 
         $update->id_m_app = $request->id_m_app;
         $update->id_m_menu = $request->id_m_menu;
-        $update->title_t_content = $request->title_t_content;
-        $update->subtitle_t_content = $request->subtitle_t_content;
+        $update->title_T_reservasi = $request->title_T_reservasi;
+        $update->subtitle_T_reservasi = $request->subtitle_T_reservasi;
         $update->updated_at = Carbon::now()->format('Y-m-d H:i:s');
 
         try{
@@ -594,7 +595,7 @@ class T_reservasi extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data Updated',
-                'redirect' => route('admin.t_content.index'),
+                'redirect' => route('admin.T_reservasi.index'),
             ]);
         }catch(\Exception $e){
             DB::rollback();
@@ -608,20 +609,20 @@ class T_reservasi extends Controller
     public function update_user_group(Request $request)
     {
         $messages = [
-            'id_t_content.required' => 'please choose one',
+            'id_T_reservasi.required' => 'please choose one',
             'id_m_app.required' => 'please choose one',
         ];
 
         $validator = Validator::make($request->all(), [
-            'id_t_content' => ['required'],
+            'id_T_reservasi' => ['required'],
             'id_m_app' => ['required'],
         ], $messages);
 
 
         DB::beginTransaction();
         try{
-            $cek_konten = T_content::where([
-                'id_t_content' => $request->id_t_content,
+            $cek_konten = T_reservasi::where([
+                'id_T_reservasi' => $request->id_T_reservasi,
                 'id_m_app' => $request->id_m_app,
             ])->first();
 
@@ -629,20 +630,20 @@ class T_reservasi extends Controller
                 $errors = $validator->errors();
                 return response()->json([
                     'error' => [
-                        'id_t_content' => 'Data not found !',
+                        'id_T_reservasi' => 'Data not found !',
                         'id_m_app' => 'Data not found !',
                     ]
                 ]);
             }
 
             ### delete
-            DB::table('t_group_content')->where(['id_m_app' => $cek_konten->id_m_app, 'id_t_content' => $cek_konten->id_t_content])->delete();
+            DB::table('t_group_content')->where(['id_m_app' => $cek_konten->id_m_app, 'id_T_reservasi' => $cek_konten->id_T_reservasi])->delete();
 
             if($request->has('id_m_user_group')) {
                 foreach ($request->id_m_user_group as $key => $value) {
                     $object = new T_group_content;
                     $object->id_t_group_content = T_group_content::MaxId();
-                    $object->id_t_content = $cek_konten->id_t_content;
+                    $object->id_T_reservasi = $cek_konten->id_T_reservasi;
                     $object->id_m_user_group = $value;
                     $object->id_m_app = $cek_konten->id_m_app;
                     $object->save();
@@ -654,7 +655,7 @@ class T_reservasi extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Group Saved',
-                'redirect' => route('admin.t_content.index'),
+                'redirect' => route('admin.T_reservasi.index'),
             ]);
 
         }catch(\Exception $e){
@@ -669,40 +670,40 @@ class T_reservasi extends Controller
     public function update_data_order(Request $request)
     {
         $messages = [
-            'id_t_content_det.required' => 'please choose one',
-            'sort_t_content_det.required' => 'please choose one',
+            'id_T_reservasi_det.required' => 'please choose one',
+            'sort_T_reservasi_det.required' => 'please choose one',
         ];
 
         $validator = Validator::make($request->all(), [
-            'id_t_content_det' => ['required'],
-            'sort_t_content_det' => ['required'],
+            'id_T_reservasi_det' => ['required'],
+            'sort_T_reservasi_det' => ['required'],
         ], $messages);
 
         if ($validator->fails()) {
             $errors = $validator->errors();
             return response()->json([
                 'error' => [
-                    'id_t_content_det' => $errors->first('id_t_content_det'),
-                    'sort_t_content_det' => $errors->first('sort_t_content_det'),
+                    'id_T_reservasi_det' => $errors->first('id_T_reservasi_det'),
+                    'sort_T_reservasi_det' => $errors->first('sort_T_reservasi_det'),
                 ]
             ]);
         }
 
         DB::beginTransaction();
-        $update = T_content_det::where([
-            'id_t_content_det' => $request->id_t_content_det,
+        $update = T_reservasi_det::where([
+            'id_T_reservasi_det' => $request->id_T_reservasi_det,
         ])->first();
 
         if($update == null) {
             $errors = $validator->errors();
             return response()->json([
                 'error' => [
-                    'sort_t_content_det' => 'Data not found !',
+                    'sort_T_reservasi_det' => 'Data not found !',
                 ]
             ]);
         }
 
-        $update->sort_t_content_det = $request->sort_t_content_det;
+        $update->sort_T_reservasi_det = $request->sort_T_reservasi_det;
         $update->updated_at = Carbon::now()->format('Y-m-d H:i:s');
 
         try{
@@ -711,7 +712,7 @@ class T_reservasi extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data Updated',
-                'redirect' => route('admin.t_content.set_content', ['id_t_content' => $update->id_t_content]),
+                'redirect' => route('admin.T_reservasi.seT_reservasi', ['id_T_reservasi' => $update->id_T_reservasi]),
             ]);
         }catch(\Exception $e){
             DB::rollback();
@@ -725,9 +726,9 @@ class T_reservasi extends Controller
     public function update_data_content(Request $request)
     {
         // dd($request->all());
-        $object = T_content_det::where('id_t_content_det', $request->id_t_content_det)->firstOrFail();
+        $object = T_reservasi_det::where('id_T_reservasi_det', $request->id_T_reservasi_det)->firstOrFail();
 
-        $messages = ['id_t_content_det.required' => 'please choose one'];
+        $messages = ['id_T_reservasi_det.required' => 'please choose one'];
 
         if(in_array($object->id_m_component, [M_component::ID_M_COMPONENT_IMAGE, M_component::ID_M_COMPONENT_VIDEO])) {
             if($object->id_m_component == M_component::ID_M_COMPONENT_IMAGE) {
@@ -776,9 +777,9 @@ class T_reservasi extends Controller
                 if($request->file('content_field')) {
                     $filename = time() . '_' . $request->file('content_field')->getClientOriginalName();
                     $folder = 'files_content';
-                    $f = $folder.'/'.$request->id_t_content;
+                    $f = $folder.'/'.$request->id_T_reservasi;
                     $path = \Storage::disk('public')->putFileAs($f, $request->file('content_field'), $filename);
-                    $object->path_t_content_det = $path;
+                    $object->path_T_reservasi_det = $path;
                 }
 
             }else{
@@ -790,7 +791,7 @@ class T_reservasi extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data Updated',
-                'redirect' => route('admin.t_content.set_content', ['id_t_content' => $object->id_t_content]),
+                'redirect' => route('admin.T_reservasi.seT_reservasi', ['id_T_reservasi' => $object->id_T_reservasi]),
             ]);
         }catch(\Exception $e){
             DB::rollback();
@@ -803,15 +804,15 @@ class T_reservasi extends Controller
 
     public function delete_content_det(Request $request)
     {
-        if (!$request->filled('id_t_content_det')) {
+        if (!$request->filled('id_T_reservasi_det')) {
             return response()->json([
                 'message' => 'parameter invalid !',
                 'status'  => false,
             ]);
         }
 
-        $find = T_content_det::where([
-            'id_t_content_det' => $request->id_t_content_det
+        $find = T_reservasi_det::where([
+            'id_T_reservasi_det' => $request->id_T_reservasi_det
         ])->first();
 
         if ($find == null) {
@@ -828,7 +829,7 @@ class T_reservasi extends Controller
             DB::commit();
             return response()->json([
                 'status' => true,
-                'redirect' => route('admin.t_content.set_content', ['id_t_content' => $find->id_t_content]),
+                'redirect' => route('admin.T_reservasi.seT_reservasi', ['id_T_reservasi' => $find->id_T_reservasi]),
             ]);
         } catch (\Exception $e) {
             DB::rollback();
@@ -841,15 +842,15 @@ class T_reservasi extends Controller
 
     public function delete(Request $request)
     {
-        if(!$request->filled('id_t_content')){
+        if(!$request->filled('id_T_reservasi')){
             return response()->json([
                 'message' => 'parameter invalid !',
                 'status'  => false,
             ]);
         }
 
-        $find = T_content::where([
-            'id_t_content' => $request->id_t_content
+        $find = T_reservasi::where([
+            'id_T_reservasi' => $request->id_T_reservasi
         ])->first();
 
         if($find == null){
@@ -859,7 +860,7 @@ class T_reservasi extends Controller
             ]);
         }
 
-        $find->is_active_t_content = null;
+        $find->is_active_T_reservasi = null;
         $find->deleted_at = Carbon::now()->format('Y-m-d H:i:s');
 
         DB::beginTransaction();
@@ -869,7 +870,7 @@ class T_reservasi extends Controller
             DB::commit();
             return response()->json([
                 'status' => true,
-                'redirect' => route('admin.t_content.index'),
+                'redirect' => route('admin.T_reservasi.index'),
             ]);
         }catch(\Exception $e){
             DB::rollback();

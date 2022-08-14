@@ -137,10 +137,12 @@
             <ul class="menu-content">
             @endif
               @foreach($sub as $s)
-
-              @if($s->id_m_menu_bo != 42 and $s->id_parent == 41)
+                {{-- @php
+                    dd($sub);
+                @endphp --}}
+              {{-- @if($s->id_m_menu_bo != 42 and $s->id_parent == 41) --}}
               {{-- hide semua menu sub laporan { KARENA NANTINYA DIJADIKAN SATU CONSOLE } --}}
-              @else
+              {{-- @else --}}
               <li class="@if($child_menu_active == $s->nm_menu_bo) active @endif">
                   <a data-bs-toggle="tooltip" data-bs-placement="right"
                     title data-bs-original-title="{{$s->nm_menu_bo}}" class="d-flex align-items-center"
@@ -148,7 +150,7 @@
                     <i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Basic">{{$s->nm_menu_bo}}</span>
                   </a>
               </li>
-              @endif
+              {{-- @endif --}}
               @endforeach
               {{--<li class="active"><a class="d-flex align-items-center" href="table-datatable-advanced.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Advanced">Advanced</span></a>
               </li>--}}
