@@ -56,24 +56,21 @@
                         <form class="_apply_form_form">
                         
                             <div class="form-group">
+                                <input type="hidden" name="type" value="{{ $type }}" id="type">
+                                <input type="hidden" name="date" value="{{ $date }}" id="date">
+                                <input type="hidden" name="time" value="{{ $time }}" id="time">
                                 <label class="text-dark mb-1 ft-medium medium">Nama</label>
-                                <input type="text" class="form-control" placeholder="Nama Lengkap">
+                                <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama">
                             </div>
                             
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Email</label>
-                                <input type="email" class="form-control" placeholder="emailanda@gmail.com">
+                                <input type="email" class="form-control" placeholder="emailanda@gmail.com" name="email">
                             </div>
                             
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Telepon / wa:</label>
-                                <input type="text" class="form-control" placeholder="081xxxxxxx">
-                            </div>
-
-                            <div class="form-group">
-                                <label class="text-dark mb-1 ft-medium medium radio-custom-label">Metode Pembayaran:</label>
-                                <input id="aa2" class="radio-custom form-control" name="pembayaran" type="text" value="Manual">
-                                <input id="aa2" class="radio-custom form-control" name="pembayaran" type="radio" value="Payment Gateway">
+                                <input type="number" class="form-control" placeholder="081xxxxxxx" name="telp">
                             </div>
                             
                             {{-- <div class="form-group">
@@ -91,21 +88,22 @@
                                 </div>
                             </div> --}}
                             <div class="form-group">
+                                <label class="text-dark mb-1 ft-medium medium radio-custom-label">Metode Pembayaran:</label>
                                 <div class="selector">
                                     <div class="selecotr-item">
-                                        <input type="radio" id="radio1" name="selector" class="selector-item_radio" checked>
+                                        <input type="radio" id="radio1" name="pembayaran" value="manual" class="selector-item_radio" checked>
                                         <label for="radio1" class="selector-item_label">Manual</label>
                                     </div>
                                     <div class="selecotr-item">
-                                        <input type="radio" id="radio2" name="selector" class="selector-item_radio">
-                                        <label for="radio2" class="selector-item_label">Payment Gateway</label>
+                                        <input type="radio" id="radio2" name="pembayaran" value="gateway" class="selector-item_radio">
+                                        <label for="radio2" class="selector-item_label">Gateway</label>
                                     </div>
                                    
                                 </div>
                             </div>
                             
-                            <div class="form-group">
-                                <button type="button" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">Konfirmasi</button>
+                            <div class="form-group row" style="justify-content: center">
+                                <button type="button" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm" onclick="save()">Konfirmasi</button>
                             </div>
                             
                         </form>
@@ -126,6 +124,50 @@
        
 
     });
+
+    function save()
+    {
+        Swal.fire({
+            title: 'Apakah yakin?',
+            text: 'ingin menambah data',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Ya",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.querySelector('form');
+                let formData = new FormData(form);
+
+                const token = "{{ csrf_token() }}";
+
+                $.ajax({
+                    url: "{{ route('booking.save-reservasi') }}",
+                    type: "post",
+                    headers: {
+                        "X-CSRF-TOKEN": token
+                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: "JSON",
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire ('Berhasil!', response.message, 'success')
+                            // tabelData.ajax.reload();
+                        }else{
+                            Swal.fire ('Gagal!', response.message, 'error')
+                        }
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        })
+    }
 
    
 </script>

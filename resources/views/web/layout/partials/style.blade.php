@@ -12,6 +12,7 @@
  <link rel="stylesheet" href="{{asset('assets/fo/css/plugins/iconfont.css')}}" />
  <link rel="stylesheet" href="{{asset('assets/fo/css/plugins/font-awesome.css')}}" />
  <link rel="stylesheet" href="{{asset('assets/fo/css/plugins/flaticon.css')}}" />
+ <link rel="stylesheet" href="{{asset('assets/fo/css/plugins/sweetalert2.min.css')}}" />
  
  <link rel="stylesheet" href="{{asset('assets/fo/fullcalendar/fullcalendar.css')}}" />
  

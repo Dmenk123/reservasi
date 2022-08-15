@@ -1,11 +1,14 @@
 .selector{
     position:relative;
-    width:60%;
+    width:40%;
+    padding-top: 10px;
     background-color: #ffffff;
-    height:80px;
+    height:70px;
+    /* height:auto; */
     display:flex;
     justify-content:space-around;
     align-items:center;
+    text-align: center;
     border-radius:9999px;
     box-shadow:0 0 16px rgba(0,0,0,.2);
 }
@@ -27,6 +30,8 @@
     width:100%;
     text-align:center;
     border-radius:9999px;
+    padding-top: 12px;
+    padding-right: 25px;
     line-height:400%;
     font-weight:900;
     transition-duration:.5s;
@@ -34,8 +39,10 @@
     transform:none;
 }
 .selector-item_radio:checked + .selector-item_label{
-    background-color: #4169e1;
+    background-color: #28b661;
     color: #ffff;
+    padding-top: 12px;
+    padding-right: 25px;
     box-shadow:0 0 4px rgba(0,0,0,.5),0 2px 4px rgba(0,0,0,.5);
     transform:translateY(-2px);
 }

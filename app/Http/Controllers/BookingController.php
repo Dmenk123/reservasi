@@ -156,5 +156,10 @@ class BookingController extends Controller
         return view('web.fo.pages.data-diri')->with($data);
     }
 
+    public function saveReservasi(Request $request)
+    {
+        dd('kesini');
+    }
+
 
 }

@@ -52,8 +52,12 @@
             header: {
             left: 'prev',
             center: 'title',
-            right: 'next'
+            right: 'next',
             },
+            // locales: allLocales,
+            locale: 'id',
+            weekday: 'long',
+            default: true,
             defaultDate: moment().format('YYYY-MM-DD'),
             editable: true,
             eventLimit: true, // allow "more" link when too many events
