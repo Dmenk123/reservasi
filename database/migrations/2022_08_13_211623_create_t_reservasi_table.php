@@ -22,6 +22,7 @@ class CreateTReservasiTable extends Migration
             $table->string('telp_t_reservasi',15);
             $table->integer('id_m_proses');
             $table->string('hari_t_reservasi', 10);
+            $table->date('tanggal_t_reservasi');
             $table->time('jam_t_reservasi');
             $table->string('jenis_t_reservasi', 6); //cash //credit
             $table->string('metode_pembayaran_t_reservasi', 20); //upload //payment gateway

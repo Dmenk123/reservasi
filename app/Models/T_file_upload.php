@@ -6,25 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class M_proses extends Model
+class T_file_upload extends Model
 {
     use SoftDeletes;
     public $incrementing = false;
-    protected $table = "m_proses";
-    protected $primaryKey = "id_m_proses";
+    protected $table = "t_file_upload";
+    protected $primaryKey = "id_t_file_upload";
     protected $dates = ['deleted_at'];
 
-    const ID_M_PROSES_KONFIRMASI_PEMBAYARAN = 4;
 
-    protected $fillable = ['nm_m_proses'];
+    protected $fillable = ['id_t_reservasi', 'path_t_file_upload', 'mimetype'];
 
     /* fungsi untuk menjalankan event ketika melakukan 'creating' pada model */
     protected static function boot()
     {
         parent::boot();
 
-        M_proses::creating(function($model) {
-            $model->id_m_proses = M_proses::max('id_m_proses') + 1;
+        T_file_upload::creating(function($model) {
+            $model->id_t_file_upload = T_file_upload::max('id_t_file_upload') + 1;
         });
     }
 

@@ -33,4 +33,15 @@ class T_reservasi extends Model
     {
         return $query->max($this->primaryKey)+1;
     }
+
+    public function m_proses()
+    {
+        return $this->belongsTo(\App\Models\M_proses::class, 'id_m_proses', 'id_m_proses');
+    }
+
+    public function t_file_upload()
+    {
+        return $this->hasOne(\App\Models\T_file_upload::class, 'id_t_reservasi', 'id_t_reservasi');
+    }
+
 }

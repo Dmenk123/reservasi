@@ -67,7 +67,7 @@ class M_menu_bo_seeder extends Seeder
                 'nm_menu_bo' => 'Reservasi',
                 'aktif' => '1',
                 'icon' => 'circle',
-                'route' => 'admin.t_reservasi_index',
+                'route' => 'admin.t_reservasi.index',
                 'id_parent' => 5,
                 'order_m_menu_bo' => 3,
             ],

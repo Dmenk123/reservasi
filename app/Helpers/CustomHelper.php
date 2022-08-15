@@ -395,3 +395,14 @@ if (!function_exists('ambil_umur')) {
         return $retval;
     }
 }
+
+if (!function_exists('array_bulan_indo')) {
+    function array_bulan_indo()
+    {
+        $arr_bulan = [
+            1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+        ];
+        return $arr_bulan;
+
+    }
+}
