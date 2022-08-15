@@ -121,6 +121,22 @@ class T_reservasi_controller extends Controller
         return view('admin.t_reservasi.detail_modal')->with($data);
     }
 
+    public function verifikasi_modal(Request $request)
+    {
+        $query = T_reservasi::with(['t_file_upload'])->firstOrFail();
+        $data = [
+            'head_title' => 'Reservasi',
+            'page_title' => 'Reservasi',
+            'parent_menu_active' => 'Transaksi',
+            'child_menu_active'   => 'Reservasi',
+            'old' => $query,
+        ];
+
+        // dd($data);
+
+        return view('admin.t_reservasi.verifikasi_modal')->with($data);
+    }
+
     public function seT_reservasi()
     {
         $content = T_reservasi::with(['m_app', 'm_menu', 'T_reservasi_det', 'm_user_group'])->where('id_T_reservasi', request()->get('id_T_reservasi'))->firstOrFail();

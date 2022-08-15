@@ -192,6 +192,7 @@ Route::group([
     ], function () {
         Route::get('/', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'index'])->name('index');
         Route::post('/detail_modal', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'detail_modal'])->name('detail_modal');
+        Route::post('/verifikasi_modal', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'verifikasi_modal'])->name('verifikasi_modal');
         Route::post('/datatable', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'datatable'])->name('datatable');
 
         Route::get('/add', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'add'])->name('add');

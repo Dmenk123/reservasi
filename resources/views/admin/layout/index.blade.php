@@ -323,7 +323,6 @@
 
     @yield('js')
 
-
   </body>
   <!-- END: Body-->
 </html>

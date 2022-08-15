@@ -18,6 +18,7 @@ class CreateTFileUploadTable extends Migration
             $table->primary('id_t_file_upload');
             $table->string('id_t_reservasi', 100);
             $table->string('path_t_file_upload', 100);
+            $table->string('mimetype', 100);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
