@@ -59,6 +59,7 @@ Route::group([
     // 'middleware' => ['web'],  //iki durung gawe filter login fo
 ], function (){
     Route::get('/jadwal/', [BookingController::class, 'jadwal'])->name('jadwal');
+    Route::get('/payment-manual/', [BookingController::class, 'formUploadPembayaran'])->name('payment-manual');
     Route::post('/get-jam', [BookingController::class, 'getJam'])->name('get-jam');
     Route::get('/konfirmasi-data-diri/', [BookingController::class, 'konfirmasiDataDiri'])->name('konfirmasi-data-diri');
 

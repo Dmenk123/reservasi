@@ -55,6 +55,9 @@
             right: 'next',
             },
             // locales: allLocales,
+            slotLabelFormat: [
+                { weekday : "long"}
+            ],
             locale: 'id',
             weekday: 'long',
             default: true,

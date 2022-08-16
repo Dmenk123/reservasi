@@ -10,6 +10,7 @@ use Carbon\CarbonPeriod;
 use App\Models\M_app;
 use App\Models\M_menu;
 use App\Models\T_jadwal_rutin;
+use App\Models\T_reservasi;
 use App\Models\T_mcus;
 use App\Models\M_branch;
 use App\Models\M_entity;
@@ -158,7 +159,82 @@ class BookingController extends Controller
 
     public function saveReservasi(Request $request)
     {
-        dd('kesini');
+
+        $messages = [
+            'nama.required' => 'Mohon isikan nama anda',
+            'email.required' => 'Mohon isikan email anda',
+            'telp.required' => 'Mohon isikan kontak telepon anda',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'nama' => ['required'],
+            // 'id_m_user_group' => ['required'],
+            'email' => ['required'],
+            'telp' => ['required'],
+
+        ], $messages);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json([
+                'error' => [
+                    'nama' => $errors->first('nama'),
+                    'email' => $errors->first('email'),
+                    'telp' => $errors->first('telp')
+                ]
+            ]);
+        }
+
+        $dayList = array(
+			'Sun' => 'minggu',
+			'Mon' => 'senin',
+			'Tue' => 'selasa',
+			'Wed' => 'rabu',
+			'Thu' => 'kamis',
+			'Fri' => 'jumat',
+			'Sat' => 'sabtu'
+		);
+
+        // $day = date("D", $request->date);
+        $day = Carbon::parse($request->date)->format("D");
+
+        $hari = $dayList[$day];
+
+        DB::beginTransaction();
+        $object = new T_reservasi;
+        $object->id_t_reservasi = T_reservasi::MaxId();
+        $object->nm_t_reservasi = $request->nama;
+        $object->email_reservasi = $request->email;
+        $object->telp_t_reservasi = $request->telp;
+        $object->hari_t_reservasi = $hari;
+        $object->id_m_proses = 1;
+        $object->tanggal_t_reservasi = $request->date;
+        $object->jam_t_reservasi = $request->time;
+        $object->jenis_t_reservasi = ($request->type == 'lunas') ? 'cash' : 'angsuran';
+        $object->metode_pembayaran_t_reservasi = ($request->type == 'lunas') ? 'upload' : 'gateway';
+ 
+        $object->created_at = Carbon::now()->format('Y-m-d H:i:s');
+
+        try{
+
+            $object->save();
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Data Tersimpan !',
+            ]);
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status'  => false,
+            ]);
+        }
+    }
+
+    public function formUploadPembayaran(Request $request)
+    {
+        return view('web.fo.pages.upload-pembayaran');
     }
 
 

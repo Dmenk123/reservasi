@@ -22,7 +22,7 @@
         <div class="row" >
             <div class="icon-box" style="transition: none;transform: none; width: 100%">
                 <div class="row" style="justify-content: center;">
-                    <div class="col-xl-6 col-lg-3 col-md-4 col-sm-6 col-6 ">
+                    <div class="col-xl-6 ">
                         <div class="cats-wrap text-center border-div">
                             <div class="cats-box d-block rounded bg-white px-2 py-4 ">
                                 <img src="{{ asset('assets/fo/flaticon/cash-payment.png') }}" width="150">
@@ -35,22 +35,22 @@
                         </div>
                     </div>
                     
-                    <div class="col-xl-6 col-lg-3 col-md-4 col-sm-6 col-6 ">
+                    <div class="col-xl-6 ">
                         <div class="cats-wrap text-center border-div">
                             <div class="cats-box d-block rounded bg-white px-2 py-4 ">
                                 <img src="{{ asset('assets/fo/flaticon/calendar.svg') }}" width="150">
                                 <div class="cats-box-caption">
                                     <br>
                                     <h4 class="tulisan-custom" >Jadwal</h4>
-                                    <span class="text-muted blink">{!! 'Tanggal : <b>'. (\Carbon\Carbon::parse($date)->isoFormat('D MMMM Y') ?? '').'</b><br>Pukul : <b>'.\Carbon\Carbon::parse($time)->format('H:i').'<b> WIB'  !!}</span>
+                                    <span class="text-muted blink">{!! 'Tanggal : <b>'. (\Carbon\Carbon::parse($date)->isoFormat('D MMMM Y') ?? '').'</b><br>Pukul : <b>'.\Carbon\Carbon::parse($time)->format('H:i').'<b> WIB</b>'  !!}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <div class="jb-apply-form bg-white rounded py-3 px-4 box-static">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 no-padding">
+                    <div class="jb-apply-form bg-white rounded box-static">
                         <h4 class="ft-medium fs-md mb-3">Lengkapi data diri Anda.</h4>
                         
                         <form class="_apply_form_form">
@@ -61,16 +61,19 @@
                                 <input type="hidden" name="time" value="{{ $time }}" id="time">
                                 <label class="text-dark mb-1 ft-medium medium">Nama</label>
                                 <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama">
+                                <span id="nama_error" class="text-error"></span>
                             </div>
                             
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Email</label>
                                 <input type="email" class="form-control" placeholder="emailanda@gmail.com" name="email">
+                                <span id="email_error" class="text-error"></span>
                             </div>
                             
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Telepon / wa:</label>
                                 <input type="number" class="form-control" placeholder="081xxxxxxx" name="telp">
+                                <span id="telp_error" class="text-error"></span>
                             </div>
                             
                             {{-- <div class="form-group">
@@ -153,11 +156,20 @@
                     contentType: false,
                     dataType: "JSON",
                     success: function (response) {
-                        if (response.success) {
+                        if (response.status) {
                             Swal.fire ('Berhasil!', response.message, 'success')
+                            var url = '{{route("booking.payment-manual", "code=:id")}}';
+                            url = url.replace(':id', 1);
+                            // console.log(url);
+                            window.location.href = url;
                             // tabelData.ajax.reload();
                         }else{
-                            Swal.fire ('Gagal!', response.message, 'error')
+                            // console.log(response)
+                            var error = response.error
+                            $.each(error, function (key, val) {
+                                console.log(key)
+                                $("#" + key + "_error").text(val);
+                            });
                         }
 
                     },
