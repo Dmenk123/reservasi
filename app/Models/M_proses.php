@@ -15,6 +15,8 @@ class M_proses extends Model
     protected $dates = ['deleted_at'];
 
     const ID_M_PROSES_KONFIRMASI_PEMBAYARAN = 4;
+    const ID_M_PROSES_VERIFIKASI_PEMBAYARAN = 5;
+    const ID_M_PROSES_TRANSAKSI_SELESAI = 5;
 
     protected $fillable = ['nm_m_proses'];
 

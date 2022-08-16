@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use App\Models\M_app;
 use App\Models\M_menu;
 use App\Models\M_proses;
+use App\Models\T_log_proses;
 use App\Models\T_reservasi;
 use App\Models\M_user_group;
 use Illuminate\Http\Request;
@@ -137,6 +138,64 @@ class T_reservasi_controller extends Controller
         return view('admin.t_reservasi.verifikasi_modal')->with($data);
     }
 
+    public function verifikasi(Request $request)
+    {
+        // dd($request->all());
+        if(request()->filled('id_t_reservasi') && request()->filled('verifikasi_transaksi')) {
+            $cek = T_reservasi::where('id_t_reservasi', $request->id_t_reservasi)->first();
+
+            if(!$cek) {
+                return response()->json([
+                    'message' => 'Transaksi tidak ditemukan',
+                    'status'  => false,
+                ]);
+            }
+
+
+            DB::beginTransaction();
+
+            $cek->verified_at = Carbon::now()->format('Y-m-d H:i:s');
+            $cek->verified_by = session()->get('logged_in.id_m_user_bo');
+            $cek->id_m_proses = M_proses::ID_M_PROSES_VERIFIKASI_PEMBAYARAN;
+            $cek->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+
+            ### proses
+            $proses = new T_log_proses;
+            $proses->id_t_log_proses = T_log_proses::MaxId();
+            $proses->id_t_reservasi = $request->id_t_reservasi;
+            $proses->id_m_proses = M_proses::ID_M_PROSES_VERIFIKASI_PEMBAYARAN;
+            $proses->created_at = Carbon::now()->format('Y-m-d H:i:s');
+
+            try{
+
+                $cek->save();
+                $proses->save();
+
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data Saved',
+                    'redirect' => route('admin.t_reservasi.index'),
+                ]);
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json([
+                    'message' => $e->getMessage(),
+                    'status'  => false,
+                ]);
+            }
+
+        }else{
+            return response()->json([
+                'message' => 'Belum melakukan verifikasi (ceklis)',
+                'status'  => false,
+            ]);
+        }
+
+    }
+
+    //////////////////////////////////////////
+
     public function seT_reservasi()
     {
         $content = T_reservasi::with(['m_app', 'm_menu', 'T_reservasi_det', 'm_user_group'])->where('id_T_reservasi', request()->get('id_T_reservasi'))->firstOrFail();
@@ -193,80 +252,7 @@ class T_reservasi_controller extends Controller
         return response($res);
     }
 
-    public function save(Request $request)
-    {
-        // dd($request->all());
-        $messages = [
-            'id_m_app.required' => 'please choose one',
-            // 'id_m_user_group.required' => 'please choose one',
-            'id_m_menu.required' => 'please choose one',
-            'title_T_reservasi.required' => 'please fill this field',
-            'subtitle_T_reservasi.required' => 'please fill this field',
-        ];
 
-        $validator = Validator::make($request->all(), [
-            'id_m_app' => ['required'],
-            // 'id_m_user_group' => ['required'],
-            'id_m_menu' => ['required'],
-            'title_T_reservasi' => ['required'],
-            'subtitle_T_reservasi' => ['required'],
-
-        ], $messages);
-
-        if ($validator->fails()) {
-            $errors = $validator->errors();
-            return response()->json([
-                'error' => [
-                    'id_m_app' => $errors->first('id_m_app'),
-                    // 'id_m_user_group' => $errors->first('id_m_user_group'),
-                    'id_m_menu' => $errors->first('id_m_menu'),
-                    'title_T_reservasi' => $errors->first('title_T_reservasi'),
-                    'subtitle_T_reservasi' => $errors->first('subtitle_T_reservasi'),
-                ]
-            ]);
-        }
-
-        // cek exist
-        $cek = T_reservasi::where(['id_m_app' => $request->id_m_app, 'id_m_menu' => $request->id_m_menu])->first();
-
-        if($cek) {
-            return response()->json([
-                'message' => 'Transaction is exist, please check again',
-                'status'  => false,
-            ]);
-        }
-
-
-        DB::beginTransaction();
-        $object = new T_reservasi;
-        $object->id_T_reservasi = T_reservasi::MaxId();
-        $object->id_m_app = $request->id_m_app;
-        // $object->id_m_user_group = $request->id_m_user_group;
-        $object->id_m_menu = $request->id_m_menu;
-        $object->id_m_user_bo = session()->get('logged_in.id_m_user_bo');
-        $object->title_T_reservasi = $request->title_T_reservasi;
-        $object->is_active_T_reservasi = 1;
-        $object->subtitle_T_reservasi = $request->subtitle_T_reservasi;
-        $object->created_at = Carbon::now()->format('Y-m-d H:i:s');
-
-        try{
-
-            $object->save();
-            DB::commit();
-            return response()->json([
-                'status' => true,
-                'message' => 'Data Saved',
-                'redirect' => route('admin.T_reservasi.index'),
-            ]);
-        }catch(\Exception $e){
-            DB::rollback();
-            return response()->json([
-                'message' => $e->getMessage(),
-                'status'  => false,
-            ]);
-        }
-
-    }
 
     public function save_seT_reservasi(Request $request)
     {

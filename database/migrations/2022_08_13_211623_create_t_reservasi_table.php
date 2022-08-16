@@ -30,6 +30,8 @@ class CreateTReservasiTable extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
+            $table->timestamp('verified_at')->nullable();
+            $table->integer('verified_by')->nullable();
         });
     }
 
