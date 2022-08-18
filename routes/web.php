@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Admin\Main;
 use App\Http\Controllers\My_library;
 use App\Http\Controllers\BookingController;
-
+use App\Http\Controllers\MailController;
 
 // use App\Models\M_module;
 
@@ -18,24 +18,15 @@ Route::group([
     'middleware' => ['web'],  //iki durung gawe filter login fo
 ], function (){
     Route::get('/', [\App\Http\Controllers\Web\Home::class, 'index'])->name('index');
-    // Route::get('/homepage', [App\Http\Controllers\Web\Home::class, 'homepage'])->name('homepage');
-    // Route::get('/content', [App\Http\Controllers\Web\Home::class, 'content'])->name('content');
-    // Route::get('/search_docs', [App\Http\Controllers\Web\Home::class, 'search_docs'])->name('search_docs');
-    // Route::get('/show_pdf', [App\Http\Controllers\Web\Home::class, 'show_pdf'])->name('show_pdf');
 
+
+    #### EMAIL ####
     Route::group([
-        'prefix' => 'reservation',
-        'as' => 'reservation.',
+        'prefix' => 'mail',
+        'as' => 'mail.',
     ], function (){
-        Route::get('/wizard', [\App\Http\Controllers\Web\Reservation::class, 'wizard'])->name('wizard');
-        // Route::post('/authenticate_booking', [App\Http\Controllers\Web\CheckIn::class, 'authenticate_booking'])->name('authenticate_booking');
-        // Route::post('/checkin', [App\Http\Controllers\Web\CheckIn::class, 'checkin'])->name('checkin');
-        // Route::post('/authenticate_out', [App\Http\Controllers\Web\CheckOut::class, 'authenticate_out'])->name('authenticate_out');
-        // Route::post('/authenticate_out_bypass', [App\Http\Controllers\Web\CheckOut::class, 'authenticate_out_bypass'])->name('authenticate_out_bypass');
-        // Route::post('/checkout', [App\Http\Controllers\Web\CheckOut::class, 'checkout'])->name('checkout');
+        Route::get('/send_email_link_upload', [MailController::class, 'send_email_link_upload'])->name('send_email_link_upload');
     });
-
-
 
     /** AUTH */
     Route::group([
