@@ -9,7 +9,7 @@
 <section class="space gray">
     <br>
     <div class="container">
-    
+
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center mb-5">
@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row" >
             <div class="icon-box" style="transition: none;transform: none; width: 100%">
                 <div class="row" style="justify-content: center;">
@@ -34,7 +34,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-xl-6 ">
                         <div class="cats-wrap text-center border-div">
                             <div class="cats-box d-block rounded bg-white px-2 py-4 ">
@@ -52,9 +52,9 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 no-padding">
                     <div class="jb-apply-form bg-white rounded box-static">
                         <h4 class="ft-medium fs-md mb-3">Lengkapi data diri Anda.</h4>
-                        
+
                         <form class="_apply_form_form">
-                        
+
                             <div class="form-group">
                                 <input type="hidden" name="type" value="{{ $type }}" id="type">
                                 <input type="hidden" name="date" value="{{ $date }}" id="date">
@@ -63,19 +63,19 @@
                                 <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama">
                                 <span id="nama_error" class="text-error"></span>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Email</label>
                                 <input type="email" class="form-control" placeholder="emailanda@gmail.com" name="email">
                                 <span id="email_error" class="text-error"></span>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Telepon / wa:</label>
                                 <input type="number" class="form-control" placeholder="081xxxxxxx" name="telp">
                                 <span id="telp_error" class="text-error"></span>
                             </div>
-                            
+
                             {{-- <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Upload Resume:<font>pdf, doc, docx</font></label>
                                 <div class="custom-file">
@@ -83,7 +83,7 @@
                                   <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
                             </div> --}}
-                            
+
                             {{-- <div class="form-group">
                                 <div class="terms_con">
                                     <input id="aa3" class="checkbox-custom" name="Coffee" type="checkbox">
@@ -101,20 +101,20 @@
                                         <input type="radio" id="radio2" name="pembayaran" value="gateway" class="selector-item_radio">
                                         <label for="radio2" class="selector-item_label">Gateway</label>
                                     </div>
-                                   
+
                                 </div>
                             </div>
-                            
+
                             <div class="form-group row" style="justify-content: center">
                                 <button type="button" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm" onclick="save()">Konfirmasi</button>
                             </div>
-                            
+
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-          
+
 
     </div>
 </section>
@@ -124,7 +124,7 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-       
+
 
     });
 
@@ -159,7 +159,7 @@
                         if (response.status) {
                             Swal.fire ('Berhasil!', response.message, 'success')
                             var url = '{{route("booking.payment-manual", "code=:id")}}';
-                            url = url.replace(':id', 1);
+                            url = url.replace(':id', response.kode_verifikasi);
                             // console.log(url);
                             window.location.href = url;
                             // tabelData.ajax.reload();
@@ -181,9 +181,8 @@
         })
     }
 
-   
+
 </script>
 @endsection
 
-			
-		
+

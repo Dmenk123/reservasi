@@ -213,7 +213,8 @@ class BookingController extends Controller
         $object->jam_t_reservasi = $request->time;
         $object->jenis_t_reservasi = ($request->type == 'lunas') ? 'cash' : 'angsuran';
         $object->metode_pembayaran_t_reservasi = ($request->type == 'lunas') ? 'upload' : 'gateway';
-        $object->kode_t_reservasi = $this->generateRandomString(10);
+        $kode_verifikasi = $this->generateRandomString(10);
+        $object->kode_t_reservasi = $kode_verifikasi;
         $object->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
         try{
@@ -226,12 +227,14 @@ class BookingController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Data Tersimpan !',
+                'kode_verifikasi' => $kode_verifikasi
             ]);
         }catch(\Exception $e){
             DB::rollback();
             return response()->json([
                 'message' => $e->getMessage(),
                 'status'  => false,
+                'kode_verifikasi' => null
             ]);
         }
     }
