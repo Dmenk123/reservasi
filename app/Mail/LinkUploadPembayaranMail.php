@@ -28,7 +28,7 @@ class LinkUploadPembayaranMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('E-Recruitment PRAMITA GROUP')
+        return $this->subject('Cipto Djunaedy')
                     ->view('email.notif_kirim_link_pembayaran');
     }
 }

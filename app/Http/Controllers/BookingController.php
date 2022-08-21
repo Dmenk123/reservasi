@@ -27,6 +27,7 @@ use App\Models\T_emp_request_rct;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\T_mcu;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\MailController;
 
 class BookingController extends Controller
 {
@@ -59,7 +60,7 @@ class BookingController extends Controller
 			'Sat' => 'sabtu'
 		);
 
-        foreach ($period as $val) 
+        foreach ($period as $val)
 		{
             $hari = $dayList[$val->format("D")];
             $cek_jadwal= T_jadwal_rutin::where('hari', $hari)->where('status', 1)->first();
@@ -72,7 +73,7 @@ class BookingController extends Controller
                     'color' => '#18ab18',
                 );
             }
-           
+
         }
 
         $data = array();
@@ -117,7 +118,7 @@ class BookingController extends Controller
         $loop = 10;
         $interval = [];
         array_push($interval, $start );
-        for ($i=0; $i < $loop; $i++) { 
+        for ($i=0; $i < $loop; $i++) {
             if ($start_loop >= $start && $start_loop < $end ) {
                 //lakukan interval 2 jam
                 $start_loop =  Carbon::parse($start_loop)->addHour(2);
@@ -212,12 +213,15 @@ class BookingController extends Controller
         $object->jam_t_reservasi = $request->time;
         $object->jenis_t_reservasi = ($request->type == 'lunas') ? 'cash' : 'angsuran';
         $object->metode_pembayaran_t_reservasi = ($request->type == 'lunas') ? 'upload' : 'gateway';
- 
+        $object->kode_t_reservasi = $this->generateRandomString(10);
         $object->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
         try{
-
             $object->save();
+            $email = new MailController;
+            ### send email
+            $send_email = $email->send_email_link_upload(trim($request->email));
+
             DB::commit();
             return response()->json([
                 'status' => true,
@@ -235,6 +239,17 @@ class BookingController extends Controller
     public function formUploadPembayaran(Request $request)
     {
         return view('web.fo.pages.upload-pembayaran');
+    }
+
+    private function generateRandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 
 

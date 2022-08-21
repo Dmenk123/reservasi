@@ -20,15 +20,15 @@ use App\Mail\LinkUploadPembayaranMail;
 class MailController extends Controller
 {
 
-    public function send_email_link_upload()
+    public function send_email_link_upload($emailTujuan = 'rizkiyuandaa@gmail.com')
     {
-      \Mail::to('rizkiyuandaa@gmail.com')->send(new LinkUploadPembayaranMail());
+        \Mail::to($emailTujuan)->send(new LinkUploadPembayaranMail());
 
-      if (\Mail::failures()) {
-           return response()->Fail('Sorry! Please try again latter');
-      }else{
-           return response()->success('Great! Successfully send in your mail');
-         }
+        if (\Mail::failures()) {
+           return false;
+        }else{
+           return true;
+        }
     }
 
 
