@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             M_interval_seeder::class,
             T_jadwal_rutin_seeder::class,
             M_proses_seeder::class,
+            M_harga_seeder::class,
         ]);
     }
 }

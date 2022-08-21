@@ -20,7 +20,7 @@ class CreateMUserBoTable extends Migration
             $table->string('nm_user_bo',100);
             $table->string('password',100);
             $table->foreignId('id_m_user_group_bo')->constrained('id_m_user_group_bo')->onDelete('cascade');
-            $table->string('aktif',1);
+            $table->string('aktif',1)->nullable();
             $table->timestamp('last_login')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

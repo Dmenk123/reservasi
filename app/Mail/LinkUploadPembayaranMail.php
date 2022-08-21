@@ -11,14 +11,15 @@ class LinkUploadPembayaranMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $details;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($collection)
     {
-        //
+        $this->details = $collection;
     }
 
     /**
@@ -29,6 +30,6 @@ class LinkUploadPembayaranMail extends Mailable
     public function build()
     {
         return $this->subject('Cipto Djunaedy')
-                    ->view('email.notif_kirim_link_pembayaran');
+                    ->view('email.notif_kirim_link_pembayaran', ['detail' => $this->details]);
     }
 }

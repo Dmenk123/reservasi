@@ -158,12 +158,30 @@ Route::group([
         // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });
 
-     /**
-     * master schedule
+    /**
+     * master harga
      */
     Route::group([
-        'prefix' => 'm_schedule',
-        'as' => 'm_schedule.',
+        'prefix' => 'm_harga',
+        'as' => 'm_harga.',
+    ], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'index'])->name('index');
+        Route::get('/add', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'add'])->name('add');
+        Route::post('/save', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'save'])->name('save');
+        Route::get('/edit', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'update'])->name('update');
+        Route::post('/delete', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'delete'])->name('delete');
+        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'datatable'])->name('datatable');
+        // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
+        // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
+    });
+
+     /**
+     * master interval
+     */
+    Route::group([
+        'prefix' => 'm_interval',
+        'as' => 'm_interval.',
     ], function () {
         Route::get('/', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'index'])->name('index');
         Route::get('/add', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'add'])->name('add');
@@ -193,6 +211,24 @@ Route::group([
         Route::get('/add', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'add'])->name('add');
         Route::post('/update', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'update'])->name('update');
         Route::post('/delete', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'delete'])->name('delete');
+        // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
+        // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
+    });
+
+    /**
+     * transaksi jadwal rutin
+     */
+    Route::group([
+        'prefix' => 't_jadwal_rutin',
+        'as' => 't_jadwal_rutin.',
+    ], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'index'])->name('index');
+        Route::get('/add', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'add'])->name('add');
+        Route::post('/save', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'save'])->name('save');
+        Route::get('/edit', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'update'])->name('update');
+        Route::post('/delete', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'delete'])->name('delete');
+        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'datatable'])->name('datatable');
         // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
         // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });

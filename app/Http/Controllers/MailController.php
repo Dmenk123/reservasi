@@ -20,9 +20,9 @@ use App\Mail\LinkUploadPembayaranMail;
 class MailController extends Controller
 {
 
-    public function send_email_link_upload($emailTujuan = 'rizkiyuandaa@gmail.com')
+    public function send_email_link_upload($emailTujuan = 'rizkiyuandaa@gmail.com', $collection)
     {
-        \Mail::to($emailTujuan)->send(new LinkUploadPembayaranMail());
+        \Mail::to($emailTujuan)->send(new LinkUploadPembayaranMail($collection));
 
         if (\Mail::failures()) {
            return false;

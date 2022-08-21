@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMUserGroupBoTable extends Migration
+class CreateTPembayaranDet extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateMUserGroupBoTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_user_group_bo', function (Blueprint $table) {
-            $table->integer('id_m_user_group_bo');
-            $table->primary('id_m_user_group_bo');
-            $table->string('nm_user_group_bo',40)->nullable();
-            $table->string('aktif',1)->nullable();
-            $table->string('keterangan',255)->nullable();
+        Schema::create('t_pembayaran_det', function (Blueprint $table) {
+            $table->integer('id_t_pembayaran_det');
+            $table->primary('id_t_pembayaran_det');
+            $table->integer('id_t_pembayaran');
+            $table->decimal('nominal_t_pembayaran_det', 20);
+            $table->string('kode_konfirmasi', 100);
+            $table->date('tgl_t_pembayaran_det');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
@@ -32,6 +33,6 @@ class CreateMUserGroupBoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('m_user_group_bo');
+        Schema::dropIfExists('t_pembayaran_det');
     }
 }

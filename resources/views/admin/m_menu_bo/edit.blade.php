@@ -68,7 +68,7 @@
                                             <select class="form-select" id="id_parent" name="id_parent">
                                                 <option value="">No Parent</option>
                                                 @foreach($id_parent as $parent)
-                                                <option {{($old->id_parent == $parent->id_m_menu) ? 'selected' : null}} value="{{$parent->id_m_menu}}">{{$parent->nm_menu_bo}}</option>
+                                                <option {{($old->id_parent == $parent->id_m_menu_bo) ? 'selected' : null}} value="{{$parent->id_m_menu_bo}}">{{$parent->nm_menu_bo}}</option>
                                                 @endforeach
                                               </select>
                                         </div>
@@ -92,7 +92,7 @@
                                         <label class="col-form-label" for="order_m_menu_bo">Menu Order (urut ascending)</label>
                                         </div>
                                         <div class="col-sm-4">
-                                        <input type="text" id="order_m_menu_bo" value="{{$old->order_m_menu_bo}}" class="form-control" name="order_m_menu">
+                                        <input type="text" id="order_m_menu_bo" value="{{$old->order_m_menu_bo}}" class="form-control" name="order_m_menu_bo">
                                         </div>
                                     </div>
                                 </div>

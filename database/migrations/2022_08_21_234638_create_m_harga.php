@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTEmailToken extends Migration
+class CreateMHarga extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateTEmailToken extends Migration
      */
     public function up()
     {
-        Schema::create('t_email_token', function (Blueprint $table) {
-            $table->integer('id_t_email_token');
-            $table->primary('id_t_email_token');
-            $table->integer('id_t_reservasi');
-            $table->string('email', 100);
-            $table->string('token', 100);
-            $table->timestamp('expired_at');
+        Schema::create('m_harga', function (Blueprint $table) {
+            $table->integer('id_m_harga');
+            $table->primary('id_m_harga');
+            $table->decimal('nominal_m_harga', 20);
+            $table->string('status_m_harga', 1)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
@@ -33,6 +31,6 @@ class CreateTEmailToken extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_email_token');
+        Schema::dropIfExists('m_harga');
     }
 }

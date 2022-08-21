@@ -221,7 +221,7 @@ class BookingController extends Controller
             $object->save();
             $email = new MailController;
             ### send email
-            $send_email = $email->send_email_link_upload(trim($request->email));
+            $send_email = $email->send_email_link_upload(trim($request->email), $object);
 
             DB::commit();
             return response()->json([

@@ -123,7 +123,6 @@ class Master_menu_bo extends Controller
             'id_m_menu_bo' => request('id_m_menu_bo')
         ])->firstOrFail();
 
-
         $data = [
             'head_title' => 'Admin Menu',
             'page_title' => 'Admin Menu',
@@ -132,6 +131,8 @@ class Master_menu_bo extends Controller
             'old' => $old,
             'id_parent'   => M_menu_bo::whereNull('id_parent')->where('aktif','1')->get(),
         ];
+
+        // dd($data);
 
         return view('admin.m_menu_bo.edit')->with($data);
     }
