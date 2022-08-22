@@ -10,12 +10,12 @@
 					<div class="row justify-content-center">
 						<div class="col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12">
 						
-							<div class="banner_caption text-center mb-5">
+							{{-- <div class="banner_caption text-center mb-5">
 								<h1 class="banner_title ft-bold mb-1"><span class="count">72412</span> jobs Listed Here!</h1>
 								<p class="fs-md ft-medium">Your Dream Jobs is Waiting</p>
-							</div>
+							</div> --}}
 							
-							<form class="bg-white rounded p-1">
+							{{-- <form class="bg-white rounded p-1">
 								<div class="row no-gutters">
 									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
 										<div class="form-group mb-0 position-relative">
@@ -49,12 +49,12 @@
 									</div>
 									
 								</div>
-							</form>
+							</form> --}}
 							
-							<div class="text-center align-items-center justify-content-center mt-5">
+							{{-- <div class="text-center align-items-center justify-content-center mt-5">
 								<a href="javascript:void(0);" class="btn bg-white hover-theme ft-regular mr-1"><i class="lni lni-user mr-1"></i>Create Account</a>
 								<a href="javascript:void(0);" class="btn bg-dark hover-theme text-light ft-regular ml-1"><i class="lni lni-upload mr-1"></i>Upload Resume</a>
-							</div>
+							</div> --}}
 							
 						</div>
 					</div>
@@ -78,165 +78,7 @@
 					<!-- row -->
 					<div class="row align-items-center">
 					
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="job_grid border rounded ">
-								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
-								<div class="position-absolute ab-right"><span class="medium theme-cl theme-bg-light px-2 py-1 rounded">Full Time</span></div>
-								<div class="job_grid_thumb mb-3 pt-5 px-3">
-									<a href="job-detail.html" class="d-block text-center m-auto"><img src="https://via.placeholder.com/120x120" class="img-fluid" width="70" alt="" /></a>
-								</div>
-								<div class="job_grid_caption text-center pb-5 px-3">
-									<h6 class="mb-0 lh-1 ft-medium medium"><a href="employer-detail.html" class="text-muted medium">Google Inc</a></h6>
-									<h4 class="mb-0 ft-medium medium"><a href="job-detail.html" class="text-dark fs-md">UI/UX Web Designer</a></h4>
-									<div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>San Francisco</span></div>
-								</div>
-								<div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
-									<div class="df-1 text-muted"><i class="lni lni-wallet mr-1"></i>$50k - $80k PA.</div>
-									<div class="df-1 text-muted"><i class="lni lni-timer mr-1"></i>3 days ago</div>
-								</div>
-							</div>
-						</div>
 						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="job_grid border rounded ">
-								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
-								<div class="position-absolute ab-right"><span class="medium bg-light-warning text-warning px-2 py-1 rounded">Part Time</span></div>
-								<div class="job_grid_thumb mb-3 pt-5 px-3">
-									<a href="job-detail.html" class="d-block text-center m-auto"><img src="https://via.placeholder.com/120x120" class="img-fluid" width="70" alt="" /></a>
-								</div>
-								<div class="job_grid_caption text-center pb-5 px-3">
-									<h6 class="mb-0 lh-1 ft-medium medium"><a href="employer-detail.html" class="text-muted medium">Google Inc</a></h6>
-									<h4 class="mb-0 ft-medium medium"><a href="job-detail.html" class="text-dark fs-md">UI/UX Web Designer</a></h4>
-									<div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>San Francisco</span></div>
-								</div>
-								<div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
-									<div class="df-1 text-muted"><i class="lni lni-wallet mr-1"></i>$50k - $80k PA.</div>
-									<div class="df-1 text-muted"><i class="lni lni-timer mr-1"></i>3 days ago</div>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="job_grid border rounded ">
-								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
-								<div class="position-absolute ab-right"><span class="medium bg-light-purple text-purple px-2 py-1 rounded">Contract</span></div>
-								<div class="job_grid_thumb mb-3 pt-5 px-3">
-									<a href="job-detail.html" class="d-block text-center m-auto"><img src="https://via.placeholder.com/120x120" class="img-fluid" width="70" alt="" /></a>
-								</div>
-								<div class="job_grid_caption text-center pb-5 px-3">
-									<h6 class="mb-0 lh-1 ft-medium medium"><a href="employer-detail.html" class="text-muted medium">Google Inc</a></h6>
-									<h4 class="mb-0 ft-medium medium"><a href="job-detail.html" class="text-dark fs-md">UI/UX Web Designer</a></h4>
-									<div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>San Francisco</span></div>
-								</div>
-								<div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
-									<div class="df-1 text-muted"><i class="lni lni-wallet mr-1"></i>$50k - $80k PA.</div>
-									<div class="df-1 text-muted"><i class="lni lni-timer mr-1"></i>3 days ago</div>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="job_grid border rounded ">
-								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
-								<div class="position-absolute ab-right"><span class="medium bg-light-danger text-danger px-2 py-1 rounded">Enternship</span></div>
-								<div class="job_grid_thumb mb-3 pt-5 px-3">
-									<a href="job-detail.html" class="d-block text-center m-auto"><img src="https://via.placeholder.com/120x120" class="img-fluid" width="70" alt="" /></a>
-								</div>
-								<div class="job_grid_caption text-center pb-5 px-3">
-									<h6 class="mb-0 lh-1 ft-medium medium"><a href="employer-detail.html" class="text-muted medium">Google Inc</a></h6>
-									<h4 class="mb-0 ft-medium medium"><a href="job-detail.html" class="text-dark fs-md">UI/UX Web Designer</a></h4>
-									<div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>San Francisco</span></div>
-								</div>
-								<div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
-									<div class="df-1 text-muted"><i class="lni lni-wallet mr-1"></i>$50k - $80k PA.</div>
-									<div class="df-1 text-muted"><i class="lni lni-timer mr-1"></i>3 days ago</div>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="job_grid border rounded ">
-								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
-								<div class="position-absolute ab-right"><span class="medium bg-light-purple text-purple px-2 py-1 rounded">Contract</span></div>
-								<div class="job_grid_thumb mb-3 pt-5 px-3">
-									<a href="job-detail.html" class="d-block text-center m-auto"><img src="https://via.placeholder.com/120x120" class="img-fluid" width="70" alt="" /></a>
-								</div>
-								<div class="job_grid_caption text-center pb-5 px-3">
-									<h6 class="mb-0 lh-1 ft-medium medium"><a href="employer-detail.html" class="text-muted medium">Google Inc</a></h6>
-									<h4 class="mb-0 ft-medium medium"><a href="job-detail.html" class="text-dark fs-md">UI/UX Web Designer</a></h4>
-									<div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>San Francisco</span></div>
-								</div>
-								<div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
-									<div class="df-1 text-muted"><i class="lni lni-wallet mr-1"></i>$50k - $80k PA.</div>
-									<div class="df-1 text-muted"><i class="lni lni-timer mr-1"></i>3 days ago</div>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="job_grid border rounded ">
-								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
-								<div class="position-absolute ab-right"><span class="medium theme-cl theme-bg-light px-2 py-1 rounded">Full Time</span></div>
-								<div class="job_grid_thumb mb-3 pt-5 px-3">
-									<a href="job-detail.html" class="d-block text-center m-auto"><img src="https://via.placeholder.com/120x120" class="img-fluid" width="70" alt="" /></a>
-								</div>
-								<div class="job_grid_caption text-center pb-5 px-3">
-									<h6 class="mb-0 lh-1 ft-medium medium"><a href="employer-detail.html" class="text-muted medium">Google Inc</a></h6>
-									<h4 class="mb-0 ft-medium medium"><a href="job-detail.html" class="text-dark fs-md">UI/UX Web Designer</a></h4>
-									<div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>San Francisco</span></div>
-								</div>
-								<div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
-									<div class="df-1 text-muted"><i class="lni lni-wallet mr-1"></i>$50k - $80k PA.</div>
-									<div class="df-1 text-muted"><i class="lni lni-timer mr-1"></i>3 days ago</div>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="job_grid border rounded ">
-								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
-								<div class="position-absolute ab-right"><span class="medium bg-light-danger text-danger px-2 py-1 rounded">Enternship</span></div>
-								<div class="job_grid_thumb mb-3 pt-5 px-3">
-									<a href="job-detail.html" class="d-block text-center m-auto"><img src="https://via.placeholder.com/120x120" class="img-fluid" width="70" alt="" /></a>
-								</div>
-								<div class="job_grid_caption text-center pb-5 px-3">
-									<h6 class="mb-0 lh-1 ft-medium medium"><a href="employer-detail.html" class="text-muted medium">Google Inc</a></h6>
-									<h4 class="mb-0 ft-medium medium"><a href="job-detail.html" class="text-dark fs-md">UI/UX Web Designer</a></h4>
-									<div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>San Francisco</span></div>
-								</div>
-								<div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
-									<div class="df-1 text-muted"><i class="lni lni-wallet mr-1"></i>$50k - $80k PA.</div>
-									<div class="df-1 text-muted"><i class="lni lni-timer mr-1"></i>3 days ago</div>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single -->
-						<div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-							<div class="job_grid border rounded ">
-								<div class="position-absolute ab-left"><button type="button" class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button></div>
-								<div class="position-absolute ab-right"><span class="medium bg-light-warning text-warning px-2 py-1 rounded">Part Time</span></div>
-								<div class="job_grid_thumb mb-3 pt-5 px-3">
-									<a href="job-detail.html" class="d-block text-center m-auto"><img src="https://via.placeholder.com/120x120" class="img-fluid" width="70" alt="" /></a>
-								</div>
-								<div class="job_grid_caption text-center pb-5 px-3">
-									<h6 class="mb-0 lh-1 ft-medium medium"><a href="employer-detail.html" class="text-muted medium">Google Inc</a></h6>
-									<h4 class="mb-0 ft-medium medium"><a href="job-detail.html" class="text-dark fs-md">UI/UX Web Designer</a></h4>
-									<div class="jbl_location"><i class="lni lni-map-marker mr-1"></i><span>San Francisco</span></div>
-								</div>
-								<div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
-									<div class="df-1 text-muted"><i class="lni lni-wallet mr-1"></i>$50k - $80k PA.</div>
-									<div class="df-1 text-muted"><i class="lni lni-timer mr-1"></i>3 days ago</div>
-								</div>
-							</div>
-						</div>
 						
 					</div>
 					<!-- row -->
@@ -352,182 +194,7 @@
 			</section>
 			<!-- ======================= About Start ============================ -->
 			
-			<!-- ======================= Our Partner Start ============================ -->
-			<section class="p-0">
-				<div class="container">
-				
-					<div class="row justify-content-center">
-						<div class="col-xl-5 col-lg-7 col-md-9 col-sm-12">
-							<div class="sec_title position-relative text-center mb-5">
-								<h6 class="text-muted mb-0">Our Partners</h6>
-								<h2 class="ft-bold">We Have Worked with <span class="theme-cl">10,000+</span> Trusted Companies</h2>
-							</div>
-						</div>
-					</div>
-					
-					<div class="row justify-content-center">
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-6">
-							<div class="empl-thumb text-center px-3 py-4">
-								<img src="https://via.placeholder.com/300x80" class="img-fluid mx-auto" alt="" />
-							</div>
-						</div>
-						
-					</div>
-					
-				</div>
-			</section>
-			<!-- ======================= Our Partner Start ============================ -->
-			
-			<!-- ============================ Pricing Start ==================================== -->
-			<section class="space min">
-				<div class="container">
-				
-					<div class="row justify-content-center">
-						<div class="col-xl-5 col-lg-7 col-md-9 col-sm-12">
-							<div class="sec_title position-relative text-center mb-5">
-								<h6 class="text-muted mb-0">Our Pricing</h6>
-								<h2 class="ft-bold">Choose Your Package</h2>
-							</div>
-						</div>
-					</div>
-					
-					<div class="row align-items-center">
-						
-						<!-- Single Package -->
-						<div class="col-lg-4 col-md-4">
-							<div class="pricing_wrap">
-								<div class="prt_head">
-									<h4 class="ft-medium">Basic</h4>
-								</div>
-								<div class="prt_price">
-									<h2 class="ft-bold"><span>$</span>29</h2>
-									<span class="fs-md">per user, per month</span>
-								</div>
-								<div class="prt_body">
-									<ul>
-										<li>99.5% Uptime Guarantee</li>
-										<li>120GB CDN Bandwidth</li>
-										<li>5GB Cloud Storage</li>
-										<li class="none">Personal Help Support</li>
-										<li class="none">Enterprise SLA</li>
-									</ul>
-								</div>
-								<div class="prt_footer">
-									<a href="#" class="btn choose_package">Start Basic</a>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single Package -->
-						<div class="col-lg-4 col-md-4">
-							<div class="pricing_wrap">
-								<div class="prt_head">
-									<div class="recommended">Best Value</div>
-									<h4 class="ft-medium">Standard</h4>
-								</div>
-								<div class="prt_price">
-									<h2 class="ft-bold"><span>$</span>49</h2>
-									<span class="fs-md">per user, per month</span>
-								</div>
-								<div class="prt_body">
-									<ul>
-										<li>99.5% Uptime Guarantee</li>
-										<li>150GB CDN Bandwidth</li>
-										<li>10GB Cloud Storage</li>
-										<li>Personal Help Support</li>
-										<li class="none">Enterprise SLA</li>
-									</ul>
-								</div>
-								<div class="prt_footer">
-									<a href="#" class="btn choose_package active">Start Standard</a>
-								</div>
-							</div>
-						</div>
-						
-						<!-- Single Package -->
-						<div class="col-lg-4 col-md-4">
-							<div class="pricing_wrap">
-								<div class="prt_head">
-									<h4 class="ft-medium">Platinum</h4>
-								</div>
-								<div class="prt_price">
-									<h2 class="ft-bold"><span>$</span>79</h2>
-									<span class="fs-md">2 user, per month</span>
-								</div>
-								<div class="prt_body">
-									<ul>
-										<li>100% Uptime Guarantee</li>
-										<li>200GB CDN Bandwidth</li>
-										<li>20GB Cloud Storage</li>
-										<li>Personal Help Support</li>
-										<li>Enterprise SLA</li>
-									</ul>
-								</div>
-								<div class="prt_footer">
-									<a href="#" class="btn choose_package">Start Platinum</a>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					
-				</div>
-			</section>
+
 			<!-- ============================ Pricing End ==================================== -->
 			
 			<!-- ======================= Blog Start ============================ -->
