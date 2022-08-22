@@ -16,7 +16,7 @@ class CreateMHarga extends Migration
         Schema::create('m_harga', function (Blueprint $table) {
             $table->integer('id_m_harga');
             $table->primary('id_m_harga');
-            $table->decimal('nominal_m_harga', 20);
+            $table->decimal('nominal_m_harga', 20, 0);
             $table->string('status_m_harga', 1)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

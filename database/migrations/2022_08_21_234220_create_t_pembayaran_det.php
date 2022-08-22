@@ -17,7 +17,7 @@ class CreateTPembayaranDet extends Migration
             $table->integer('id_t_pembayaran_det');
             $table->primary('id_t_pembayaran_det');
             $table->integer('id_t_pembayaran');
-            $table->decimal('nominal_t_pembayaran_det', 20);
+            $table->decimal('nominal_t_pembayaran_det', 20, 0);
             $table->string('kode_konfirmasi', 100);
             $table->date('tgl_t_pembayaran_det');
             $table->timestamp('created_at')->useCurrent();

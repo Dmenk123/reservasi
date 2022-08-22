@@ -165,15 +165,13 @@ Route::group([
         'prefix' => 'm_harga',
         'as' => 'm_harga.',
     ], function () {
-        Route::get('/', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'index'])->name('index');
-        Route::get('/add', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'add'])->name('add');
-        Route::post('/save', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'save'])->name('save');
-        Route::get('/edit', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'edit'])->name('edit');
-        Route::post('/update', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'update'])->name('update');
-        Route::post('/delete', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'delete'])->name('delete');
-        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'datatable'])->name('datatable');
-        // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
-        // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
+        Route::get('/', [\App\Http\Controllers\Admin\Master_harga::class, 'index'])->name('index');
+        Route::get('/add', [\App\Http\Controllers\Admin\Master_harga::class, 'add'])->name('add');
+        Route::post('/save', [\App\Http\Controllers\Admin\Master_harga::class, 'save'])->name('save');
+        Route::get('/edit', [\App\Http\Controllers\Admin\Master_harga::class, 'edit'])->name('edit');
+        Route::post('/update', [\App\Http\Controllers\Admin\Master_harga::class, 'update'])->name('update');
+        Route::post('/nonaktif', [\App\Http\Controllers\Admin\Master_harga::class, 'nonaktif'])->name('nonaktif');
+        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_harga::class, 'datatable'])->name('datatable');
     });
 
      /**
