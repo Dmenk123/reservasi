@@ -18,37 +18,22 @@
 
                             <div class="row">
 
-                                <input type="hidden" id="id_m_harga" value="{{$old->id_m_harga}}" class="form-control" name="id_m_harga">
+                                <input type="hidden" id="id_m_interval" value="{{$old->id_m_interval}}" class="form-control" name="id_m_interval">
 
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
-                                        <label class="col-form-label" for="nominal"> Nominal </label>
+                                        <label class="col-form-label" for="durasi"> durasi </label>
                                         </div>
                                         <div class="col-sm-6">
-
-                                            <input type="text" id="nominal" class="form-control inputmask" name="nominal" data-thousands="." data-decimal="," value="{{$old->nominal_m_harga ?? 0}}">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="mb-1 row">
-                                        <div class="col-sm-3">
-                                        <label class="col-form-label" for="aktif">Status Aktif</label>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <select class="form-select" id="aktif" name="aktif">
-                                                <option {{($old->status_harga == '1') ? 'selected' : ''}} value="1">Ya</option>
-                                                <option {{($old->status_harga != '1') ? 'selected' : ''}} value="0">Tidak</option>
-                                              </select>
+                                            <input type="number" id="durasi" class="form-control" name="durasi" value="{{$old->durasi_m_interval}}">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-9 offset-sm-3">
                                 <button id="submitform" type="submit" class="btn btn-success me-1 waves-effect waves-float waves-light"><span>Submit</span></button>
-                                <a href="{{route('admin.m_harga.index')}}" class="btn btn-secondary waves-effect">Back</a>
+                                <a href="{{route('admin.m_interval.index')}}" class="btn btn-secondary waves-effect">Back</a>
                                 </div>
                             </div>
                         </form>
@@ -63,25 +48,8 @@
 @endsection
 
 @section('js')
-<script src="{{asset('assets/js/jquery.inputmask.min.js')}}"></script>
 <script>
     $(document).ready( function () {
-        $(".inputmask").inputmask({
-            prefix: "",
-            groupSeparator: ".",
-            radixPoint: ",",
-            alias: "currency",
-            placeholder: "0",
-            autoGroup: true,
-            digits: 0,
-            digitsOptional: false,
-            clearMaskOnLostFocus: false,
-            inputmode: "numeric",
-            onBeforeMask: function (value, opts) {
-                return value;
-            },
-        });
-
         $("#form").submit(function(){
             $(".text-danger").remove();
             event.preventDefault();
@@ -90,7 +58,7 @@
             $("#submitform span").text(loading_text);
 
             $.ajax({
-                url:"{{ route("admin.m_harga.update") }}",
+                url:"{{ route("admin.m_interval.update") }}",
                 method:"POST",
                 headers: { "X-CSRF-TOKEN": $("meta[name=csrf-token]").attr("content") },
                 data: data,
