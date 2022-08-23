@@ -41,8 +41,12 @@
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Upload Bukti:<font>.png, .jpg, .jpeg</font></label>
                                 <div class="custom-file">
-                                  <input type="file" class="custom-file-input" id="customFile">
-                                  <label class="custom-file-label" for="customFile">Pilih file</label>
+                                    <div class="holder" >
+                                        <img id="imgPreview" class="img-preview" src="#" alt="pic" width="100"/>
+                                    </div>
+                                    <input type="file" class="custom-file-input" id="customFile">
+                                    
+                                    <label class="custom-file-label" for="customFile">Pilih file</label>
                                 </div>
                             </div>
                             
@@ -79,10 +83,73 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-       
+        $('#customFile').change(function(){
+            const file = this.files[0];
+            console.log(file);
+            if (file){
+                let reader = new FileReader();
+                reader.onload = function(event){
+                    console.log(event.target.result);
+                    $('#imgPreview').attr('src', event.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
 
     });
 
+    function save()
+    {
+        Swal.fire({
+            title: 'Apakah yakin?',
+            text: 'ingin menyimpan data',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Ya",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.querySelector('form');
+                let formData = new FormData(form);
+
+                const token = "{{ csrf_token() }}";
+
+                $.ajax({
+                    url: "{{ route('booking.save-pembayaran') }}",
+                    type: "post",
+                    headers: {
+                        "X-CSRF-TOKEN": token
+                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: "JSON",
+                    success: function (response) {
+                        if (response.status) {
+                            Swal.fire ('Berhasil!', response.message, 'success')
+                            var url = '{{route("booking.payment-manual", "code=:id")}}';
+                            url = url.replace(':id', response.kode_verifikasi);
+                            // console.log(url);
+                            window.location.href = url;
+                            // tabelData.ajax.reload();
+                        }else{
+                            // console.log(response)
+                            var error = response.error
+                            $.each(error, function (key, val) {
+                                console.log(key)
+                                $("#" + key + "_error").text(val);
+                            });
+                        }
+
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    }
+                });
+            }
+        })
+    }
    
 
    

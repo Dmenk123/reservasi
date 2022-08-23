@@ -55,6 +55,8 @@ Route::group([
     Route::get('/konfirmasi-data-diri/', [BookingController::class, 'konfirmasiDataDiri'])->name('konfirmasi-data-diri');
 
     Route::post('/save-reservasi', [BookingController::class, 'saveReservasi'])->name('save-reservasi');
+    Route::post('/save-pembayaran', [BookingController::class, 'savePembayaran'])->name('save-pembayaran');
+    
 
 });
 

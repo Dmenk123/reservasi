@@ -127,6 +127,18 @@ a:hover {
     text-decoration: underline;
 }
 
+.holder {
+  height: 200px;
+  width: 200px;
+  border: 2px solid black;
+}
+.img-preview {
+  max-width: 200px;
+  max-height: 200px;
+  min-width: 200px;
+  min-height: 200px;
+}
+
 @-moz-keyframes throbber-loader {
     0% {
       background: #dde2e7;

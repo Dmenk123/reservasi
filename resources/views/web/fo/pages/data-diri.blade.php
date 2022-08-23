@@ -42,7 +42,7 @@
                                 <div class="cats-box-caption">
                                     <br>
                                     <h4 class="tulisan-custom" >Jadwal</h4>
-                                    <span class="text-muted blink">{!! 'Tanggal : <b>'. (\Carbon\Carbon::parse($date)->isoFormat('D MMMM Y') ?? '').'</b><br>Pukul : <b>'.\Carbon\Carbon::parse($time)->format('H:i').'<b> WIB</b>'  !!}</span>
+                                    <span class="text-muted blink">{!! 'Tanggal : <b>'. (\Carbon\Carbon::parse($date)->isoFormat('D MMMM Y') ?? '').'</b><br>Pukul : <b>'.\Carbon\Carbon::parse($time)->format('H:i').' WIB</b>'  !!}</span>
                                 </div>
                             </div>
                         </div>
