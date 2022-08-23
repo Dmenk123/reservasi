@@ -41,10 +41,10 @@
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Upload Bukti:<font>.png, .jpg, .jpeg</font></label>
                                 <div class="custom-file">
-                                    <div class="holder" >
+                                    <div class="holder" style="display: none">
                                         <img id="imgPreview" class="img-preview" src="#" alt="pic" width="100"/>
                                     </div>
-                                    <input type="file" class="custom-file-input" id="customFile">
+                                    <input type="file" class="custom-file-input" id="customFile" name="foto">
                                     
                                     <label class="custom-file-label" for="customFile">Pilih file</label>
                                 </div>
@@ -90,6 +90,7 @@
                 let reader = new FileReader();
                 reader.onload = function(event){
                     console.log(event.target.result);
+                    $('.holder').show();
                     $('#imgPreview').attr('src', event.target.result);
                 }
                 reader.readAsDataURL(file);

@@ -255,5 +255,10 @@ class BookingController extends Controller
         return $randomString;
     }
 
+    public function savePembayaran(Request $request)
+    {
+        dd('kesini');
+    }
+
 
 }
