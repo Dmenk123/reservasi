@@ -7,14 +7,14 @@ use PDF;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 
-use App\Models\T_jadwal_rutin;
 use App\Models\T_reservasi;
 use Illuminate\Http\Request;
+use App\Models\T_jadwal_rutin;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
 
-use Mail;
 use App\Mail\LinkUploadPembayaranMail;
+use Illuminate\Support\Facades\Validator;
 
 
 class MailController extends Controller
@@ -22,9 +22,9 @@ class MailController extends Controller
 
     public function send_email_link_upload($emailTujuan = 'rizkiyuandaa@gmail.com', $collection)
     {
-        \Mail::to($emailTujuan)->send(new LinkUploadPembayaranMail($collection));
+        Mail::to($emailTujuan)->send(new LinkUploadPembayaranMail($collection));
 
-        if (\Mail::failures()) {
+        if (Mail::failures()) {
            return false;
         }else{
            return true;

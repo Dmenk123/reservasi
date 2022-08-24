@@ -32,4 +32,9 @@ class T_jadwal_rutin extends Model
     {
         return $query->max($this->primaryKey)+1;
     }
+
+    public function m_interval()
+    {
+        return $this->belongsTo(M_interval::class, 'id_m_interval', 'id_m_interval');
+    }
 }
