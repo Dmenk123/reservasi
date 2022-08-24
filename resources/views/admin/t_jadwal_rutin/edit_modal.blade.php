@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="col-12">
+        {{-- <div class="col-12">
             <div class="mb-1 row">
                 <div class="col-sm-8">
                 <label class="col-form-label" for="id_m_entity">Menu</label>
@@ -44,7 +44,7 @@
                     </select>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="col-12">
             <div class="mb-1 row">
@@ -52,7 +52,7 @@
                     <label class="col-form-label" for="jam_mulai">Jam Mulai</label>
                 </div>
                 <div class="col-sm-12">
-                    <input type="text" id="jam_mulai" class="form-control timepicker" name="jam_mulai" value="">
+                    <input type="text" id="jam_mulai" class="form-control timepickers" name="jam_mulai" value="{{\Carbon\Carbon::parse($old->jam_mulai)->format('H:i')}}">
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
                     <label class="col-form-label" for="jam_akhir">Jam Mulai</label>
                 </div>
                 <div class="col-sm-12">
-                    <input type="text" id="jam_akhir" class="form-control timepicker" name="jam_akhir" value="">
+                    <input type="text" id="jam_akhir" class="form-control timepickers" name="jam_akhir" value="{{\Carbon\Carbon::parse($old->jam_mulai)->format('H:i')}}">
                 </div>
             </div>
         </div>
@@ -103,59 +103,67 @@
     //         toolbar: 'false',
     //     });
     $(document).ready( function () {
-        // $("#form").submit(function(){
-        //     $(".text-danger").remove();
-        //     event.preventDefault();
-        //     var data = new FormData($('#form')[0]);
-        //     $("#submitform").attr('disabled', true);
-        //     $("#submitform span").text(loading_text);
+        $(".timepickers").flatpickr(
+            {
+                enableTime: true,
+                time_24hr: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+            }
+        );
+        $("#form").submit(function(){
+            $(".text-danger").remove();
+            event.preventDefault();
+            var data = new FormData($('#form')[0]);
+            $("#submitform").attr('disabled', true);
+            $("#submitform span").text(loading_text);
 
-        //     $.ajax({
-        //         url:"{{ route("admin.t_content.update") }}",
-        //         method:"POST",
-        //         headers: { "X-CSRF-TOKEN": $("meta[name=csrf-token]").attr("content") },
-        //         data: data,
-        //         processData: false,
-        //         contentType: false,
-        //         success:function(data)
-        //         {
-        //             if($.isEmptyObject(data.error)){
+            $.ajax({
+                url:"{{ route("admin.t_jadwal_rutin.update") }}",
+                method:"POST",
+                headers: { "X-CSRF-TOKEN": $("meta[name=csrf-token]").attr("content") },
+                data: data,
+                processData: false,
+                contentType: false,
+                success:function(data)
+                {
+                    if($.isEmptyObject(data.error)){
 
-        //                 if(data.status == true){
-        //                     $("#submitform").removeAttr('disabled');
-        //                     $("#submitform span").text('Submit');
-        //                     $("form").each(function() {
-        //                         // this.reset()
-        //                         });
-        //                     swal.fire({
-        //                         title: "Success",
-        //                         text: data.message,
-        //                         icon: "success"
-        //                     }).then(function() {
-        //                         location.href = data.redirect;
-        //                     });
-        //                 }else{
-        //                     displayErrorSwal(data.message);
-        //                 }
+                        if(data.status == true){
+                            $("#submitform").removeAttr('disabled');
+                            $("#submitform span").text('Submit');
+                            $("form").each(function() {
+                                // this.reset()
+                                });
+                            swal.fire({
+                                title: "Success",
+                                text: data.message,
+                                icon: "success"
+                            }).then(function() {
+                                location.href = data.redirect;
+                            });
+                        }else{
+                            displayErrorSwal(data.message);
+                        }
 
-        //             }else{
-        //                 displayWarningSwal();
-        //                 $("#submitform").removeAttr('disabled');
-        //                 $("#submitform span").text('Submit');
-        //                 $.each(data.error, function(key, value) {
-        //                     var element = $("#" + key);
-        //                     element.closest("div.form-control")
-        //                     .removeClass("text-danger")
-        //                     .addClass(value.length > 0 ? "text-danger" : "")
-        //                     .find("#error_" + key).remove();
-        //                     element.after("<div id=error_"+ key + " class=text-danger>" + value + "</div>");
-        //                 });
-        //             }
-        //         },
-        //         error: function(data){
-        //             displayErrorSwal(data.message);
-        //         }
-        //     });
-        // });
+                    }else{
+                        displayWarningSwal();
+                        $("#submitform").removeAttr('disabled');
+                        $("#submitform span").text('Submit');
+                        $.each(data.error, function(key, value) {
+                            var element = $("#" + key);
+                            element.closest("div.form-control")
+                            .removeClass("text-danger")
+                            .addClass(value.length > 0 ? "text-danger" : "")
+                            .find("#error_" + key).remove();
+                            element.after("<div id=error_"+ key + " class=text-danger>" + value + "</div>");
+                        });
+                    }
+                },
+                error: function(data){
+                    displayErrorSwal(data.message);
+                }
+            });
+        });
     });
 </script>

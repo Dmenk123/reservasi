@@ -89,14 +89,14 @@ const generateDataTabel = (month = null, year = null, proses = null, metode_baya
 //EDIT IN MODAL [BEGIN]
 $('#datatable').on('click', '.edit', function(){
     $('#modal_edit').modal('show');
-    var id_t_jadwal = $(this).data("id_t_jadwal");
+    var id_t_jadwal_rutin = $(this).data("id_t_jadwal_rutin");
     // console.log(id_t_content);
     $('#modal_edit .modal-body').html('');
     $.ajax({
         url:"{{ route('admin.t_jadwal_rutin.edit_modal') }}",
         method:"post",
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        data:{id_t_reservasi:id_t_reservasi},
+        data:{id_t_jadwal_rutin:id_t_jadwal_rutin},
         success:function(data)
         {
             $('#modal_edit .modal-body').html(data);
