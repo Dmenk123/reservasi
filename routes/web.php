@@ -5,10 +5,12 @@ use App\Http\Controllers\Admin\Main;
 use App\Http\Controllers\My_library;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\EmailController;
 
 // use App\Models\M_module;
 
 $prefix_fo = request()->segment(1);
+Route::get('kirim-email', [EmailController::class, 'index'])->name('kirim-email');
 
 ######### FO ##########
 Route::group([

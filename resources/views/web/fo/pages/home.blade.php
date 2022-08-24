@@ -5,7 +5,7 @@
 			<!-- ============================================================== -->
 @section('content')
 			<!-- ======================= Home Banner ======================== -->
-			<div class="home-banner margin-bottom-0" style="background:#00ab46 url(https://via.placeholder.com/1920x900) no-repeat;" data-overlay="5">
+			<div class="home-banner margin-bottom-0" style="background: url({{ asset('assets/fo/img/Gheader.jpg') }}) no-repeat;" data-overlay="5">
 				<div class="container">
 					<div class="row justify-content-center">
 						<div class="col-xl-11 col-lg-12 col-md-12 col-sm-12 col-12">
