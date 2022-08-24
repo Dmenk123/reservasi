@@ -26,6 +26,7 @@
                         <form class="_apply_form_form">
                         
                             <div class="form-group">
+                                <input type="hidden" name="kode_verifikasi" value="{{ $kode_verifikasi ?? ''}}">
                                 <label class="text-dark mb-1 ft-medium medium">Nama Rekening Bank</label>
                                 <input type="text" class="form-control" placeholder="Nama Bank Rekening" name="bank">
                                 <span id="bank_error" class="text-error"></span>
@@ -34,12 +35,13 @@
                             
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Nominal Transfer:</label>
-                                <input type="number" class="form-control" placeholder="x.xxx.xxx" name="telp">
-                                <span id="telp_error" class="text-error"></span>
+                                <input type="number" class="form-control" placeholder="x.xxx.xxx" name="nominal">
+                                <span id="nominal_error" class="text-error"></span>
                             </div>
                             
                             <div class="form-group">
                                 <label class="text-dark mb-1 ft-medium medium">Upload Bukti:<font>.png, .jpg, .jpeg</font></label>
+                                
                                 <div class="custom-file">
                                     <div class="holder" style="display: none">
                                         <img id="imgPreview" class="img-preview" src="#" alt="pic" width="100"/>
@@ -47,6 +49,7 @@
                                     <input type="file" class="custom-file-input" id="customFile" name="foto">
                                     
                                     <label class="custom-file-label" for="customFile">Pilih file</label>
+                                    <span id="foto_error" class="text-error"></span>
                                 </div>
                             </div>
                             
@@ -123,6 +126,7 @@
                         "X-CSRF-TOKEN": token
                     },
                     data: formData,
+                    contentType: 'multipart/form-data',
                     processData: false,
                     contentType: false,
                     dataType: "JSON",
@@ -132,7 +136,7 @@
                             var url = '{{route("booking.payment-manual", "code=:id")}}';
                             url = url.replace(':id', response.kode_verifikasi);
                             // console.log(url);
-                            window.location.href = url;
+                            // window.location.href = url;
                             // tabelData.ajax.reload();
                         }else{
                             // console.log(response)

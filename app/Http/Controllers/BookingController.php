@@ -6,11 +6,14 @@ use DB;
 use PDF;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\M_app;
 use App\Models\M_menu;
 use App\Models\T_jadwal_rutin;
 use App\Models\T_reservasi;
+use App\Models\T_reservasi_det;
 use App\Models\T_mcus;
 use App\Models\M_branch;
 use App\Models\M_entity;
@@ -241,7 +244,10 @@ class BookingController extends Controller
 
     public function formUploadPembayaran(Request $request)
     {
-        return view('web.fo.pages.upload-pembayaran');
+        $data = [
+            'kode_verifikasi' => $request->code
+        ];
+        return view('web.fo.pages.upload-pembayaran')->with($data);
     }
 
     private function generateRandomString($length = 10)
@@ -257,7 +263,127 @@ class BookingController extends Controller
 
     public function savePembayaran(Request $request)
     {
-        dd('kesini');
+        $messages = [
+            'bank.required' => 'Mohon isikan nama bank anda',
+            'nominal.required' => 'Mohon isikan jumlah nominal transfer',
+            'foto.required' => 'Mohon upload bukti pembayaran',
+        ];
+
+        $validator = Validator::make($request->all(), [
+            'bank' => ['required'],
+            // 'id_m_user_group' => ['required'],
+            'nominal' => ['required'],
+            'foto' => ['required'],
+
+        ], $messages);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return response()->json([
+                'error' => [
+                    'bank' => $errors->first('bank'),
+                    'nominal' => $errors->first('nominal'),
+                    'foto' => $errors->first('foto')
+                ]
+            ]);
+        }
+
+        
+       
+
+        DB::beginTransaction();
+        $object = T_reservasi::where('kode_t_reservasi', $request->kode_verifikasi)->first();
+        $object->bank = $request->bank;
+        $object->nominal_transfer = $request->nominal;
+        $object->id_m_proses = 3;
+        $object->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+
+        $image = $request->file('foto');
+        if ($image) {
+            $name = 'bukti_'.$request->kode_verifikasi;
+            $fileName = $name . '.' . $image->getClientOriginalExtension();
+ 
+            $folder = T_reservasi::UPLOAD_DIR;
+ 
+            $filePath = $image->storeAs($folder . '/original', $fileName, 'public');
+            $resizedImage = $this->_resizeImage($image, $fileName, $folder);
+ 
+            // $params['original'] = $filePath;
+            // $params['medium'] = $resizedImage['medium'];
+            // $params['small'] = $resizedImage['small'];
+ 
+            // unset($params['image']);
+        }
+
+        $det = new T_reservasi_det;
+        $det->kode_t_reservasi =  $request->kode_verifikasi;
+        $det->oiginal = $filePath;
+        $det->medium = $resizedImage['medium'];
+        $det->small = $resizedImage['small'];
+
+
+        try{
+            $object->save();
+            $det->save();
+          
+
+            DB::commit();
+            return response()->json([
+                'status' => true,
+                'message' => 'Data Tersimpan !',
+                'kode_verifikasi' => $request->kode_verifikasi
+            ]);
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status'  => false,
+                'kode_verifikasi' => null
+            ]);
+        }
+    }
+
+    private function _resizeImage($image, $fileName, $folder)
+    {
+        $resizedImage = [];
+ 
+        $smallImageFilePath = $folder . '/small/' . $fileName;
+        $size = explode('x', T_reservasi::SMALL);
+        list($width, $height) = $size;
+ 
+        $smallImageFile = Image::make($image)->fit($width, $height)->stream();
+        if (Storage::put('public/' . $smallImageFilePath, $smallImageFile)) {
+            $resizedImage['small'] = $smallImageFilePath;
+        }
+        
+        $mediumImageFilePath = $folder . '/medium/' . $fileName;
+        $size = explode('x', T_reservasi::MEDIUM);
+        list($width, $height) = $size;
+ 
+        $mediumImageFile = Image::make($image)->fit($width, $height)->stream();
+        if (Storage::put('public/' . $mediumImageFilePath, $mediumImageFile)) {
+            $resizedImage['medium'] = $mediumImageFilePath;
+        }
+ 
+        // $largeImageFilePath = $folder . '/large/' . $fileName;
+        // $size = explode('x', Shop::LARGE);
+        // list($width, $height) = $size;
+ 
+        // $largeImageFile = Image::make($image)->fit($width, $height)->stream();
+        // if (Storage::put('public/' . $largeImageFilePath, $largeImageFile)) {
+        // 	$resizedImage['large'] = $largeImageFilePath;
+        // }
+ 
+        // $extraLargeImageFilePath  = $folder . '/xlarge/' . $fileName;
+        // $size = explode('x', Shop::EXTRA_LARGE);
+        // list($width, $height) = $size;
+ 
+        // $extraLargeImageFile = Image::make($image)->fit($width, $height)->stream();
+        // if (Storage::put('public/' . $extraLargeImageFilePath, $extraLargeImageFile)) {
+        // 	$resizedImage['extra_large'] = $extraLargeImageFilePath;
+        // }
+ 
+        return $resizedImage;
     }
 
 
