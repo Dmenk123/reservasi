@@ -17,6 +17,7 @@ class CreateTJadwalRutinTable extends Migration
             $table->integer('id_t_jadwal_rutin');
             $table->primary('id_t_jadwal_rutin');
             $table->integer('id_m_interval');
+            $table->integer('urut_t_jadwal_rutin');
             $table->time("jam_mulai");
             $table->time("jam_akhir");
             $table->string('hari',100);

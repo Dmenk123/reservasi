@@ -58,8 +58,8 @@ Route::group([
 
     Route::post('/save-reservasi', [BookingController::class, 'saveReservasi'])->name('save-reservasi');
     Route::post('/save-pembayaran', [BookingController::class, 'savePembayaran'])->name('save-pembayaran');
-    
 
+    Route::get('/coba', [BookingController::class, 'jajalEmail'])->name('coba');
 });
 
 ######### END FO ##########
@@ -222,13 +222,13 @@ Route::group([
         'prefix' => 't_jadwal_rutin',
         'as' => 't_jadwal_rutin.',
     ], function () {
-        Route::get('/', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'index'])->name('index');
-        Route::get('/add', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'add'])->name('add');
-        Route::post('/save', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'save'])->name('save');
-        Route::get('/edit', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'edit'])->name('edit');
-        Route::post('/update', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'update'])->name('update');
-        Route::post('/delete', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'delete'])->name('delete');
-        Route::post('/datatable', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'datatable'])->name('datatable');
+        Route::get('/', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'index'])->name('index');
+        Route::get('/add', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'add'])->name('add');
+        Route::post('/save', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'save'])->name('save');
+        Route::post('/edit_modal', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'edit_modal'])->name('edit_modal');
+        Route::post('/update', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'update'])->name('update');
+        Route::post('/delete', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'delete'])->name('delete');
+        Route::post('/datatable', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'datatable'])->name('datatable');
         // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
         // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });

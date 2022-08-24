@@ -216,15 +216,15 @@ class BookingController extends Controller
         $object->jam_t_reservasi = $request->time;
         $object->jenis_t_reservasi = ($request->type == 'lunas') ? 'cash' : 'angsuran';
         $object->metode_pembayaran_t_reservasi = ($request->type == 'lunas') ? 'upload' : 'gateway';
-        $kode_verifikasi = $this->generateRandomString(10);
+        $kode_verifikasi = $this->random();
         $object->kode_t_reservasi = $kode_verifikasi;
         $object->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
         try{
             $object->save();
-            $email = new MailController;
-            ### send email
-            $send_email = $email->send_email_link_upload(trim($request->email), $object);
+            // $email = new MailController;
+            // ### send email
+            // $send_email = $email->send_email_link_upload(trim($request->email), $object);
 
             DB::commit();
             return response()->json([
@@ -250,15 +250,12 @@ class BookingController extends Controller
         return view('web.fo.pages.upload-pembayaran')->with($data);
     }
 
-    private function generateRandomString($length = 10)
+    public function random()
     {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $randomString = '';
-        for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $randomString;
+        $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $rand =  substr(str_shuffle(str_repeat($pool, 5)), 0, 16);
+
+        return $rand;
     }
 
     public function savePembayaran(Request $request)
@@ -384,6 +381,22 @@ class BookingController extends Controller
         // }
  
         return $resizedImage;
+    }
+
+
+    ### coba
+    public function jajalEmail()
+    {
+        $mailto = 'slebzt@gmail.com';
+        $email = new MailController;
+        $object = T_reservasi::first();
+        ### send email
+        try {
+            $send_email = $email->send_email_link_upload(trim($mailto), $object);
+            echo 'sukses';
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
 
