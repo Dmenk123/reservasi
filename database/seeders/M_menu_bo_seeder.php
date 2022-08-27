@@ -98,6 +98,15 @@ class M_menu_bo_seeder extends Seeder
                 'id_parent' => 1,
                 'order_m_menu_bo' => 1,
             ],
+            [
+                'id_m_menu_bo' => 10,
+                'nm_menu_bo' => 'Pembayaran',
+                'aktif' => '1',
+                'icon' => 'circle',
+                'route' => 'admin.t_pembayaran.index',
+                'id_parent' => 1,
+                'order_m_menu_bo' => 3,
+            ],
         ]);
     }
 }

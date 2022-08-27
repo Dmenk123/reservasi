@@ -1,89 +1,75 @@
+{{-- tinyMCE include --}}
+<script src="{{asset('assets/js/tinymce')}}/tinymce.min.js"></script>
+
 <form method="post" id="form">
 
     <div class="row">
 
-        <input type="hidden" id="id_t_jadwal_rutin" value="{{$old->id_t_jadwal_rutin}}" class="form-control" name="id_t_jadwal_rutin">
+        {{-- <input type="hidden" id="id_m_message" value="{{$old->id_m_message}}" class="form-control" name="id_m_message"> --}}
 
-        {{-- <div class="col-12">
+        <div class="col-12">
             <div class="mb-1 row">
                 <div class="col-sm-8">
-                    <label class="col-form-label" for="nm_m_message">Title</label>
+                <label class="col-form-label" for="id_m_app">Application Name</label>
                 </div>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="title_t_content" id="title_t_content" value="{{$old->title_t_content ?? ''}}">
+                    <select class="select2 form-select" id="id_m_app" name="id_m_app">
+                        <option value="">Please choose one</option>
+                        @foreach($app_data as $k => $v)
+                            <option value="{{$v->id_m_app}}">{{$v->nm_m_app}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
         {{-- <div class="col-12">
             <div class="mb-1 row">
                 <div class="col-sm-8">
-                <label class="col-form-label" for="id_m_app">Hari</label>
+                <label class="col-form-label" for="id_m_entity">User Group</label>
                 </div>
                 <div class="col-sm-12">
-                    <select class="select2 form-select" id="hari" name="hari">
+                    <select class="select2 form-select" id="id_m_user_group" name="id_m_user_group">
                         <option value="">Please choose one</option>
-                        @foreach($arr_hari as $k => $v)
-                            <option value="{{$v}}" @if($v == $old->hari) selected @endif>{{$v}}</option>
-                        @endforeach
                     </select>
                 </div>
             </div>
         </div> --}}
 
-        {{-- <div class="col-12">
+        <div class="col-12">
             <div class="mb-1 row">
                 <div class="col-sm-8">
                 <label class="col-form-label" for="id_m_entity">Menu</label>
                 </div>
                 <div class="col-sm-12">
                     <select class="select2 form-select" id="id_m_menu" name="id_m_menu">
-                        @foreach($menu_data as $k => $v)
-                            <option value="{{$v->id_m_menu}}" @if($v->id_m_menu == $old->id_m_menu) selected @endif>{{$v->nm_menu}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div> --}}
-
-        <div class="col-12">
-            <div class="mb-1 row">
-                <div class="col-sm-8">
-                    <label class="col-form-label" for="jam_mulai">Jam Mulai</label>
-                </div>
-                <div class="col-sm-12">
-                    <input type="text" id="jam_mulai" class="form-control timepickers" name="jam_mulai" value="{{\Carbon\Carbon::parse($old->jam_mulai)->format('H:i')}}">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12">
-            <div class="mb-1 row">
-                <div class="col-sm-8">
-                    <label class="col-form-label" for="jam_akhir">Jam Mulai</label>
-                </div>
-                <div class="col-sm-12">
-                    <input type="text" id="jam_akhir" class="form-control timepickers" name="jam_akhir" value="{{\Carbon\Carbon::parse($old->jam_mulai)->format('H:i')}}">
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-12">
-            <div class="mb-1 row">
-                <div class="col-sm-8">
-                <label class="col-form-label" for="id_m_entity">Interval</label>
-                </div>
-                <div class="col-sm-12">
-                    <select class="select2 form-select" id="id_m_interval" name="id_m_interval">
-                        @foreach($interval as $k => $v)
-                            <option value="{{$v->id_m_interval}}" @if($v->id_m_interval == $old->id_m_interval) selected @endif>{{$v->durasi_m_interval}}</option>
-                        @endforeach
+                        <option value="">Please choose one</option>
                     </select>
                 </div>
             </div>
         </div>
 
+        <div class="col-12">
+            <div class="mb-1 row">
+                <div class="col-sm-8">
+                    <label class="col-form-label" for="nm_m_message">Title</label>
+                </div>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" name="title_t_content" id="title_t_content" value="">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="mb-1 row">
+                <div class="col-sm-8">
+                    <label class="col-form-label" for="nm_m_message">Sub Title</label>
+                </div>
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" name="subtitle_t_content" id="subtitle_t_content" value="">
+                </div>
+            </div>
+        </div>
 
         <div class="col-sm-9">
             <a href="#" class="btn btn-secondary waves-effect close_modal">Back</a>
@@ -103,14 +89,6 @@
     //         toolbar: 'false',
     //     });
     $(document).ready( function () {
-        $(".timepickers").flatpickr(
-            {
-                enableTime: true,
-                time_24hr: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-            }
-        );
         $("#form").submit(function(){
             $(".text-danger").remove();
             event.preventDefault();
@@ -119,7 +97,7 @@
             $("#submitform span").text(loading_text);
 
             $.ajax({
-                url:"{{ route("admin.t_jadwal_rutin.update") }}",
+                url:"{{ route("admin.t_content.save") }}",
                 method:"POST",
                 headers: { "X-CSRF-TOKEN": $("meta[name=csrf-token]").attr("content") },
                 data: data,
@@ -166,4 +144,31 @@
             });
         });
     });
+
+    $('#id_m_app').change(function() {
+        let id_m_app = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "{{route('admin.t_content.load_menu')}}",
+            data: {id_m_app: id_m_app},
+            headers: { "X-CSRF-TOKEN": $("meta[name=csrf-token]").attr("content") }
+        }).done(function (res) {
+            // generateDataTabel(id_m_branch);
+            $('#id_m_menu').html(res);
+        });
+    });
+
+    // $('#id_m_user_group').change(function() {
+    //     let id_m_app = $('#id_m_app').val();
+    //     let id_m_user_group = $(this).val();
+    //     $.ajax({
+    //         type: "POST",
+    //         url: "{{route('admin.t_content.load_menu')}}",
+    //         data: {id_m_user_group: id_m_user_group, id_m_app:id_m_app},
+    //         headers: { "X-CSRF-TOKEN": $("meta[name=csrf-token]").attr("content") }
+    //     }).done(function (res) {
+    //         // generateDataTabel(id_m_branch);
+    //         $('#id_m_menu').html(res);
+    //     });
+    // });
 </script>

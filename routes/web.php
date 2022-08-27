@@ -232,6 +232,24 @@ Route::group([
         // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
         // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });
+
+    /**
+     * Transaksi Reservasi
+     */
+    Route::group([
+        'prefix' => 't_pembayaran',
+        'as' => 't_pembayaran.',
+    ], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'index'])->name('index');
+        Route::post('/detail_modal', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'detail_modal'])->name('detail_modal');
+        Route::post('/verifikasi_modal', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'verifikasi_modal'])->name('verifikasi_modal');
+        Route::post('/datatable', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'datatable'])->name('datatable');
+        Route::post('/verifikasi', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'verifikasi'])->name('verifikasi');
+
+        Route::get('/add', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'add'])->name('add');
+        Route::post('/update', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'update'])->name('update');
+        Route::post('/delete', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'delete'])->name('delete');
+    });
 });
 
 Route::post('load_state_indonesia', [My_library::class, 'load_state_indonesia'])->name('load_state_indonesia');
