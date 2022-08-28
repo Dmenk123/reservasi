@@ -71,7 +71,7 @@ class BookingController extends Controller
                 $calendar[] = array(
                     'id' 	=> 52,
                     'title' => $val->format("d"),
-                    'type' => $type,
+                    'tipe' => $type,
                     'start' => $val->format('Y-m-d'),
                     'color' => '#18ab18',
                 );
@@ -139,7 +139,7 @@ class BookingController extends Controller
             $time_url = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i:s');
             $date = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('Y-m-d');
 
-            $url = route('booking.konfirmasi-data-diri') .'?type=lunas&date='.$date.'&time='.$time_url;
+            $url = route('booking.konfirmasi-data-diri') .'?type='.$request->tipe.'&date='.$date.'&time='.$time_url;
             $res .= '<a href="'.$url.'" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
         }
 
@@ -290,8 +290,8 @@ class BookingController extends Controller
 
         DB::beginTransaction();
         $object = T_reservasi::where('kode_t_reservasi', $request->kode_verifikasi)->first();
-        $object->bank = $request->bank;
-        $object->nominal_transfer = $request->nominal;
+        dd($object);
+
         $object->id_m_proses = 3;
         $object->updated_at = Carbon::now()->format('Y-m-d H:i:s');
 
@@ -317,6 +317,9 @@ class BookingController extends Controller
         $det->oiginal = $filePath;
         $det->medium = $resizedImage['medium'];
         $det->small = $resizedImage['small'];
+        $det->bank = $request->bank;
+        $det->nominal_transfer = $request->nominal;
+        $det->updated_at = Carbon::now()->format('Y-m-d H:i:s');
 
 
         try{

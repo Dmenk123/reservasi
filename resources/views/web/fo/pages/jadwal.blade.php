@@ -85,6 +85,7 @@
 
     function deteil(event)
     {
+        console.log(event.tipe);
         $.ajax({
             url: "{{ route('booking.get-jam')  }}",
             method: 'post',
@@ -94,7 +95,7 @@
             data: {
             'id': +event.id,
             'tanggal': +event.start,
-            'type': +event.type
+            'tipe': event.tipe
             },
             async: false,
             beforeSend: function() {
