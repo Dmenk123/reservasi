@@ -302,8 +302,7 @@ class BookingController extends Controller
 
         DB::beginTransaction();
         $object = T_reservasi::where('kode_t_reservasi', $request->kode_verifikasi)->first();
-        $object->bank = $request->bank;
-        $object->nominal_transfer = $request->nominal;
+
         $object->id_m_proses = 3;
         $object->updated_at = Carbon::now()->format('Y-m-d H:i:s');
 
@@ -331,7 +330,7 @@ class BookingController extends Controller
         $det->small = $resizedImage['small'];
         $det->bank = $request->bank;
         $det->nominal_transfer = $request->nominal;
-        $det->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+        $det->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
 
         try{
