@@ -34,12 +34,12 @@
                 <div class="card card-transaction">
                     <div class="card-body">
                         <h5 class="pt-1">Bukti Pembayaran</h5>
-                        @if ($old && $old->t_file_upload)
-                            @if (in_array($old->t_file_upload->mimetype, ['jpg', 'jpeg', 'png', 'svg']))
-                                <img src="{{asset('storage/'.$old->t_file_upload->path_t_file_upload)}}" height="400" width="100%" alt="Bukti Pembayaran" />
-                            @elseif (in_array($old->t_file_upload->mimetype, ['pdf']))
-                                <embed type="application/pdf" src="{{asset('storage/'.$old->t_file_upload->path_t_file_upload)}}" width="100%" height="400"></embed>
-                            @endif
+                        @if ($old && $old->t_reservasi_det)
+                            {{-- @if (in_array($old->t_file_upload->mimetype, ['jpg', 'jpeg', 'png', 'svg'])) --}}
+                                <img src="{{asset('storage/'.$old->t_reservasi_det[0]->medium)}}" height="400" width="100%" alt="Bukti Pembayaran" />
+                            {{-- @elseif (in_array($old->t_file_upload->mimetype, ['pdf']))
+                                <embed type="application/pdf" src="{{asset('storage/'.$old->t_reservasi_det[0]->medium)}}" width="100%" height="400"></embed>
+                            @endif --}}
 
                             <div class="d-flex justify-content-between mt-2" style="justify-content: end !important;">
                                 {{-- <button class="btn btn-outline-secondary btn-prev hidden" disabled>

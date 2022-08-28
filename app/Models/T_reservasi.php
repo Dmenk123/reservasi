@@ -49,4 +49,10 @@ class T_reservasi extends Model
         return $this->hasOne(\App\Models\T_file_upload::class, 'id_t_reservasi', 'id_t_reservasi');
     }
 
+    public function t_reservasi_det()
+    {
+        return $this->hasMany(\App\Models\T_reservasi_det::class, 'kode_t_reservasi', 'kode_t_reservasi');
+    }
+
+
 }

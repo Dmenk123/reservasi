@@ -124,7 +124,9 @@ class T_reservasi_controller extends Controller
 
     public function verifikasi_modal(Request $request)
     {
-        $query = T_reservasi::with(['t_file_upload'])->firstOrFail();
+        $query = T_reservasi::with(['t_file_upload', 't_reservasi_det'])->where('id_t_reservasi', $request->id_t_reservasi)->first();
+        // $det = DB::table('t_reservasi_det')->where('kode_t_reservasi', $query->kode_t_reservasi)->first();
+        // dd($det);
         $data = [
             'head_title' => 'Reservasi',
             'page_title' => 'Reservasi',

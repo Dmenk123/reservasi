@@ -324,12 +324,13 @@ class BookingController extends Controller
         }
 
         $det = new T_reservasi_det;
+        $det->id_t_reservasi_det = T_reservasi_det::MaxId();
         $det->kode_t_reservasi =  $request->kode_verifikasi;
-        $det->oiginal = $filePath;
+        $det->original = $filePath;
         $det->medium = $resizedImage['medium'];
         $det->small = $resizedImage['small'];
         $det->bank = $request->bank;
-        $det->nominal_transfer = $request->nominal;
+        $det->nominal = $request->nominal;
         $det->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
 
