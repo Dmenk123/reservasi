@@ -13,6 +13,7 @@ class CreateTReservasiDetTable extends Migration
      */
     public function up()
     {
+        ###asasa
         Schema::create('t_reservasi_det', function (Blueprint $table) {
             $table->integer('id_t_reservasi_det');
             $table->primary('id_t_reservasi_det');
