@@ -14,6 +14,7 @@ class M_proses extends Model
     protected $primaryKey = "id_m_proses";
     protected $dates = ['deleted_at'];
 
+    const ID_M_PROSES_PENGISIAN_DATA_DIRI = 1;
     const ID_M_PROSES_KONFIRMASI_PEMBAYARAN = 4;
     const ID_M_PROSES_TRANSAKSI_SELESAI = 5;
 

@@ -18,6 +18,8 @@ class CreateMHarga extends Migration
             $table->primary('id_m_harga');
             $table->decimal('nominal_m_harga', 20, 0);
             $table->string('status_m_harga', 1)->nullable();
+            $table->integer('jangka_cicilan')->default(0);
+            $table->decimal('nominal_cicilan', 20, 0)->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();

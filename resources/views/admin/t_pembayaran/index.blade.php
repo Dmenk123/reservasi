@@ -160,11 +160,11 @@ const generateDataTabel = (month = null, year = null) => {
 //EDIT IN MODAL [BEGIN]
 $('#datatable').on('click', '.detail', function(){
     $('#modal_preview').modal('show');
-    var id_t_reservasi = $(this).data("id_t_reservasi");
+    var id_t_pembayaran = $(this).data("id_t_pembayaran");
     // console.log(id_t_content);
     $('#modal_preview .modal-body').html('');
     $.ajax({
-        url:"{{ route('admin.t_reservasi.detail_modal') }}",
+        url:"{{ route('admin.t_pembayaran.detail_modal') }}",
         method:"post",
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         data:{id_t_reservasi:id_t_reservasi},

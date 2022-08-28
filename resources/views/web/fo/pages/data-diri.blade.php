@@ -106,7 +106,7 @@
                             </div>
 
                             <div class="form-group row" style="justify-content: center">
-                                <button type="button" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm" onclick="save()">Konfirmasi</button>
+                                <button type="button" id="btnSave" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm" onclick="save()">Konfirmasi</button>
                             </div>
 
                         </form>
@@ -142,6 +142,8 @@
             if (result.isConfirmed) {
                 const form = document.querySelector('form');
                 let formData = new FormData(form);
+                $('#btnSave').attr('disabled', true);
+                $('#btnSave').text('Loading...');
 
                 const token = "{{ csrf_token() }}";
 
@@ -156,6 +158,8 @@
                     contentType: false,
                     dataType: "JSON",
                     success: function (response) {
+                        $('#btnSave').attr('disabled', false);
+                        $('#btnSave').text('Konfirmasi');
                         if (response.status) {
                             Swal.fire ('Berhasil!', response.message, 'success')
                             var url = '{{route("booking.payment-manual", "code=:id")}}';

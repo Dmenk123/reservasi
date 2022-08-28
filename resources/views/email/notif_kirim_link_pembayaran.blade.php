@@ -92,17 +92,24 @@
                         <p class="sm-leading-32" style="font-weight: 600; font-size: 20px; margin: 0 0 16px; --text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">
                           Terima kasih telah melakukan Reservasi ! 👋
                         </p>
+                        @php
+                            $harga = \App\Models\M_harga::where('status_m_harga', '1')->first();
+                            if($detail->jenis_t_reservasi == 'cash') {
+                                $nominal = $harga->nominal_m_harga;
+                            }else{
+                                $nominal = $harga->nominal_cicilan;
+                            }
+                        @endphp
                         <p style="margin: 0 0 24px;">
-                          Dimohon untuk melakukan pembayaran Sebesar Rp. 1000.000 (Satu Juta Rupiah) dan melakukan upload bukti Transfer anda pada Formulir yang telah kami sediakan.
+                          Dimohon untuk melakukan pembayaran Sebesar {{rupiah($nominal)}} ({{terbilang($nominal)}} Rupiah) dan melakukan upload bukti Transfer anda pada Formulir yang telah kami sediakan.
                         </p>
                         <p style="margin: 0 0 24px;">
-                          Silahkan klik link didbawah ini, atau dapat juga klik tombol Upload Bukti Pembayaran dibawah ini
+                            Silahkan klik tombol Upload Bukti Pembayaran dibawah ini
                         </p>
-                        <a href="{{route("booking.payment-manual", "code=$detail->kode_t_reservasi")}}" style="display: block; font-size: 14px; line-height: 100%; margin-bottom: 24px; --text-opacity: 1; color: #7367f0; color: rgba(115, 103, 240, var(--text-opacity)); text-decoration: none;">{{route("booking.payment-manual", "code=$detail->kode_t_reservasi")}}/a>
                         <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
                           <tr>
                             <td style="mso-padding-alt: 16px 24px; --bg-opacity: 1; background-color: #7367f0; background-color: rgba(115, 103, 240, var(--bg-opacity)); border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif;" bgcolor="rgba(115, 103, 240, var(--bg-opacity))">
-                              <a href="{{route("booking.payment-manual", "code=$detail->kode_t_reservasi")}}verification_url" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; color: rgba(255, 255, 255, var(--text-opacity)); text-decoration: none;">Upload Bukti Pembayaran &rarr;</a>
+                              <a href="{{route("booking.payment-manual", "code=$detail->kode_t_reservasi")}}" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; color: rgba(255, 255, 255, var(--text-opacity)); text-decoration: none;">Upload Bukti Pembayaran &rarr;</a>
                             </td>
                           </tr>
                         </table>
@@ -117,7 +124,7 @@
                           Setelah melakukan upload bukti pembayaran, kami akan melakukan verifikasi dan menghubungi anda melalui Whatsapp ke nomor Anda.
                         </p>
                         <br><br>
-                        <p style="margin: 0 0 16px;">Terima Kasih, <br>Cipto Djunaedy</p>
+                        <p style="margin: 0 0 16px;">Terima Kasih, <br>Identity by Cipto Djunaedy</p>
                       </td>
                     </tr>
                     <tr>
