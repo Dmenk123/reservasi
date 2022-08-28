@@ -7,7 +7,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Models\M_app;
 use App\Models\M_menu;
-use App\Models\T_mcus;
+use App\Models\M_harga;
 use App\Models\M_branch;
 use App\Models\M_entity;
 use App\Models\T_qrcode;
@@ -30,14 +30,9 @@ class Home extends Controller
     public function index()
     {
         // $app = M_app::where(['id_m_app' => request()->get('id_app')])->IsActive()->firstOrFail();
-        // $data = [
-        //     'id_m_app' => request()->get('id_app'),
-        //     'id_m_user_group' => request()->get('id_user_group'),
-        //     'token' => request()->get('token'),
-        //     'app' => $app
-        // ];
-
-        $data = [];
+        $data = [
+            'harga' => M_harga::where('status_m_harga', '1')->first()
+        ];
 
 
         return view('web.fo.pages.home')->with($data);

@@ -29,7 +29,7 @@ class LinkUploadPembayaranMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Cipto Djunaedy')
+        return $this->subject('Identity by Cipto Djunaedy')
                     ->view('email.notif_kirim_link_pembayaran', ['detail' => $this->details]);
     }
 }

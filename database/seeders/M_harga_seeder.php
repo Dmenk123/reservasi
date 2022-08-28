@@ -21,11 +21,15 @@ class M_harga_seeder extends Seeder
                 'id_m_harga' => 1,
                 'nominal_m_harga' => 500000,
                 'status_m_harga' => null,
+                'jangka_cicilan' => null,
+                'nominal_cicilan' => null,
             ],
             [
                 'id_m_harga' => 2,
-                'nominal_m_harga' => 2000000,
+                'nominal_m_harga' => 30000000,
                 'status_m_harga' => '1',
+                'jangka_cicilan' => '6',
+                'nominal_cicilan' => 5000000,
             ]
         ]);
     }
