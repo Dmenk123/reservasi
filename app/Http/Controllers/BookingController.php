@@ -256,10 +256,18 @@ class BookingController extends Controller
 
     public function formUploadPembayaran(Request $request)
     {
-        $data = [
-            'kode_verifikasi' => $request->code
-        ];
-        return view('web.fo.pages.upload-pembayaran')->with($data);
+        $reservasi = T_reservasi::where('kode_t_reservasi', $request->code)->first();
+        if ($reservasi) {
+            $data = [
+                'kode_verifikasi' => $request->code,
+                'reservasi'       => $reservasi
+            ];
+            return view('web.fo.pages.upload-pembayaran')->with($data);
+        } else {
+            return view('web.fo.pages.error-404');
+        }
+        
+       
     }
 
     public function random()
@@ -416,6 +424,24 @@ class BookingController extends Controller
             echo 'sukses';
         } catch (\Throwable $th) {
             dd($th->getMessage());
+        }
+    }
+
+    public function afterPayment($id)
+    {
+        $reservasi = T_reservasi::where('kode_t_reservasi', $id)->first();
+        if ($reservasi) {
+            $proses_selanjutnya = $reservasi->id_m_proses + 1;
+            $status = M_proses::findOrFail($proses_selanjutnya);
+            $keterangan_status = $status->id_m_proses == 4 ? 'Menunggu '.$status->nm_m_proses : $status->nm_m_proses;
+            $data = [
+                // 'kode_verifikasi' => $request->code,
+                'reservasi'       => $reservasi,
+                'keterangan_status' => $keterangan_status
+            ];
+            return view('web.fo.pages.after-payment')->with($data);
+        } else {
+            return view('web.fo.pages.error-404');
         }
     }
 

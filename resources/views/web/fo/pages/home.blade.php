@@ -86,9 +86,9 @@
 
 					<div class="row justify-content-center">
 						<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-							<div class="position-relative text-center">
+							{{-- <div class="position-relative text-center">
 								<a href="job-search-v1.html" class="btn btn-md theme-bg-light rounded theme-cl hover-theme">Explore More Jobs<i class="lni lni-arrow-right-circle ml-2"></i></a>
-							</div>
+							</div> --}}
 						</div>
 					</div>
 

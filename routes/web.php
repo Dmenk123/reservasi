@@ -58,6 +58,7 @@ Route::group([
 
     Route::post('/save-reservasi', [BookingController::class, 'saveReservasi'])->name('save-reservasi');
     Route::post('/save-pembayaran', [BookingController::class, 'savePembayaran'])->name('save-pembayaran');
+    Route::get('/after-payment/{id}', [BookingController::class, 'afterPayment'])->name('after-payment');
 
     Route::get('/coba', [BookingController::class, 'jajalEmail'])->name('coba');
 });
