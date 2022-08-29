@@ -5,14 +5,14 @@
                 <a class="nav-brand" href="{{ url('/') }}">
                     <img src="{{ asset('assets/fo/img/logo-identity.png') }}" class="logo" alt="" />
                 </a>
-                <div class="nav-toggle"></div>
+                {{-- <div class="nav-toggle"></div> --}}
                 <div class="mobile_nav">
                     <ul>
-                    <li>
+                    {{-- <li>
                         <a href="#" data-toggle="modal" data-target="#login" class="theme-cl fs-lg">
                             <i class="lni lni-user"></i>
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         {{-- <a href="dashboard-post-job.html" class="crs_yuo12 w-auto text-white theme-bg">
                             <span class="embos_45"><i class="fas fa-plus-circle mr-1 mr-1"></i>Post Job</span>
