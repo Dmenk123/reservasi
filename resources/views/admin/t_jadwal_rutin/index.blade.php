@@ -19,9 +19,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Hari</th>
-                                <th>Jam mulai</th>
-                                <th>Jam Akhir</th>
-                                <th>Interval</th>
+                                <th>Status</th>
+                                <th>Sesi</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -37,7 +36,7 @@
     </section>
     <!--/ Advanced Search -->
 
-    {{-- @include('admin.layout.modal_global', ['title' => 'Verifikasi Transaksi']) --}}
+    @include('admin.layout.modal_global', ['title' => 'Verifikasi Transaksi'])
     @include('admin.layout.modal_add')
     @include('admin.layout.modal_edit')
 @endsection
@@ -78,9 +77,8 @@ const generateDataTabel = (month = null, year = null, proses = null, metode_baya
             // {data: 'no', name: 'no'},
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'hari', name: 'hari'},
-            {data: 'jam_mulai', name: 'jam_mulai'},
-            {data: 'jam_akhir', name: 'jam_akhir'},
-            {data: 'durasi_m_interal', name: 'durasi_m_interal'},
+            {data: 'status', name: 'status'},
+            {data: 'sesi', name: 'sesi'},
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
@@ -107,16 +105,16 @@ $('#datatable').on('click', '.edit', function(){
     });
 });
 
-$('#datatable').on('click', '.verifikasi', function(){
+$('#datatable').on('click', '.setDetail', function(){
     $('#modal_global').modal('show');
-    var id_t_reservasi = $(this).data("id_t_reservasi");
+    var id_t_jadwal_rutin = $(this).data("id_t_jadwal_rutin");
     // console.log(id_t_content);
     $('#modal_global .modal-body').html('');
     $.ajax({
-        url:"{{ route('admin.t_reservasi.verifikasi_modal') }}",
+        url:"{{ route('admin.t_jadwal_rutin.set_detail_modal') }}",
         method:"post",
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        data:{id_t_reservasi:id_t_reservasi},
+        data:{id_t_jadwal_rutin:id_t_jadwal_rutin},
         success:function(data)
         {
             $('#modal_global .modal-body').html(data);

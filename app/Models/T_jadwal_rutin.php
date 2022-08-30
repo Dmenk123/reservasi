@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Activity;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -14,7 +16,27 @@ class T_jadwal_rutin extends Model
     protected $primaryKey = "id_t_jadwal_rutin";
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['jam_mulai', 'jam_akhir', 'hari'];
+    protected $fillable = ['urut', 'hari', 'status'];
+
+    ##### LOG ACTIVITY ####
+    use LogsActivity;
+    protected static $submitEmptyLogs = false;
+    protected static $logName = 't_jadwal_rutin';
+    protected static $logFillable = true;
+    // protected static $logUnguarded = true;
+
+    protected static $logOnlyDirty = true;
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return "{$eventName} by : " . session()->get('logged_in.nm_user');
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $activity->causer_id = session()->get('logged_in.id_m_user_bo');
+    }
+    ##### END LOG ACTIVITY ####
 
     /* fungsi untuk menjalankan event ketika melakukan 'creating' pada model */
     protected static function boot()
@@ -33,8 +55,8 @@ class T_jadwal_rutin extends Model
         return $query->max($this->primaryKey)+1;
     }
 
-    public function m_interval()
+    public function t_jadwal_rutin_det()
     {
-        return $this->belongsTo(M_interval::class, 'id_m_interval', 'id_m_interval');
+        return $this->hasMany(t_jadwal_rutin_det::class, 'id_t_jadwal_rutin', 'id_t_jadwal_rutin');
     }
 }

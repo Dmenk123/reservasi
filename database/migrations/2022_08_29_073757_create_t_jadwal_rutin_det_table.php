@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTJadwalRutinTable extends Migration
+class CreateTJadwalRutinDetTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTJadwalRutinTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_jadwal_rutin', function (Blueprint $table) {
+        Schema::create('t_jadwal_rutin_det', function (Blueprint $table) {
+            $table->integer('id_t_jadwal_rutin_det');
+            $table->primary('id_t_jadwal_rutin_det');
             $table->integer('id_t_jadwal_rutin');
-            $table->primary('id_t_jadwal_rutin');
-            $table->integer('urut_t_jadwal_rutin');
-            $table->string('hari',100);
-            $table->smallInteger('status')->nullable();
+            $table->integer('sesi'); //1,2,3,4,5,6,7,8
+            $table->time("pukul");
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
@@ -32,6 +32,6 @@ class CreateTJadwalRutinTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_jadwal_rutin');
+        Schema::dropIfExists('t_jadwal_rutin_det');
     }
 }

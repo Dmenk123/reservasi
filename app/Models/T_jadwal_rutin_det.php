@@ -8,12 +8,15 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class M_harga extends Model
+class T_jadwal_rutin_det extends Model
 {
     use SoftDeletes;
-    protected $table = "m_harga";
-    protected $primaryKey = "id_m_harga";
+    public $incrementing = false;
+    protected $table = "t_jadwal_rutin_det";
+    protected $primaryKey = "id_t_jadwal_rutin_det";
     protected $dates = ['deleted_at'];
+
+    protected $fillable = ['id_t_jadwal_rutin', 'sesi', 'pukul'];
 
     ##### LOG ACTIVITY ####
     use LogsActivity;
@@ -35,10 +38,25 @@ class M_harga extends Model
     }
     ##### END LOG ACTIVITY ####
 
+    /* fungsi untuk menjalankan event ketika melakukan 'creating' pada model */
+    protected static function boot()
+    {
+        parent::boot();
+
+        T_jadwal_rutin_det::creating(function($model) {
+            $model->id_t_jadwal_rutin_det = T_jadwal_rutin_det::max('id_t_jadwal_rutin_det') + 1;
+        });
+    }
+
+
     /* fungsi untuk mendapatkan nilai ID maksimal dari tabel */
     public function scopeMaxId($query)
     {
-        return $query->max('id_m_harga')+1;
+        return $query->max($this->primaryKey)+1;
     }
 
+    public function t_jadwal_rutin()
+    {
+        return $this->belongsTo(t_jadwal_rutin::class, 'id_t_jadwal_rutin', 'id_t_jadwal_rutin');
+    }
 }

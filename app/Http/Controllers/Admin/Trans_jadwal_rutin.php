@@ -37,26 +37,36 @@ class Trans_jadwal_rutin extends Controller
     public function datatable(Request $request)
     {
         if ($request->ajax()) {
-            $query = T_jadwal_rutin::with(['m_interval'])->orderByDesc('urut_t_jadwal_rutin')->get();
+            $query = T_jadwal_rutin::with(['t_jadwal_rutin_det'])->orderBy('urut_t_jadwal_rutin')->get();
             $data  = [];
             foreach ($query as $key => $val) {
                 // dd($val, $val->id_t_reservasi, $val->m_proses->nm_m_proses);
                 $obj = new \stdClass;
                 // $obj->no = $key+1;
                 $obj->id_t_jadwal_rutin = $val->id_t_jadwal_rutin;
-                $obj->id_m_interval = $val->id_m_interval;
-                $obj->durasi_m_interal = $val->m_interval->durasi_m_interval.' jam';
-                $obj->jam_mulai = $val->jam_mulai;
-                $obj->jam_akhir = $val->jam_akhir;
                 $obj->hari = $val->hari;
-                $obj->status = $val->status;
-                $obj->created_at = Carbon::parse($val->created_at)->format('d-m-Y');
+                $obj->status = ($val->status == 1) ? 'Active' : 'Nonactive';
+                $obj->sesi = (function () use ($val) {
+                    $str = '';
+
+                    if($val->t_jadwal_rutin_det->isNotEmpty()) {
+                        $str = '<ul>';
+                        foreach ($val->t_jadwal_rutin_det as $key => $value) {
+                            $str .= '<li>sesi '.$value->sesi.' : '.$value->pukul.'</li>';
+                        }
+
+                        $str .= '</ul>';
+                    }
+
+                    return $str;
+                })();
                 ### wajib menggunakan nama object action
                 $obj->action = '<div class="btn-group">
                                 <button class="btn btn-sm btn-primary dropdown-toggle waves-effect waves-float waves-light hide" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
                                 actions
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
+                                    <a class="dropdown-item setDetail" data-id_t_jadwal_rutin="'.$val->id_t_jadwal_rutin.'" href="javascript:void(0)">Set Detail</a>
                                     <a class="dropdown-item edit" data-id_t_jadwal_rutin="'.$val->id_t_jadwal_rutin.'" href="javascript:void(0)">Edit</a>
                                 </div>
                             </div>';
@@ -65,11 +75,9 @@ class Trans_jadwal_rutin extends Controller
                 $data[] = $obj;
             }
 
-            // dd($data);
-
             $datatable = new Collection($data);
 
-            return Datatables::of($datatable)->addIndexColumn()->rawColumns(['action'])->make(true);
+            return Datatables::of($datatable)->addIndexColumn()->rawColumns(['action', 'sesi'])->make(true);
         }
     }
 
@@ -158,4 +166,27 @@ class Trans_jadwal_rutin extends Controller
         }
     }
 
+    public function set_detail_modal(Request $request)
+    {
+        $query = T_jadwal_rutin::with(['m_interval'])->firstOrFail();
+        $data = [
+            'head_title' => 'Jadwal Rutin',
+            'page_title' => 'Jadwal Rutin',
+            'parent_menu_active' => 'Transaksi',
+            'child_menu_active'   => 'Jadwal Rutin',
+            'interval' => M_interval::get(),
+            'old' => $query,
+            'arr_hari' => [
+                1 => 'senin',
+                2 => 'selasa',
+                3 => 'rabu',
+                4 => 'kamis',
+                5 => 'jumat',
+                6 => 'sabtu',
+                7 => 'minggu'
+            ]
+        ];
+
+        return view('admin.t_jadwal_rutin.edit_modal')->with($data);
+    }
 }

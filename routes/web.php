@@ -227,6 +227,7 @@ Route::group([
         Route::get('/add', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'add'])->name('add');
         Route::post('/save', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'save'])->name('save');
         Route::post('/edit_modal', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'edit_modal'])->name('edit_modal');
+        Route::post('/set_detail_modal', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'set_detail_modal'])->name('set_detail_modal');
         Route::post('/update', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'update'])->name('update');
         Route::post('/delete', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'delete'])->name('delete');
         Route::post('/datatable', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'datatable'])->name('datatable');

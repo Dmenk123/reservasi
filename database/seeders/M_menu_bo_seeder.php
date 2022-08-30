@@ -104,7 +104,7 @@ class M_menu_bo_seeder extends Seeder
                 'aktif' => '1',
                 'icon' => 'circle',
                 'route' => 'admin.t_pembayaran.index',
-                'id_parent' => 1,
+                'id_parent' => 5,
                 'order_m_menu_bo' => 3,
             ],
         ]);
