@@ -18,7 +18,7 @@ class CreateTReservasiTable extends Migration
             $table->primary('id_t_reservasi');
             $table->string('nm_t_reservasi',100);
             $table->string('email_reservasi',100);
-            $table->string('kode_t_reservasi',10);
+            $table->string('kode_t_reservasi',20);
             $table->string('telp_t_reservasi',15);
             $table->integer('id_m_proses');
             $table->string('hari_t_reservasi', 10);
