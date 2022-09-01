@@ -89,64 +89,64 @@ class BookingController extends Controller
         return view('web.fo.pages.jadwal')->with($data);
     }
 
-    public function getJam(Request $request)
-    {
-        $mil = $request->tanggal;
-        $seconds = $mil / 1000;
-        $tanggal = date("Y-m-d", $seconds);
+    // public function getJam(Request $request)
+    // {
+    //     $mil = $request->tanggal;
+    //     $seconds = $mil / 1000;
+    //     $tanggal = date("Y-m-d", $seconds);
 
-        $dayList = array(
-			'Sun' => 'minggu',
-			'Mon' => 'senin',
-			'Tue' => 'selasa',
-			'Wed' => 'rabu',
-			'Thu' => 'kamis',
-			'Fri' => 'jumat',
-			'Sat' => 'sabtu'
-		);
+    //     $dayList = array(
+	// 		'Sun' => 'minggu',
+	// 		'Mon' => 'senin',
+	// 		'Tue' => 'selasa',
+	// 		'Wed' => 'rabu',
+	// 		'Thu' => 'kamis',
+	// 		'Fri' => 'jumat',
+	// 		'Sat' => 'sabtu'
+	// 	);
 
-        $day = date("D", $seconds);
-        $hari = T_jadwal_rutin::with('m_interval')->where('hari', $dayList[$day])->where('status', 1)->first();
+    //     $day = date("D", $seconds);
+    //     $hari = T_jadwal_rutin::with('m_interval')->where('hari', $dayList[$day])->where('status', 1)->first();
 
-        $start = Carbon::parse($tanggal.' '.$hari->jam_mulai);
-        $end = Carbon::parse($tanggal.' '.$hari->jam_akhir);
+    //     $start = Carbon::parse($tanggal.' '.$hari->jam_mulai);
+    //     $end = Carbon::parse($tanggal.' '.$hari->jam_akhir);
 
-        $start_loop = Carbon::parse($tanggal.' '.$hari->jam_mulai);
+    //     $start_loop = Carbon::parse($tanggal.' '.$hari->jam_mulai);
 
-        // $period = CarbonPeriod::create('2022-08-13 10:00:00', '2022-08-13 14:00:00');
+    //     // $period = CarbonPeriod::create('2022-08-13 10:00:00', '2022-08-13 14:00:00');
 
-        // Iterate over the period
-        // foreach ($period as $date) {
-        //     echo $date->format('Y-m-d H:i:s');
-        // }
+    //     // Iterate over the period
+    //     // foreach ($period as $date) {
+    //     //     echo $date->format('Y-m-d H:i:s');
+    //     // }
 
-        $loop = 10;
-        $interval = [];
-        array_push($interval, $start );
-        for ($i=0; $i < $loop; $i++) {
-            if ($start_loop >= $start && $start_loop < $end ) {
-                //lakukan interval 2 jam
-                $start_loop =  Carbon::parse($start_loop)->addHour($hari->m_interval->durasi_m_interval);
-                //jika kelebihan maka ambil dari jam akhir
-                if ($start_loop > $end) {
-                    $start_loop = $end;
-                }
-                array_push($interval, $start_loop );
-            }
-        }
+    //     $loop = 10;
+    //     $interval = [];
+    //     array_push($interval, $start );
+    //     for ($i=0; $i < $loop; $i++) {
+    //         if ($start_loop >= $start && $start_loop < $end ) {
+    //             //lakukan interval 2 jam
+    //             $start_loop =  Carbon::parse($start_loop)->addHour($hari->m_interval->durasi_m_interval);
+    //             //jika kelebihan maka ambil dari jam akhir
+    //             if ($start_loop > $end) {
+    //                 $start_loop = $end;
+    //             }
+    //             array_push($interval, $start_loop );
+    //         }
+    //     }
 
-        $res = null;
-        foreach ($interval as $value) {
-            $time = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i');
-            $time_url = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i:s');
-            $date = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('Y-m-d');
+    //     $res = null;
+    //     foreach ($interval as $value) {
+    //         $time = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i');
+    //         $time_url = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('H:i:s');
+    //         $date = Carbon::createFromFormat('Y-m-d H:i:s', $value)->format('Y-m-d');
 
-            $url = route('booking.konfirmasi-data-diri') .'?type='.$request->tipe.'&date='.$date.'&time='.$time_url;
-            $res .= '<a href="'.$url.'" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
-        }
+    //         $url = route('booking.konfirmasi-data-diri') .'?type='.$request->tipe.'&date='.$date.'&time='.$time_url;
+    //         $res .= '<a href="'.$url.'" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
+    //     }
 
-        echo $res;
-    }
+    //     echo $res;
+    // }
 
     public function konfirmasiDataDiri(Request $request)
     {
@@ -266,8 +266,8 @@ class BookingController extends Controller
         } else {
             return view('web.fo.pages.error-404');
         }
-        
-       
+
+
     }
 
     public function random()
@@ -305,8 +305,8 @@ class BookingController extends Controller
             ]);
         }
 
-        
-       
+
+
 
         DB::beginTransaction();
         $object = T_reservasi::where('kode_t_reservasi', $request->kode_verifikasi)->first();
@@ -446,4 +446,35 @@ class BookingController extends Controller
     }
 
 
+    #############################
+    public function getJam(Request $request)
+    {
+        $mil = $request->tanggal;
+        $seconds = $mil / 1000;
+        $tanggal = date("Y-m-d", $seconds);
+
+        $dayList = array(
+			'Sun' => 'minggu',
+			'Mon' => 'senin',
+			'Tue' => 'selasa',
+			'Wed' => 'rabu',
+			'Thu' => 'kamis',
+			'Fri' => 'jumat',
+			'Sat' => 'sabtu'
+		);
+
+        $day = date("D", $seconds);
+        $hari = T_jadwal_rutin::with('t_jadwal_rutin_det')->where('hari', $dayList[$day])->where('status', 1)->first();
+        $res = null;
+        foreach ($hari->t_jadwal_rutin_det as $value) {
+            $time = Carbon::createFromFormat('Y-m-d H:i:s', $tanggal.' '.$value->pukul)->format('H:i');
+            $time_url = Carbon::createFromFormat('Y-m-d H:i:s', $tanggal.' '.$value->pukul)->format('H:i:s');
+            $date = Carbon::createFromFormat('Y-m-d H:i:s', $tanggal.' '.$value->pukul)->format('Y-m-d');
+
+            $url = route('booking.konfirmasi-data-diri') .'?type='.$request->tipe.'&date='.$date.'&time='.$time_url;
+            $res .= '<a href="'.$url.'" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
+        }
+
+        echo $res;
+    }
 }
