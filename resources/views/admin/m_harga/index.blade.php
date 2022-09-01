@@ -21,6 +21,8 @@
                             <tr>
                               <th>No</th>
                               <th>Nominal</th>
+                              <th>Cicilan</th>
+                              <th>Jangka</th>
                               <th>Status</th>
                               <th>Created at</th>
                               <th>Action</th>

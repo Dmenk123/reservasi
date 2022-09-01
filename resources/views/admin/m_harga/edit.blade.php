@@ -35,12 +35,36 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
+                                        <label class="col-form-label" for="nominal"> Cicilan </label>
+                                        </div>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" id="cicilan" class="form-control inputmask" name="cicilan" data-thousands="." data-decimal="," value="{{$old->nominal_cicilan ?? 0}}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                        <label class="col-form-label" for="nominal"> Jangka Cicilan</label>
+                                        </div>
+                                        <div class="col-sm-6">
+
+                                            <input type="number" id="jangka" class="form-control" name="jangka" value="{{$old->jangka_cicilan ?? 0}}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
                                         <label class="col-form-label" for="aktif">Status Aktif</label>
                                         </div>
                                         <div class="col-sm-6">
                                             <select class="form-select" id="aktif" name="aktif">
-                                                <option {{($old->status_harga == '1') ? 'selected' : ''}} value="1">Ya</option>
-                                                <option {{($old->status_harga != '1') ? 'selected' : ''}} value="0">Tidak</option>
+                                                <option {{($old->status_m_harga == '1') ? 'selected' : ''}} value="1">Ya</option>
+                                                <option {{($old->status_m_harga != '1') ? 'selected' : ''}} value="0">Tidak</option>
                                               </select>
                                         </div>
                                     </div>

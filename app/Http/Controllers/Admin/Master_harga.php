@@ -35,6 +35,8 @@ class Master_harga extends Controller
 
     		$datas[$key][] = $i++;
             $datas[$key][] = '<div style="text-align:right;">' . number_format($value->nominal_m_harga, 0, ',', '.') . '</div>';
+            $datas[$key][] = '<div style="text-align:right;">' . number_format($value->nominal_cicilan, 0, ',', '.') . '</div>';
+            $datas[$key][] = '<div style="text-align:right;">' . $value->jangka_cicilan . '</div>';
             $datas[$key][] = ($value->status_m_harga == '1') ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>';
             $datas[$key][] = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d-m-Y H:i:s');
             $datas[$key][] = '<div class="btn-group">
@@ -71,11 +73,15 @@ class Master_harga extends Controller
     {
         $messages = [
             'nominal.required' => 'please fill out this field',
+            'cicilan.required' => 'please fill out this field',
+            'jangka.required' => 'please fill out this field',
             'aktif.required' => 'please fill out this field',
         ];
 
         $validator = Validator::make($request->all(), [
             'nominal' => ['required'],
+            'cicilan' => ['required'],
+            'jangka' => ['required'],
             'aktif' => ['required'],
         ], $messages);
 
@@ -84,6 +90,8 @@ class Master_harga extends Controller
             return response()->json([
                 'error' => [
                     'nominal' => $errors->first('nominal'),
+                    'cicilan' => $errors->first('nominal'),
+                    'jangka' => $errors->first('nominal'),
                     'aktif' => $errors->first('aktif'),
                 ]
             ]);
@@ -95,6 +103,8 @@ class Master_harga extends Controller
         $object->id_m_harga = M_harga::MaxId();
         $object->status_m_harga = ($request->aktif == '1') ? '1' : null;
         $object->nominal_m_harga = (int)str_replace(".", "", $request->nominal);
+        $object->nominal_cicilan = (int)str_replace(".", "", $request->cicilan);
+        $object->jangka_cicilan = (int)$request->jangka;
 
         try{
             if($request->aktif == '1') {
@@ -150,11 +160,15 @@ class Master_harga extends Controller
     {
         $messages = [
             'nominal.required' => 'please fill out this field',
+            'cicilan.required' => 'please fill out this field',
+            'jangka.required' => 'please fill out this field',
             'aktif.required' => 'please fill out this field',
         ];
 
         $validator = Validator::make($request->all(), [
             'nominal' => ['required'],
+            'cicilan' => ['required'],
+            'jangka' => ['required'],
             'aktif' => ['required'],
         ], $messages);
 
@@ -163,6 +177,8 @@ class Master_harga extends Controller
             return response()->json([
                 'error' => [
                     'nominal' => $errors->first('nominal'),
+                    'cicilan' => $errors->first('cicilan'),
+                    'jangka' => $errors->first('jangka'),
                     'aktif' => $errors->first('aktif'),
                 ]
             ]);

@@ -33,6 +33,30 @@
                                 <div class="col-12">
                                     <div class="mb-1 row">
                                         <div class="col-sm-3">
+                                        <label class="col-form-label" for="cicilan"> Nominal Cicilan</label>
+                                        </div>
+                                        <div class="col-sm-6">
+
+                                            <input type="text" id="cicilan" class="form-control inputmask" name="cicilan" data-thousands="." data-decimal="," value="0">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
+                                        <label class="col-form-label" for="nominal"> Jangka Cicilan</label>
+                                        </div>
+                                        <div class="col-sm-6">
+
+                                            <input type="number" id="jangka" class="form-control" name="jangka">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="mb-1 row">
+                                        <div class="col-sm-3">
                                         <label class="col-form-label" for="aktif">Status Aktif</label>
                                         </div>
                                         <div class="col-sm-6">
