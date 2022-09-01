@@ -212,6 +212,7 @@ Route::group([
         Route::get('/add', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'add'])->name('add');
         Route::post('/update', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'update'])->name('update');
         Route::post('/delete', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'delete'])->name('delete');
+
         // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
         // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });
@@ -230,7 +231,10 @@ Route::group([
         Route::post('/set_detail_modal', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'set_detail_modal'])->name('set_detail_modal');
         Route::post('/update', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'update'])->name('update');
         Route::post('/delete', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'delete'])->name('delete');
+        Route::post('/add_detail', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'add_detail'])->name('add_detail');
+        Route::post('/delete_detail', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'delete_detail'])->name('delete_detail');
         Route::post('/datatable', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'datatable'])->name('datatable');
+        Route::post('/load_html_table', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'load_html_table'])->name('load_html_table');
         // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
         // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });

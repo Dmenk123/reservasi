@@ -7,63 +7,25 @@
         {{-- <div class="col-12">
             <div class="mb-1 row">
                 <div class="col-sm-8">
-                    <label class="col-form-label" for="nm_m_message">Title</label>
-                </div>
-                <div class="col-sm-12">
-                    <input type="text" class="form-control" name="title_t_content" id="title_t_content" value="{{$old->title_t_content ?? ''}}">
-                </div>
-            </div>
-        </div> --}}
-
-        {{-- <div class="col-12">
-            <div class="mb-1 row">
-                <div class="col-sm-8">
-                <label class="col-form-label" for="id_m_app">Hari</label>
-                </div>
-                <div class="col-sm-12">
-                    <select class="select2 form-select" id="hari" name="hari">
-                        <option value="">Please choose one</option>
-                        @foreach($arr_hari as $k => $v)
-                            <option value="{{$v}}" @if($v == $old->hari) selected @endif>{{$v}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div> --}}
-
-        {{-- <div class="col-12">
-            <div class="mb-1 row">
-                <div class="col-sm-8">
-                <label class="col-form-label" for="id_m_entity">Menu</label>
-                </div>
-                <div class="col-sm-12">
-                    <select class="select2 form-select" id="id_m_menu" name="id_m_menu">
-                        @foreach($menu_data as $k => $v)
-                            <option value="{{$v->id_m_menu}}" @if($v->id_m_menu == $old->id_m_menu) selected @endif>{{$v->nm_menu}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-        </div> --}}
-
-        <div class="col-12">
-            <div class="mb-1 row">
-                <div class="col-sm-8">
                     <label class="col-form-label" for="jam_mulai">Jam Mulai</label>
                 </div>
                 <div class="col-sm-12">
                     <input type="text" id="jam_mulai" class="form-control timepickers" name="jam_mulai" value="{{\Carbon\Carbon::parse($old->jam_mulai)->format('H:i')}}">
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="col-12">
             <div class="mb-1 row">
                 <div class="col-sm-8">
-                    <label class="col-form-label" for="jam_akhir">Jam Mulai</label>
+                <label class="col-form-label" for="hari">Hari</label>
                 </div>
                 <div class="col-sm-12">
-                    <input type="text" id="jam_akhir" class="form-control timepickers" name="jam_akhir" value="{{\Carbon\Carbon::parse($old->jam_mulai)->format('H:i')}}">
+                    <select class="select2 form-select" id="hari" name="hari">
+                        @foreach ($arr_hari as $key => $val)
+                            <option value="{{$key}}" @if($key == $old->urut_t_jadwal_rutin) selected @endif>{{$val}}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
@@ -72,13 +34,12 @@
         <div class="col-12">
             <div class="mb-1 row">
                 <div class="col-sm-8">
-                <label class="col-form-label" for="id_m_entity">Interval</label>
+                <label class="col-form-label" for="status">Status</label>
                 </div>
                 <div class="col-sm-12">
-                    <select class="select2 form-select" id="id_m_interval" name="id_m_interval">
-                        @foreach($interval as $k => $v)
-                            <option value="{{$v->id_m_interval}}" @if($v->id_m_interval == $old->id_m_interval) selected @endif>{{$v->durasi_m_interval}}</option>
-                        @endforeach
+                    <select class="select2 form-select" id="status" name="status">
+                        <option value="1" @if($old->status == '1') selected @endif>Aktif</option>
+                        <option value="" @if($old->status == null) selected @endif>Nonaktif</option>
                     </select>
                 </div>
             </div>

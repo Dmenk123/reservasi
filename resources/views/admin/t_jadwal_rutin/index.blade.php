@@ -36,7 +36,7 @@
     </section>
     <!--/ Advanced Search -->
 
-    @include('admin.layout.modal_global', ['title' => 'Verifikasi Transaksi'])
+    @include('admin.layout.modal_global', ['title' => 'Detail Jadwal', 'size' => 'lg'])
     @include('admin.layout.modal_add')
     @include('admin.layout.modal_edit')
 @endsection
