@@ -4,17 +4,22 @@
 
     <div class="bs-stepper vertical wizard-modern create-app-wizard">
         <div class="bs-stepper-header" role="tablist">
-            <div class="step" data-target="#konten-bukti-pembayaran" role="tab" id="konten-bukti-pembayaran-trigger">
-                <button type="button" class="step-trigger py-75">
-                    <span class="bs-stepper-box">
-                        <i data-feather="book" class="font-medium-3"></i>
-                    </span>
-                    <span class="bs-stepper-label">
-                        <span class="bs-stepper-title">Bukti</span>
-                        <span class="bs-stepper-subtitle">Bukti Pembayaran</span>
-                    </span>
-                </button>
-            </div>
+            @if ($old && $old->t_reservasi_det->isNotEmpty())
+                @foreach ($old->t_reservasi_det as $key => $item)
+                    <div class="step" data-target="{{'#konten-bukti-pembayaran-'.$item->id_t_reservasi_det}}" role="tab" id="{{'konten-bukti-pembayaran-trigger-'.$item->id_t_reservasi_det}}">
+                        <button type="button" class="step-trigger py-75">
+                            <span class="bs-stepper-box">
+                                <i data-feather="book" class="font-medium-3"></i>
+                            </span>
+                            <span class="bs-stepper-label">
+                                <span class="bs-stepper-title">Bukti #{{$key+1}}</span>
+                                <span class="bs-stepper-subtitle">Bukti Pembayaran ke - {{$key+1}}</span>
+                            </span>
+                        </button>
+                    </div>
+                @endforeach
+            @endif
+
             <div class="step" data-target="#konten-detail-transaksi" role="tab" id="konten-detail-transaksi-trigger">
                 <button type="button" class="step-trigger py-75">
                     <span class="bs-stepper-box">
@@ -30,35 +35,39 @@
 
         <!-- content -->
         <div class="bs-stepper-content shadow-none">
-            <div id="konten-bukti-pembayaran" class="content" role="tabpanel" aria-labelledby="konten-bukti-pembayaran-trigger">
-                <div class="card card-transaction">
-                    <div class="card-body">
-                        <h5 class="pt-1">Bukti Pembayaran</h5>
-                        @if ($old && $old->t_reservasi_det)
-                            {{-- @if (in_array($old->t_file_upload->mimetype, ['jpg', 'jpeg', 'png', 'svg'])) --}}
-                                <img src="{{asset('storage/'.$old->t_reservasi_det[0]->medium)}}" height="400" width="100%" alt="Bukti Pembayaran" />
-                            {{-- @elseif (in_array($old->t_file_upload->mimetype, ['pdf']))
-                                <embed type="application/pdf" src="{{asset('storage/'.$old->t_reservasi_det[0]->medium)}}" width="100%" height="400"></embed>
-                            @endif --}}
+            @if ($old && $old->t_reservasi_det->isNotEmpty())
+                @foreach ($old->t_reservasi_det as $key => $val)
+                    <div id="{{'konten-bukti-pembayaran-'.$val->id_t_reservasi_det}}" class="content" role="tabpanel" aria-labelledby="{{'konten-bukti-pembayaran-trigger-'.$val->id_t_reservasi_det}}">
+                        <div class="card card-transaction">
+                            <div class="card-body">
+                                <h5 class="pt-1">Bukti Pembayaran {{$key+1}}</h5>
+                                @if ($val && $val->medium)
+                                    {{-- @if (in_array($old->t_file_upload->mimetype, ['jpg', 'jpeg', 'png', 'svg'])) --}}
+                                        <img src="{{asset('storage/'.$val->medium)}}" height="400" width="100%" alt="Bukti Pembayaran" />
+                                    {{-- @elseif (in_array($old->t_file_upload->mimetype, ['pdf']))
+                                        <embed type="application/pdf" src="{{asset('storage/'.$old->t_reservasi_det[0]->medium)}}" width="100%" height="400"></embed>
+                                    @endif --}}
 
-                            <div class="d-flex justify-content-between mt-2" style="justify-content: end !important;">
-                                {{-- <button class="btn btn-outline-secondary btn-prev hidden" disabled>
-                                    <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
-                                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                </button> --}}
-                                <button class="btn btn-primary btn-next">
-                                    <span class="align-middle d-sm-inline-block d-none">Next</span>
-                                    <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
-                                </button>
+                                    <div class="d-flex justify-content-between mt-2" style="justify-content: end !important;">
+                                        {{-- <button class="btn btn-outline-secondary btn-prev hidden" disabled>
+                                            <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                        </button> --}}
+                                        <button class="btn btn-primary btn-next">
+                                            <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                            <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                        </button>
+                                    </div>
+                                @else
+                                    <div class="d-flex justify-content-between mt-2">
+                                        <h1>Belum Terdapat data upload !!!</h1>
+                                    </div>
+                                @endif
                             </div>
-                        @else
-                            <div class="d-flex justify-content-between mt-2">
-                                <h1>Belum Terdapat data upload !!!</h1>
-                            </div>
-                        @endif
+                        </div>
                     </div>
-                </div>
-            </div>
+                @endforeach
+            @endif
 
             <div id="konten-detail-transaksi" class="content" role="tabpanel" aria-labelledby="konten-detail-transaksi-trigger">
                 <div class="card card-transaction">

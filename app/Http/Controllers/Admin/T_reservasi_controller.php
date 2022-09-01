@@ -75,7 +75,7 @@ class T_reservasi_controller extends Controller
                 $obj->metode_pembayaran_t_reservasi = $val->metode_pembayaran_t_reservasi;
                 $obj->kode_payment_t_reservasi = $val->kode_payment_t_reservasi;
                 ### wajib menggunakan nama object action
-                if($val->id_m_proses == M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN) {
+                if($val->id_m_proses == M_proses::ID_M_PROSES_PEMBAYARAN) {
                     $str_aksi = '
                         <a class="dropdown-item detail" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">View Detail</a>
                         <a class="dropdown-item verifikasi" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">Verifikasi</a>
@@ -124,7 +124,7 @@ class T_reservasi_controller extends Controller
 
     public function verifikasi_modal(Request $request)
     {
-        $query = T_reservasi::with(['t_file_upload', 't_reservasi_det'])->where('id_t_reservasi', $request->id_t_reservasi)->first();
+        $query = T_reservasi::with(['t_reservasi_det'])->where('id_t_reservasi', $request->id_t_reservasi)->first();
         // $det = DB::table('t_reservasi_det')->where('kode_t_reservasi', $query->kode_t_reservasi)->first();
         // dd($det);
         $data = [
@@ -158,14 +158,14 @@ class T_reservasi_controller extends Controller
 
             $cek->verified_at = Carbon::now()->format('Y-m-d H:i:s');
             $cek->verified_by = session()->get('logged_in.id_m_user_bo');
-            $cek->id_m_proses = M_proses::ID_M_PROSES_VERIFIKASI_PEMBAYARAN;
+            $cek->id_m_proses = M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN;
             $cek->updated_at = Carbon::now()->format('Y-m-d H:i:s');
 
             ### proses
             $proses = new T_log_proses;
             $proses->id_t_log_proses = T_log_proses::MaxId();
             $proses->id_t_reservasi = $request->id_t_reservasi;
-            $proses->id_m_proses = M_proses::ID_M_PROSES_VERIFIKASI_PEMBAYARAN;
+            $proses->id_m_proses = M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN;
             $proses->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
             try{
