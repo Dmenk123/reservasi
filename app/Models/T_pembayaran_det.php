@@ -14,7 +14,7 @@ class T_pembayaran_det extends Model
     protected $primaryKey = "id_t_pembayaran_det";
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['id_t_pembayaran', 'nominal_t_pembayaran_det', 'kode_konfirmasi', 'tgl_t_pembayaran_det'];
+    protected $fillable = ['id_t_pembayaran', 'nominal_t_pembayaran_det', 'kode_konfirmasi', 'tgl_t_pembayaran_det', 'verified_at', 'verified_by'];
 
     /* fungsi untuk menjalankan event ketika melakukan 'creating' pada model */
     protected static function boot()

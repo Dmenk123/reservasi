@@ -39,8 +39,13 @@ class M_proses_seeder extends Seeder
             ],
             [
                 'id_m_proses' => 5,
-                'nm_m_proses' => 'Reject',
+                'nm_m_proses' => 'Transaksi Selesai',
                 'urut_m_proses' => 5
+            ],
+            [
+                'id_m_proses' => 6,
+                'nm_m_proses' => 'Reject',
+                'urut_m_proses' => 6
             ],
         ]);
     }

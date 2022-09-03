@@ -22,7 +22,7 @@ use Illuminate\Http\Request;
 use App\Models\T_content_det;
 use App\Models\T_jadwal_rutin;
 use App\Models\T_reservasi_det;
-use App\Models\M_branch_company;
+use App\Models\M_harga;
 use App\Models\T_emp_request_rct;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -211,11 +211,15 @@ class BookingController extends Controller
         $object = new T_reservasi;
         $id_t_reservasi = T_reservasi::MaxId();
 
+        ## get active harga
+        $harga = M_harga::Active()->first();
+
         $object->id_t_reservasi = $id_t_reservasi;
         $object->nm_t_reservasi = $request->nama;
         $object->email_reservasi = $request->email;
         $object->telp_t_reservasi = $request->telp;
         $object->hari_t_reservasi = $hari;
+        $object->nominal_total = $harga->nominal_m_harga;
         $object->id_m_proses = M_proses::ID_M_PROSES_PENGISIAN_DATA_DIRI;
         $object->tanggal_t_reservasi = $request->date;
         $object->jam_t_reservasi = $request->time;
@@ -348,7 +352,7 @@ class BookingController extends Controller
 
             $ins_log_proses = T_log_proses::create([
                 'id_t_reservasi' => $object->id_t_reservasi,
-                'id_m_proses' => M_proses::ID_M_PROSES_PENGISIAN_DATA_DIRI,
+                'id_m_proses' => M_proses::ID_M_PROSES_PEMBAYARAN,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
 

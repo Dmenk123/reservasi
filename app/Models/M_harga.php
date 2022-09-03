@@ -41,4 +41,9 @@ class M_harga extends Model
         return $query->max('id_m_harga')+1;
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('status_m_harga', 1);
+    }
+
 }

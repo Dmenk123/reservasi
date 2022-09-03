@@ -155,21 +155,52 @@
                                 </div>
                                 <div class="fw-bolder text-bold">{{$old->kode_payment_t_reservasi ?? '-'}}</div>
                             </div>
+                            @if ($old && $old->t_reservasi_det->isNotEmpty())
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center table-responsive">
+                                        <table id="datatable" class="table-striped table-hover table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Bank</th>
+                                                    <th>Nominal</th>
+                                                    <th>Verifikasi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($old->t_reservasi_det as $key => $val)
+                                                <tr>
+                                                    <td>{{$key+1}}</td>
+                                                    <td>{{$val->bank}}</td>
+                                                    <td>{{$val->nominal}}</td>
+                                                    <td>
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="checkbox" value="{{$val->id_t_reservasi_det}}" id="{{'verify_'.$key}}" name="verify[]">
+                                                            <label class="form-check-label" for="{{'verify_'.$key}}">Pilih data ini</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
-                            <div class="col-12">
-                                <div class="d-flex align-items-center">
-                                    <div class="form-check form-switch form-check-primary me-25">
-                                        <input type="checkbox" class="form-check-input" name="verifikasi_transaksi" id="verifikasi_transaksi" />
-                                        <label class="form-check-label" for="verifikasi_transaksi">
-                                            <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                            <span class="switch-icon-right"><i data-feather="x"></i></span>
+                                <div class="col-12">
+                                    <div class="d-flex align-items-center">
+                                        <div class="form-check form-switch form-check-primary me-25">
+                                            <input type="checkbox" class="form-check-input" name="verifikasi_transaksi" id="verifikasi_transaksi" />
+                                            <label class="form-check-label" for="verifikasi_transaksi">
+                                                <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                                <span class="switch-icon-right"><i data-feather="x"></i></span>
+                                            </label>
+                                        </div>
+                                        <label class="form-check-label fw-bolder" for="verifikasi_transaksi">
+                                            Verifikasi Transaksi ini ?
                                         </label>
                                     </div>
-                                    <label class="form-check-label fw-bolder" for="verifikasi_transaksi">
-                                        Verifikasi Transaksi ini ?
-                                    </label>
                                 </div>
-                            </div>
+                            @endif
                         </form>
 
                         <div class="d-flex justify-content-between mt-5 pt-1">

@@ -117,7 +117,7 @@
     <!--/ Advanced Search -->
 
     {{-- @include('admin.layout.modal_edit') --}}
-    @include('admin.layout.modal_global', ['title' => 'Verifikasi Transaksi'])
+    @include('admin.layout.modal_global', ['title' => 'Verifikasi Transaksi', 'size' => 'xl'])
     @include('admin.layout.modal_preview')
     {{-- @include('admin.layout.modal_add') --}}
 @endsection

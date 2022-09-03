@@ -13,6 +13,8 @@ use App\Models\T_group_content;
 use App\Models\T_reservasi_det;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\T_pembayaran;
+use App\Models\T_pembayaran_det;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,7 +25,7 @@ class T_reservasi_controller extends Controller
 
     public function index()
     {
-        $proses = M_proses::orderBy('urut_m_proses')->get();
+        $proses = M_proses::whereNotIn('id_m_proses', [M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN])->orderBy('urut_m_proses')->get();
 
         $data = [
             'head_title' => 'Reservasi',
@@ -44,7 +46,9 @@ class T_reservasi_controller extends Controller
         $metode_bayar = $request->metode_bayar ?? null;
 
         if ($request->ajax()) {
-            $query = T_reservasi::with(['m_proses'])
+            $query = T_reservasi::with(['m_proses' => function($q) {
+                            $q->whereNotIn("id_m_proses", [M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN]);
+                        }])
                         ->when($month, function ($q, $month) {
                             return $q->whereMonth('tanggal_t_reservasi', '=', $month);
                         })
@@ -57,6 +61,7 @@ class T_reservasi_controller extends Controller
                         ->when($metode_bayar, function ($q, $metode_bayar) {
                             return $q->where('metode_pembayaran_t_reservasi', $metode_bayar);
                         })
+                        ->whereNotIn("id_m_proses", [M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN])
                         ->orderByDesc('created_at')->get();
             $data  = [];
             foreach ($query as $key => $val) {
@@ -124,7 +129,9 @@ class T_reservasi_controller extends Controller
 
     public function verifikasi_modal(Request $request)
     {
-        $query = T_reservasi::with(['t_reservasi_det'])->where('id_t_reservasi', $request->id_t_reservasi)->first();
+        $query = T_reservasi::with(['t_reservasi_det' => function($q) use($request){
+            $q->whereNull("verified_by");
+        }])->where('id_t_reservasi', $request->id_t_reservasi)->first();
         // $det = DB::table('t_reservasi_det')->where('kode_t_reservasi', $query->kode_t_reservasi)->first();
         // dd($det);
         $data = [
@@ -143,34 +150,116 @@ class T_reservasi_controller extends Controller
     public function verifikasi(Request $request)
     {
         // dd($request->all());
-        if(request()->filled('id_t_reservasi') && request()->filled('verifikasi_transaksi')) {
-            $cek = T_reservasi::where('id_t_reservasi', $request->id_t_reservasi)->first();
+        try{
+            if(request()->filled('id_t_reservasi') && request()->filled('verifikasi_transaksi')) {
 
-            if(!$cek) {
-                return response()->json([
-                    'message' => 'Transaksi tidak ditemukan',
-                    'status'  => false,
-                ]);
-            }
+                if(request()->has('verify') == false) {
+                    return response()->json([
+                        'message' => 'Mohon ceklist salah satu pembayaran',
+                        'status'  => false,
+                    ]);
+                }
 
+                $header = T_reservasi::where('id_t_reservasi', $request->id_t_reservasi)->first();
 
-            DB::beginTransaction();
+                if(!$header) {
+                    return response()->json([
+                        'message' => 'Reservasi tidak ditemukan',
+                        'status'  => false,
+                    ]);
+                }
 
-            $cek->verified_at = Carbon::now()->format('Y-m-d H:i:s');
-            $cek->verified_by = session()->get('logged_in.id_m_user_bo');
-            $cek->id_m_proses = M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN;
-            $cek->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                ### cek exist pembayaran
+                $cek_bayar = T_pembayaran::where('id_t_reservasi', $request->id_t_reservasi)->first();
 
-            ### proses
-            $proses = new T_log_proses;
-            $proses->id_t_log_proses = T_log_proses::MaxId();
-            $proses->id_t_reservasi = $request->id_t_reservasi;
-            $proses->id_m_proses = M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN;
-            $proses->created_at = Carbon::now()->format('Y-m-d H:i:s');
+                DB::beginTransaction();
+                if(!$cek_bayar) {
+                    #### new data
+                    $objBayar = new T_pembayaran;
+                    $id_t_pembayaran = T_pembayaran::MaxId();
 
-            try{
+                    $objBayar->id_t_pembayaran = $id_t_pembayaran;
+                    $objBayar->id_t_reservasi =  $header->id_t_reservasi;
+                    $objBayar->nilai_t_pembayaran =  $header->nominal_total;
+                    $objBayar->jenis_t_pembayaran = $header->jenis_t_reservasi;
+                    $objBayar->balance_t_pembayaran = $header->nominal_total;
 
-                $cek->save();
+                    if($header->jenis_t_reservasi != 'cash') {
+                        $objBayar->nominal_cicilan_t_pembayaran = 0;
+                        $objBayar->durasi_cicilan_t_pembayaran = 0;
+                        $objBayar->cicilan_ke_t_pembayaran = 0;
+                    }
+
+                    $objBayar->nominal_total_t_pembayaran = 0;
+                    $objBayar->created_at = Carbon::now()->format('Y-m-d H:i:s');
+
+                    $objBayar->save();
+                    // DB::commit();
+                }else{
+                    $id_t_pembayaran = $cek_bayar->id_t_pembayaran;
+                }
+
+                $nominal_total_t_pembayaran = 0;
+
+                foreach ($request->verify as $key => $value) {
+                    // $cek = T_reservasi::with(['t_reservasi_det' => function($q) use($value){
+                    //     $q->where("id_t_reservasi_det", $value);
+                    // }])->where('id_t_reservasi', $request->id_t_reservasi)->first();
+                    $cek = T_reservasi_det::where('id_t_reservasi_det', $value)->first();
+
+                    if(!$cek) {
+                        return response()->json([
+                            'message' => 'Transaksi tidak ditemukan',
+                            'status'  => false,
+                        ]);
+                    }
+
+                    $nominal_total_t_pembayaran += $cek->nominal;
+
+                    ### PEMBAYARAN DET
+                    $pembayaran_det = T_pembayaran_det::create([
+                        'id_t_pembayaran' => $id_t_pembayaran,
+                        'nominal_t_pembayaran_det' => $cek->nominal,
+                        'kode_konfirmasi' => 'CFRM-'.$this->random(),
+                        'tgl_t_pembayaran_det' => Carbon::now()->format('Y-m-d'),
+                        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    ]);
+
+                    $cek->verified_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $cek->verified_by = session()->get('logged_in.id_m_user_bo');
+                    $cek->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                    $cek->save();
+                    // DB::commit();
+                }
+
+                ### get last record pembayaran
+                $cek_bayar_final = T_pembayaran::where('id_t_pembayaran', $id_t_pembayaran)->first();
+                if(!$cek_bayar_final) {
+                    DB::rollback();
+                    return response()->json([
+                        'message' => 'Transaksi Gagal',
+                        'status'  => false,
+                    ]);
+                }
+
+                $last_balance = $cek_bayar_final->balance_t_pembayaran;
+
+                $cek_bayar_final->nominal_total_t_pembayaran = $nominal_total_t_pembayaran;
+                $cek_bayar_final->balance_t_pembayaran = $nominal_total_t_pembayaran - $last_balance;
+                $cek_bayar_final->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                $cek_bayar_final->save();
+
+                ### update header
+                $header->id_m_proses = M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN;
+                $header->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                $header->save();
+
+                ### proses
+                $proses = new T_log_proses;
+                $proses->id_t_log_proses = T_log_proses::MaxId();
+                $proses->id_t_reservasi = $request->id_t_reservasi;
+                $proses->id_m_proses = M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN;
+                $proses->created_at = Carbon::now()->format('Y-m-d H:i:s');
                 $proses->save();
 
                 DB::commit();
@@ -179,21 +268,29 @@ class T_reservasi_controller extends Controller
                     'message' => 'Data Saved',
                     'redirect' => route('admin.t_reservasi.index'),
                 ]);
-            }catch(\Exception $e){
-                DB::rollback();
+
+            }else{
                 return response()->json([
-                    'message' => $e->getMessage(),
+                    'message' => 'Belum melakukan verifikasi (ceklis)',
                     'status'  => false,
                 ]);
             }
-
-        }else{
+        }catch(\Exception $e){
+            DB::rollback();
             return response()->json([
-                'message' => 'Belum melakukan verifikasi (ceklis)',
+                'message' => $e->getMessage(),
                 'status'  => false,
             ]);
         }
 
+    }
+
+    public function random()
+    {
+        $pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $rand =  substr(str_shuffle(str_repeat($pool, 5)), 0, 16);
+
+        return $rand;
     }
 
     //////////////////////////////////////////

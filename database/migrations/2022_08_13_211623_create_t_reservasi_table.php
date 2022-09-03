@@ -27,11 +27,12 @@ class CreateTReservasiTable extends Migration
             $table->string('jenis_t_reservasi', 6); //cash //credit
             $table->string('metode_pembayaran_t_reservasi', 20); //upload //payment gateway
             $table->string('kode_payment_t_reservasi', 50)->nullable(); //kode dari midtrans
+            $table->decimal('nominal_total', 20, 0)->default(0); //harga total diambil dari master
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
-            $table->timestamp('verified_at')->nullable();
-            $table->integer('verified_by')->nullable();
+            // $table->timestamp('verified_at')->nullable();
+            // $table->integer('verified_by')->nullable();
         });
     }
 

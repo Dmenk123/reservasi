@@ -23,6 +23,8 @@ class CreateTReservasiDetTable extends Migration
             $table->string('small', 100)->nullable();
             $table->string('bank', 100)->nullable();
             $table->decimal('nominal', 20, 0)->default(0);
+            $table->integer('verified_by')->nullable();
+            $table->timestamp('verified_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('deleted_at')->nullable();
