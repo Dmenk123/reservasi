@@ -219,7 +219,7 @@ class BookingController extends Controller
         $object->email_reservasi = $request->email;
         $object->telp_t_reservasi = $request->telp;
         $object->hari_t_reservasi = $hari;
-        $object->nominal_total = $harga->nominal_m_harga;
+        // $object->nominal_total = $harga->nominal_m_harga;
         $object->id_m_proses = M_proses::ID_M_PROSES_PENGISIAN_DATA_DIRI;
         $object->tanggal_t_reservasi = $request->date;
         $object->jam_t_reservasi = $request->time;
@@ -476,7 +476,14 @@ class BookingController extends Controller
             $date = Carbon::createFromFormat('Y-m-d H:i:s', $tanggal.' '.$value->pukul)->format('Y-m-d');
 
             $url = route('booking.konfirmasi-data-diri') .'?type='.$request->tipe.'&date='.$date.'&time='.$time_url;
-            $res .= '<a href="'.$url.'" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
+            $is_booking = T_reservasi::where('tanggal_t_reservasi', $tanggal)->where('jam_t_reservasi', $value->pukul)->where('id_m_proses', 4)->whereNull('deleted_at')->first();
+            if ($is_booking) {
+                $res .= '<a href="" onclick="return false;" class="btn btn-sm btn-danger" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;background-color: #cfcfcf;border-color: #cfcfcf;">'. $time . ' WIB';
+            }else{
+                $res .= '<a href="'.$url.'" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
+            }
+           
+           
         }
 
         echo $res;

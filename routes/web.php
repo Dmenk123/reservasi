@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Admin\Main;
 use App\Http\Controllers\My_library;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\SnapController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\EmailController;
 
@@ -61,6 +62,16 @@ Route::group([
     Route::get('/after-payment/{id}', [BookingController::class, 'afterPayment'])->name('after-payment');
 
     Route::get('/coba', [BookingController::class, 'jajalEmail'])->name('coba');
+});
+
+Route::group([
+    'prefix' => 'snap',
+    'as' => 'snap.',
+], function (){
+    Route::get('/snaptoken/', [SnapController::class, 'token'])->name('snaptoken');
+    Route::get('/', [SnapController::class, 'snap'])->name('snap');
+    
+    Route::post('/snapfinish', [SnapController::class, 'finish'])->name('snsnapfinishap');
 });
 
 ######### END FO ##########
