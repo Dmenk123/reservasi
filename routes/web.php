@@ -61,6 +61,9 @@ Route::group([
     Route::post('/save-pembayaran', [BookingController::class, 'savePembayaran'])->name('save-pembayaran');
     Route::get('/after-payment/{id}', [BookingController::class, 'afterPayment'])->name('after-payment');
 
+    Route::get('/snaptoken/', [SnapController::class, 'token'])->name('snaptoken');
+    Route::post('/snapfinish', [SnapController::class, 'finish'])->name('snsnapfinishap');
+
     Route::get('/coba', [BookingController::class, 'jajalEmail'])->name('coba');
 });
 
@@ -68,10 +71,10 @@ Route::group([
     'prefix' => 'snap',
     'as' => 'snap.',
 ], function (){
-    Route::get('/snaptoken/', [SnapController::class, 'token'])->name('snaptoken');
-    Route::get('/', [SnapController::class, 'snap'])->name('snap');
+    // Route::get('/snaptoken/', [SnapController::class, 'token'])->name('snaptoken');
+    // Route::get('/', [SnapController::class, 'snap'])->name('snap');
     
-    Route::post('/snapfinish', [SnapController::class, 'finish'])->name('snsnapfinishap');
+    // Route::post('/snapfinish', [SnapController::class, 'finish'])->name('snsnapfinishap');
 });
 
 ######### END FO ##########

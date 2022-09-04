@@ -15,6 +15,9 @@
 <script src="{{asset('assets/fo/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('assets/fo/fullcalendar/fullcalendar.js')}}"></script>
 <script src="{{asset('assets/fo/fullcalendar/locale-all.js')}}"></script>
+<script type="text/javascript"
+src="https://app.sandbox.midtrans.com/snap/snap.js"
+data-client-key="SB-Mid-client-x38IIWfIatfALj7-"></script>
 
 @yield('custom_js')
 <!-- ============================================================== -->

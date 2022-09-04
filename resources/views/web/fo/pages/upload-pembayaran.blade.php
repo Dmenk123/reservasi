@@ -164,41 +164,59 @@
 
                         
                         <hr class="style10">
-                        <form class="_apply_form_form">
+                        <div class="form-pmb-manual">
+                            <form class="_apply_form_form" id="payment-manual">
                         
-                            <div class="form-group">
-                                <input type="hidden" name="kode_verifikasi" value="{{ $kode_verifikasi ?? ''}}">
-                                <label class="text-dark mb-1 ft-medium medium">Nama Rekening Bank</label>
-                                <input type="text" class="form-control" placeholder="Nama Bank Rekening" name="bank">
-                                <span id="bank_error" class="text-error"></span>
-                            </div>
-                            
-                            
-                            <div class="form-group">
-                                <label class="text-dark mb-1 ft-medium medium">Nominal Transfer:</label>
-                                <input type="number" class="form-control" placeholder="x.xxx.xxx" name="nominal">
-                                <span id="nominal_error" class="text-error"></span>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="text-dark mb-1 ft-medium medium">Upload Bukti:<font>.png, .jpg, .jpeg</font></label>
-                                
-                                <div class="custom-file">
-                                    <div class="holder" style="display: none">
-                                        <img id="imgPreview" class="img-preview" src="#" alt="pic" width="100"/>
-                                    </div>
-                                    <input type="file" class="custom-file-input" id="customFile" name="foto">
-                                    
-                                    <label class="custom-file-label" for="customFile">Pilih file</label>
-                                    <span id="foto_error" class="text-error"></span>
+                                <div class="form-group">
+                                    <input type="hidden" name="kode_verifikasi" value="{{ $kode_verifikasi ?? ''}}">
+                                    <label class="text-dark mb-1 ft-medium medium">Nama Rekening Bank</label>
+                                    <input type="text" class="form-control" placeholder="Nama Bank Rekening" name="bank">
+                                    <span id="bank_error" class="text-error"></span>
                                 </div>
-                            </div>
+                                
+                                
+                                <div class="form-group">
+                                    <label class="text-dark mb-1 ft-medium medium">Nominal Transfer:</label>
+                                    <input type="number" class="form-control" placeholder="x.xxx.xxx" name="nominal">
+                                    <span id="nominal_error" class="text-error"></span>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="text-dark mb-1 ft-medium medium">Upload Bukti:<font>.png, .jpg, .jpeg</font></label>
+                                    
+                                    <div class="custom-file">
+                                        <div class="holder" style="display: none">
+                                            <img id="imgPreview" class="img-preview" src="#" alt="pic" width="100"/>
+                                        </div>
+                                        <input type="file" class="custom-file-input" id="customFile" name="foto">
+                                        
+                                        <label class="custom-file-label" for="customFile">Pilih file</label>
+                                        <span id="foto_error" class="text-error"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row" style="justify-content: center">
+                                    <button type="button" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm" onclick="save()">Submit</button>
+                                </div>
+                                
+                            </form>
+                        </div>
+                        <div class="form-pmb-gateway" style="display: none;">
+                            <form class="_apply_form_form" id="payment-gateway" method="post" action="snapfinish" >
+                        
+                                <div class="form-group">
+                                    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                                    <label class="text-dark mb-1 ft-medium medium">&nbsp;</label>
+                                    <input type="hidden" class="form-control" name="result_type" id="result-type" value="">
+                                    <input type="hidden" class="form-control" name="result_data" id="result-data" value="">
+                                </div>
+                            </form>
                             
-                            <div class="form-group row" style="justify-content: center">
-                                <button type="button" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm" onclick="save()">Submit</button>
-                            </div>
-                            
-                        </form>
+                            <button id="pay-button" class="btn btn-md theme-bg-light rounded theme-cl hover-theme">Bayar</button>
+                        </div>
+                       
+
+                       
                     </div>
                     
                     <div class="col-xl-6 ">
@@ -227,6 +245,14 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
+        var div_from =  '{{ $reservasi->jenis_t_reservasi }}';
+        if (div_from != 'cash') {
+            $('.form-pmb-gateway').show();
+            $('.form-pmb-manual').hide();
+        } else {
+            $('.form-pmb-gateway').hide();
+            $('.form-pmb-manual').show();
+        }
         $('#customFile').change(function(){
             const file = this.files[0];
             console.log(file);
@@ -296,6 +322,53 @@
             }
         })
     }
+
+    $('#pay-button').click(function (event) {
+        event.preventDefault();
+        $(this).attr("disabled", "disabled");
+        $.ajax({
+          
+          // url: './snaptoken',
+          url : '{{route("booking.snaptoken")}}',
+          cache: false,
+
+          success: function(data) {
+            //location = data;
+
+            console.log('token = '+data);
+            
+            var resultType = document.getElementById('result-type');
+            var resultData = document.getElementById('result-data');
+
+            function changeResult(type,data){
+              $("#result-type").val(type);
+              $("#result-data").val(JSON.stringify(data));
+              //resultType.innerHTML = type;
+              //resultData.innerHTML = JSON.stringify(data);
+            }
+
+            snap.pay(data, {
+              
+              onSuccess: function(result){
+                changeResult('success', result);
+                console.log(result.status_message);
+                console.log(result);
+                $("#payment-form").submit();
+              },
+              onPending: function(result){
+                changeResult('pending', result);
+                console.log(result.status_message);
+                $("#payment-form").submit();
+              },
+              onError: function(result){
+                changeResult('error', result);
+                console.log(result.status_message);
+                $("#payment-form").submit();
+              }
+            });
+          }
+        });
+    });
    
 
    
