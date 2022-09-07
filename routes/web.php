@@ -73,7 +73,7 @@ Route::group([
 ], function (){
     // Route::get('/snaptoken/', [SnapController::class, 'token'])->name('snaptoken');
     // Route::get('/', [SnapController::class, 'snap'])->name('snap');
-    
+
     // Route::post('/snapfinish', [SnapController::class, 'finish'])->name('snsnapfinishap');
 });
 
@@ -262,9 +262,9 @@ Route::group([
     ], function () {
         Route::get('/', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'index'])->name('index');
         Route::post('/detail_modal', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'detail_modal'])->name('detail_modal');
-        Route::post('/verifikasi_modal', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'verifikasi_modal'])->name('verifikasi_modal');
+        Route::post('/bukti_pembayaran_modal', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'bukti_pembayaran_modal'])->name('bukti_pembayaran_modal');
         Route::post('/datatable', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'datatable'])->name('datatable');
-        Route::post('/verifikasi', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'verifikasi'])->name('verifikasi');
+        Route::post('/transaksi_selesai', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'transaksi_selesai'])->name('transaksi_selesai');
 
         Route::get('/add', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'add'])->name('add');
         Route::post('/update', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'update'])->name('update');

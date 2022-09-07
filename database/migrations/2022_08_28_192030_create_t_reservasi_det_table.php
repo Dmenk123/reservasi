@@ -18,6 +18,7 @@ class CreateTReservasiDetTable extends Migration
             $table->integer('id_t_reservasi_det');
             $table->primary('id_t_reservasi_det');
             $table->string('kode_t_reservasi', 100)->nullable();
+            $table->string('kode_konfirmasi', 100)->nullable();
             $table->string('original', 100)->nullable();
             $table->string('medium', 100)->nullable();
             $table->string('small', 100)->nullable();

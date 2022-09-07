@@ -10,11 +10,11 @@ use App\Models\T_reservasi;
 use App\Models\M_interval;
 use Illuminate\Http\Request;
 use App\Models\T_group_content;
-use App\Models\T_reservasi_det;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\T_jadwal_rutin;
 use App\Models\T_pembayaran;
+use App\Models\T_pembayaran_det;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Collection;
@@ -38,7 +38,8 @@ class Trans_pembayaran extends Controller
     public function datatable(Request $request)
     {
         if ($request->ajax()) {
-            $query = T_pembayaran::with(['t_reservasi', 't_pembayaran_det'])->orderByDesc('created_at')->get();
+            $query = T_pembayaran::with(['t_reservasi', 't_pembayaran_det'])->whereNull('tgl_pelunasan_t_pembayaran')->orderByDesc('created_at')->get();
+            // dd($query);
             $data  = [];
             foreach ($query as $key => $val) {
                 // dd($val, $val->id_t_reservasi, $val->m_proses->nm_m_proses);
@@ -47,24 +48,36 @@ class Trans_pembayaran extends Controller
                 $obj->id_t_pembayaran = $val->id_t_pembayaran;
                 $obj->id_t_reservasi = $val->id_t_reservasi;
                 $obj->kode_t_reservasi = $val->t_reservasi->kode_t_reservasi;
-                $obj->nilai_t_pembayaran = $val->nilai_t_pembayaran;
+                $obj->nilai_t_pembayaran = ($val->nilai_t_pembayaran) ? number_format($val->nilai_t_pembayaran,0,',','.') : 0;
                 $obj->jenis_t_pembayaran = $val->jenis_t_pembayaran;
-                $obj->balance_t_pembayaran = $val->balance_t_pembayaran;
-                $obj->nominal_cicilan_t_pembayaran = $val->nominal_cicilan_t_pembayaran;
+                $obj->balance_t_pembayaran = ($val->balance_t_pembayaran) ? number_format($val->balance_t_pembayaran,0,',','.') : 0;
+                $obj->nominal_cicilan_t_pembayaran = ($val->nominal_cicilan_t_pembayaran) ? number_format($val->nominal_cicilan_t_pembayaran,0,',','.') : 0;
                 $obj->durasi_cicilan_t_pembayaran = $val->durasi_cicilan_t_pembayaran;
                 $obj->cicilan_ke_t_pembayaran = $val->cicilan_ke_t_pembayaran;
-                $obj->nominal_total_t_pembayaran = $val->nominal_total_t_pembayaran;
-                $obj->tgl_pelunasan_t_pembayaran = Carbon::parse($val->tgl_pelunasan_t_pembayaran)->format('d-m-Y');
+                $obj->nominal_total_t_pembayaran = ($val->nominal_total_t_pembayaran) ? number_format($val->nominal_total_t_pembayaran,0,',','.') : 0;
+                $obj->tgl_pelunasan_t_pembayaran = ($val->tgl_pelunasan_t_pembayaran) ? Carbon::parse($val->tgl_pelunasan_t_pembayaran)->format('d-m-Y') : '';
                 ### wajib menggunakan nama object action
-                $obj->action = '<div class="btn-group">
-                                <button class="btn btn-sm btn-primary dropdown-toggle waves-effect waves-float waves-light hide" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
-                                actions
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
-                                    <a class="dropdown-item detail" data-id_t_pembayaran="'.$val->id_t_pembayaran.'" href="javascript:void(0)">Detail</a>
-                                    <a class="dropdown-item edit" data-id_t_pembayaran="'.$val->id_t_pembayaran.'" href="javascript:void(0)">Edit</a>
-                                </div>
-                            </div>';
+                if($val->balance_t_pembayaran == '0' && $val->tgl_pelunasan_t_pembayaran == null) {
+                    $obj->action = '<div class="btn-group">
+                        <button class="btn btn-sm btn-primary dropdown-toggle waves-effect waves-float waves-light hide" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
+                        actions
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
+                            <a class="dropdown-item detail" data-id_t_pembayaran="'.$val->id_t_pembayaran.'" href="javascript:void(0)">Detail</a>
+                            <a class="dropdown-item transaksi-selesai" data-id_t_pembayaran="'.$val->id_t_pembayaran.'" href="javascript:void(0)">Set as Finish</a>
+                        </div>
+                    </div>';
+                }else{
+                    $obj->action = '<div class="btn-group">
+                        <button class="btn btn-sm btn-primary dropdown-toggle waves-effect waves-float waves-light hide" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="true">
+                        actions
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);" data-popper-placement="bottom-start">
+                            <a class="dropdown-item detail" data-id_t_pembayaran="'.$val->id_t_pembayaran.'" href="javascript:void(0)">Detail</a>
+                        </div>
+                    </div>';
+                }
+
                 // $val->created_at = Carbon::now();
                 // $val->updated_at = Carbon::now();
                 $data[] = $obj;
@@ -76,6 +89,44 @@ class Trans_pembayaran extends Controller
 
             return Datatables::of($datatable)->addIndexColumn()->rawColumns(['action'])->make(true);
         }
+    }
+
+    public function detail_modal(Request $request)
+    {
+        if(!$request->filled('id_t_pembayaran')) {
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        $query = T_pembayaran::with(['t_reservasi', 't_pembayaran_det'])->where('id_t_pembayaran', $request->id_t_pembayaran)->firstOrFail();
+
+        $data = [
+            'old' => $query,
+        ];
+
+        // dd($query);
+
+        return view('admin.t_pembayaran.detail_modal')->with($data);
+    }
+
+    public function bukti_pembayaran_modal(Request $request)
+    {
+        if(!$request->filled('id_t_pembayaran_det')) {
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        $query = T_pembayaran_det::with(['t_reservasi_det'])->where('id_t_pembayaran_det', $request->id_t_pembayaran_det)->firstOrFail();
+
+        $data = [
+            'old' => $query,
+        ];
+
+        // dd($query);
+
+        return view('admin.t_pembayaran.bukti_pembayaran_modal')->with($data);
     }
 
     public function edit_modal(Request $request)
@@ -180,11 +231,11 @@ class Trans_pembayaran extends Controller
         return view('admin.t_pembayaran.verifikasi_modal')->with($data);
     }
 
-    public function verifikasi(Request $request)
+    public function transaksi_selesai(Request $request)
     {
         // dd($request->all());
-        if(request()->filled('id_t_reservasi') && request()->filled('verifikasi_transaksi')) {
-            $cek = T_reservasi::where('id_t_reservasi', $request->id_t_reservasi)->first();
+        if(request()->filled('id_t_pembayaran')) {
+            $cek = T_pembayaran::where('id_t_pembayaran', $request->id_t_pembayaran)->first();
 
             if(!$cek) {
                 return response()->json([
@@ -196,28 +247,41 @@ class Trans_pembayaran extends Controller
 
             DB::beginTransaction();
 
-            $cek->verified_at = Carbon::now()->format('Y-m-d H:i:s');
-            $cek->verified_by = session()->get('logged_in.id_m_user_bo');
-            $cek->id_m_proses = M_proses::ID_M_PROSES_VERIFIKASI_PEMBAYARAN;
+            ### update pembayaran
+            $cek->tgl_pelunasan_t_pembayaran = Carbon::now()->format('Y-m-d');
+            $cek->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+
+            ### update reservasi
+            ### set proses
+            $reservasi = T_reservasi::where('id_t_reservasi', $cek->id_t_reservasi)->first();
+            if(!$reservasi) {
+                return response()->json([
+                    'message' => 'Reservasi tidak ditemukan',
+                    'status'  => false,
+                ]);
+            }
+
+            $reservasi->id_m_proses = M_proses::ID_M_PROSES_TRANSAKSI_SELESAI;
             $cek->updated_at = Carbon::now()->format('Y-m-d H:i:s');
 
             ### proses
             $proses = new T_log_proses;
             $proses->id_t_log_proses = T_log_proses::MaxId();
-            $proses->id_t_reservasi = $request->id_t_reservasi;
-            $proses->id_m_proses = M_proses::ID_M_PROSES_VERIFIKASI_PEMBAYARAN;
+            $proses->id_t_reservasi = $cek->id_t_reservasi;
+            $proses->id_m_proses = M_proses::ID_M_PROSES_TRANSAKSI_SELESAI;
             $proses->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
             try{
 
                 $cek->save();
+                $reservasi->save();
                 $proses->save();
 
                 DB::commit();
                 return response()->json([
                     'status' => true,
                     'message' => 'Data Saved',
-                    'redirect' => route('admin.t_pembayaran.index'),
+                    // 'redirect' => route('admin.t_pembayaran.index'),
                 ]);
             }catch(\Exception $e){
                 DB::rollback();
@@ -229,7 +293,7 @@ class Trans_pembayaran extends Controller
 
         }else{
             return response()->json([
-                'message' => 'Belum melakukan verifikasi (ceklis)',
+                'message' => 'Invalid data',
                 'status'  => false,
             ]);
         }

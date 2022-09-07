@@ -37,4 +37,9 @@ class T_pembayaran_det extends Model
     {
         return $this->belongsTo(T_pembayaran::class, 'id_t_pembayaran', 'id_t_pembayaran');
     }
+
+    public function t_reservasi_det()
+    {
+        return $this->hasOne(T_reservasi_det::class, 'kode_konfirmasi', 'kode_konfirmasi');
+    }
 }

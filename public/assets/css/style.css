@@ -115,6 +115,7 @@ a:hover{
     background-color: #CED9DD;
 }
 
+
 .table {
     --bs-table-bg: transparent;
     --bs-table-accent-bg: transparent;
@@ -125,6 +126,13 @@ a:hover{
     --bs-table-active-bg: rgba(34, 41, 47, 0.1);
     --bs-table-hover-color: #6E6B7B;
     --bs-table-hover-bg: #F6F6F9;
+}
+
+.modal:nth-of-type(even) {
+    z-index: 1052 !important;
+}
+.modal-backdrop.show:nth-of-type(even) {
+    z-index: 1051 !important;
 }
 
 .col-form-label {

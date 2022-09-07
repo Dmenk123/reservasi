@@ -40,6 +40,6 @@ class T_pembayaran extends Model
 
     public function t_reservasi()
     {
-        return $this->belongsTo(T_reservasi::class, 'id_t_reserasi', 'id_t_reserasi');
+        return $this->hasOne(T_reservasi::class, 'id_t_reservasi', 'id_t_reservasi');
     }
 }

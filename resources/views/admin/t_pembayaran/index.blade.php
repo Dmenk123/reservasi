@@ -81,7 +81,7 @@
     <!--/ Advanced Search -->
 
     {{-- @include('admin.layout.modal_edit') --}}
-    @include('admin.layout.modal_global', ['title' => 'Transaksi Pembayaran'])
+    @include('admin.layout.modal_global', ['title' => 'Bukti Pembayaran'])
     @include('admin.layout.modal_preview')
     {{-- @include('admin.layout.modal_add') --}}
 @endsection
@@ -115,7 +115,68 @@ $(document).ready( function () {
             // $('div.ndelik').slideDown();
             generateDataTabel(month, year);
         }
-    })
+    });
+
+    $('#datatable').on('click', '.detail', function(){
+        $('#modal_preview').modal('show');
+        var id_t_pembayaran = $(this).data("id_t_pembayaran");
+        // console.log(id_t_content);
+        $('#modal_preview .modal-body').html('');
+        $.ajax({
+            url:"{{ route('admin.t_pembayaran.detail_modal') }}",
+            method:"post",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            data:{id_t_pembayaran:id_t_pembayaran},
+            success:function(data)
+            {
+                $('#modal_preview .modal-body').html(data);
+            },
+            error: function(data){
+                displayErrorSwal();
+            }
+        });
+    });
+
+    $('#datatable').on('click', '.transaksi-selesai', function(){
+        var id_t_pembayaran = $(this).data("id_t_pembayaran");
+        swal.fire({
+            title: "Confirmation",
+            text: 'Yakin Selesaikan Transaksi ini ?',
+            icon: "warning",
+            showCancelButton: !0,
+            confirmButtonText: "OK",
+            cancelButtonText: "Cancel",
+            reverseButtons: !0
+        }).then(function (e) {
+
+            if(e.value){
+                $.ajax({
+                    url:"{{ route('admin.t_pembayaran.transaksi_selesai') }}",
+                    method:"post",
+                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                    data:{id_t_pembayaran:id_t_pembayaran},
+                    success:function(data)
+                    {
+                        if(data.status == true){
+                            swal.fire({
+                                title: "Transaksi Telah Selesai !",
+                                text: 'Data telah dikonfirmasi',
+                                icon: "success"
+                            }).then(function() {
+                                table.ajax.reload();
+                            });
+                        }else{
+                            displayErrorSwal(data.message);
+                        }
+                    },
+                    error: function(data){
+                        displayErrorSwal(data.message);
+                    }
+                });
+            }
+
+            })
+    });
 });
 
 const generateDataTabel = (month = null, year = null) => {
@@ -157,37 +218,16 @@ const generateDataTabel = (month = null, year = null) => {
     });
 }
 
-//EDIT IN MODAL [BEGIN]
-$('#datatable').on('click', '.detail', function(){
-    $('#modal_preview').modal('show');
-    var id_t_pembayaran = $(this).data("id_t_pembayaran");
-    // console.log(id_t_content);
-    $('#modal_preview .modal-body').html('');
-    $.ajax({
-        url:"{{ route('admin.t_pembayaran.detail_modal') }}",
-        method:"post",
-        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        data:{id_t_reservasi:id_t_reservasi},
-        success:function(data)
-        {
-            $('#modal_preview .modal-body').html(data);
-        },
-        error: function(data){
-            displayErrorSwal();
-        }
-    });
-});
-
-$('#datatable').on('click', '.verifikasi', function(){
+const viewBuktiPembayaran = (id_t_pembayaran_det) => {
     $('#modal_global').modal('show');
-    var id_t_reservasi = $(this).data("id_t_reservasi");
+    // var id_t_reservasi = $(this).data("id_t_reservasi");
     // console.log(id_t_content);
     $('#modal_global .modal-body').html('');
     $.ajax({
-        url:"{{ route('admin.t_reservasi.verifikasi_modal') }}",
+        url:"{{ route('admin.t_pembayaran.bukti_pembayaran_modal') }}",
         method:"post",
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        data:{id_t_reservasi:id_t_reservasi},
+        data:{id_t_pembayaran_det:id_t_pembayaran_det},
         success:function(data)
         {
             $('#modal_global .modal-body').html(data);
@@ -196,98 +236,17 @@ $('#datatable').on('click', '.verifikasi', function(){
             displayErrorSwal();
         }
     });
-});
+}
 
-// $('.add').click(function(){
-//     $('#modal_add').modal('show');
-//     $('#modal_add .modal-body').html('');
-//     $.ajax({
-//         url:"{{ route('admin.t_content.add_modal') }}",
-//         method:"post",
-//         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-//         success:function(data)
-//         {
-//             $('#modal_add .modal-body').html(data);
-//         },
-//         error: function(data){
-//             displayErrorSwal();
-//         }
-//     });
-// })
-
-
-// $('#datatable').on('click', '.delete', function(){
-//     var id_t_content = $(this).data("id_t_content");
-//     swal.fire({
-//         title: "Confirmation",
-//         text: confirm_delete_text,
-//         icon: "warning",
-//         showCancelButton: !0,
-//         confirmButtonText: "OK",
-//         cancelButtonText: "Cancel",
-//         reverseButtons: !0
-//     }).then(function (e) {
-
-//         if(e.value){
-//             $.ajax({
-//                 url:"{{ route('admin.t_content.delete') }}",
-//                 method:"post",
-//                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-//                 data:{id_t_content:id_t_content},
-//                 success:function(data)
-//                 {
-//                     if(data.status == true){
-//                         swal.fire({
-//                             title: "Deleted!",
-//                             text: data_deleted,
-//                             icon: "success"
-//                         }).then(function() {
-//                             table.ajax.reload();
-//                         });
-//                     }else{
-//                         displayErrorSwal(data.message);
-//                     }
-//                 },
-//                 error: function(data){
-//                     displayErrorSwal(data.message);
-//                 }
-//             });
-//         }
-
-//         })
-// });
-
-
-
-
-$('#datatable').on('click', '.user-group', function(){
-    $('#modal_global').modal('show');
-    var id_t_content = $(this).data("id_t_content");
-
-    $('#modal_global .modal-body').html('');
-    $.ajax({
-        url:"{{ route('admin.t_content.user_group_modal') }}",
-        method:"post",
-        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-        data:{id_t_content:id_t_content},
-        success:function(data)
-        {
-            $('#modal_global .modal-body').html(data);
-        },
-        error: function(data){
-            displayErrorSwal();
-        }
-    });
-});
 
 $('#modal_edit').on('click', '.close_modal', function(){
   $('#modal_edit .modal-body').html('');
   $('#modal_edit').modal('hide');
 });
 
-$('#modal_add').on('click', '.close_modal', function(){
-  $('#modal_add .modal-body').html('');
-  $('#modal_add').modal('hide');
+$('#modal_preview').on('click', '.close_modal', function(){
+  $('#modal_preview .modal-body').html('');
+  $('#modal_preview').modal('hide');
 });
 
 $('#modal_global').on('click', '.close_modal', function(){
