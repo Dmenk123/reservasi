@@ -15,9 +15,11 @@ class M_proses extends Model
     protected $dates = ['deleted_at'];
 
     const ID_M_PROSES_PENGISIAN_DATA_DIRI = 1;
+    const ID_M_PROSES_PENGISIAN_METODE_BAYAR = 2;
     const ID_M_PROSES_PEMBAYARAN = 3;
     const ID_M_PROSES_KONFIRMASI_PEMBAYARAN = 4;
     const ID_M_PROSES_TRANSAKSI_SELESAI = 5;
+    const ID_M_PROSES_REJECT = 6;
 
     protected $fillable = ['nm_m_proses'];
 

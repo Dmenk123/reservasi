@@ -23,6 +23,15 @@ use Yajra\Datatables\Datatables;
 class T_reservasi_controller extends Controller
 {
 
+    protected $arr_color = [
+        M_proses::ID_M_PROSES_PENGISIAN_DATA_DIRI => '#abcbc6',
+        M_proses::ID_M_PROSES_PENGISIAN_METODE_BAYAR => '#aba0c6',
+        M_proses::ID_M_PROSES_PEMBAYARAN => '#aba0c6',
+        M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN => '#418eee',
+        M_proses::ID_M_PROSES_TRANSAKSI_SELESAI => '#4de356',
+        M_proses::ID_M_PROSES_REJECT => '#db5153',
+    ];
+
     public function index()
     {
         $proses = M_proses::whereNotIn('id_m_proses', [M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN])->orderBy('urut_m_proses')->get();
@@ -73,12 +82,13 @@ class T_reservasi_controller extends Controller
                 $obj->email_t_reservasi = $val->email_reservasi;
                 $obj->kode_t_reservasi = $val->kode_t_reservasi;
                 $obj->telp_t_reservasi = $val->telp_t_reservasi;
-                $obj->nm_m_proses = $val->m_proses->nm_m_proses;
+                $obj->nm_m_proses = '<span style="color:'.$this->arr_color[$val->m_proses->id_m_proses].';font-weight:bold;">'.$val->m_proses->nm_m_proses.'</span>';
                 $obj->tgl_t_reservasi = $val->hari_t_reservasi.' / '.Carbon::parse($val->tanggal_t_reservasi)->format('d-m-Y');
                 $obj->jam_t_reservasi = Carbon::parse($val->jam_t_reservasi)->format('H:i');
                 $obj->jenis_t_reservasi = $val->jenis_t_reservasi;
                 $obj->metode_pembayaran_t_reservasi = $val->metode_pembayaran_t_reservasi;
                 $obj->kode_payment_t_reservasi = $val->kode_payment_t_reservasi;
+
                 ### wajib menggunakan nama object action
                 if($val->id_m_proses == M_proses::ID_M_PROSES_PEMBAYARAN) {
                     $str_aksi = '
@@ -109,7 +119,7 @@ class T_reservasi_controller extends Controller
 
             $datatable = new Collection($data);
 
-            return Datatables::of($datatable)->addIndexColumn()->rawColumns(['action'])->make(true);
+            return Datatables::of($datatable)->addIndexColumn()->rawColumns(['action', 'nm_m_proses'])->make(true);
         }
     }
 
