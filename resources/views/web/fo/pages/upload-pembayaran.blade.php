@@ -202,13 +202,19 @@
                             </form>
                         </div>
                         <div class="form-pmb-gateway" style="display: none;">
-                            <form class="_apply_form_form" id="payment-gateway" method="post" action="snapfinish" >
+                            <form class="_apply_form_form" id="payment-form" method="post" action="{{ url('booking/snapfinish') }}" >
                         
                                 <div class="form-group">
                                     <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                                     <label class="text-dark mb-1 ft-medium medium">&nbsp;</label>
                                     <input type="hidden" class="form-control" name="result_type" id="result-type" value="">
                                     <input type="hidden" class="form-control" name="result_data" id="result-data" value="">
+                                    <input type="hidden" class="form-control" name="kode-reservasi" id="kode-reservasi" value="{{ $reservasi->kode_t_reservasi }}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-dark mb-1 ft-medium medium">Harga:</label>
+                                    <input type="number" class="form-control" placeholder="x.xxx.xxx" name="price" id="price" value="3000000">
+                                    <span id="nominal_error" class="text-error"></span>
                                 </div>
                             </form>
                             
@@ -245,8 +251,8 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-        var div_from =  '{{ $reservasi->jenis_t_reservasi }}';
-        if (div_from != 'cash') {
+        var div_from =  '{{ $reservasi->metode_pembayaran_t_reservasi }}';
+        if (div_from != 'upload') {
             $('.form-pmb-gateway').show();
             $('.form-pmb-manual').hide();
         } else {
@@ -325,11 +331,18 @@
 
     $('#pay-button').click(function (event) {
         event.preventDefault();
+        var price = $('#price').val();
+        var code = $('#kode-reservasi').val();
         $(this).attr("disabled", "disabled");
         $.ajax({
           
           // url: './snaptoken',
-          url : '{{route("booking.snaptoken")}}',
+          type: 'GET',
+        //   headers: {
+        //                 "X-CSRF-TOKEN": token
+        //             },
+          url : '{{route("booking.snaptoken")}}?price='+price+'&code='+code,
+        //   data : {price : price},
           cache: false,
 
           success: function(data) {

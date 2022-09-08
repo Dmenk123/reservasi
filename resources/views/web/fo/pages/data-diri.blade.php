@@ -94,7 +94,7 @@
                                 <label class="text-dark mb-1 ft-medium medium radio-custom-label">Metode Pembayaran:</label>
                                 <div class="selector">
                                     <div class="selecotr-item">
-                                        <input type="radio" id="radio1" name="pembayaran" value="manual" class="selector-item_radio" checked>
+                                        <input type="radio" id="radio1" name="pembayaran" value="upload" class="selector-item_radio" checked>
                                         <label for="radio1" class="selector-item_label">Manual</label>
                                     </div>
                                     <div class="selecotr-item">

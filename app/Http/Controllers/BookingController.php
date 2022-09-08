@@ -232,7 +232,7 @@ class BookingController extends Controller
         $object->tanggal_t_reservasi = $request->date;
         $object->jam_t_reservasi = $request->time;
         $object->jenis_t_reservasi = ($request->type == 'lunas') ? 'cash' : 'kredit';
-        $object->metode_pembayaran_t_reservasi = ($request->type == 'lunas') ? 'upload' : 'gateway';
+        $object->metode_pembayaran_t_reservasi = $request->pembayaran;
         $kode_verifikasi = $this->random();
         $object->kode_t_reservasi = $kode_verifikasi;
         $object->created_at = Carbon::now()->format('Y-m-d H:i:s');
@@ -497,40 +497,36 @@ class BookingController extends Controller
         echo $res;
     }
 
-    public function token() 
+    public function token(Request $request) 
     {
         error_log('masuk ke snap token dri ajax');
         $midtrans = new Midtrans;
 
+        $member = T_reservasi::where('kode_t_reservasi', $request->code)->first();
+
         $transaction_details = array(
             'order_id'      => uniqid(),
-            'gross_amount'  => 200000
+            'gross_amount'  => $request->price
         );
 
         // Populate items
         $items = [
             array(
                 'id'        => 'item1',
-                'price'     => 100000,
+                'price'     => $request->price,
                 'quantity'  => 1,
                 'name'      => 'Adidas f50'
-            ),
-            array(
-                'id'        => 'item2',
-                'price'     => 50000,
-                'quantity'  => 2,
-                'name'      => 'Nike N90'
             )
         ];
 
         // Populate customer's billing address
         $billing_address = array(
-            'first_name'    => "Andri",
-            'last_name'     => "Setiawan",
+            'first_name'    => $member->nm_t_reservasi,
+            'last_name'     => "",
             'address'       => "Karet Belakang 15A, Setiabudi.",
             'city'          => "Jakarta",
             'postal_code'   => "51161",
-            'phone'         => "081322311801",
+            'phone'         => $member->telp_t_reservasi,
             'country_code'  => 'IDN'
             );
 
@@ -547,10 +543,10 @@ class BookingController extends Controller
 
         // Populate customer's Info
         $customer_details = array(
-            'first_name'      => "Andri",
-            'last_name'       => "Setiawan",
-            'email'           => "andrisetiawan@asdasd.com",
-            'phone'           => "081322311801",
+            'first_name'      => $member->nm_t_reservasi,
+            'last_name'       => "",
+            'email'           => $member->email_reservasi,
+            'phone'           => $member->telp_t_reservasi,
             'billing_address' => $billing_address,
             'shipping_address'=> $shipping_address
             );
@@ -580,6 +576,7 @@ class BookingController extends Controller
             $snap_token = $midtrans->getSnapToken($transaction_data);
             //return redirect($vtweb_url);
             echo $snap_token;
+            // echo json_encode(['token'=>$snap_token, 'transData' => $transaction_data]);
         } 
         catch (Exception $e) 
         {   
@@ -590,11 +587,82 @@ class BookingController extends Controller
     public function finish(Request $request)
     {
         $result = $request->input('result_data');
+        $kode_reservasi = $request->input('kode-reservasi');
         $result = json_decode($result);
-        echo $result->status_message . '<br>';
-        echo 'RESULT <br><pre>';
-        var_dump($result);
-        echo '</pre>' ;
+
+        DB::beginTransaction();
+        
+        if (isset($result->va_number[0]->bank)) {
+			$bank = $result->va_number[0]->bank;
+		} else {
+			$bank = '-';
+		}
+
+		if (isset($result->va_number[0]->va_number)) {
+			$va_number = $result->va_number[0]->va_number;
+		} else {
+			$va_number = '-';
+		}
+
+		if (isset($result->bca_va_number)) {
+			$bca_va_number = $result->bca_va_number;
+		} else {
+			$bca_va_number = '-';
+		}
+
+		if (isset($result->bill_key)) {
+			$bill_key = $result->bill_key;
+		} else {
+			$bill_key = '-';
+		}
+
+		if (isset($result->biller_code)) {
+			$biller_code = $result->biller_code;
+		} else {
+			$biller_code = '-';
+		}
+
+		if (isset($result->permata_va_number)) {
+			$permata_va_number = $result->permata_va_number;
+		} else {
+			$permata_va_number = '-';
+		}
+
+        $reservasi_det = new T_reservasi_det;
+        $reservasi_det->id_t_reservasi_det = T_reservasi_det::MaxId();
+        $reservasi_det->kode_t_reservasi = $kode_reservasi;
+        $reservasi_det->bank = $bank;
+        $reservasi_det->status_code = $result->status_code;
+        $reservasi_det->status_message = $result->status_message;
+        $reservasi_det->transaction_id = $result->transaction_id;
+        $reservasi_det->order_id = $result->order_id;
+        $reservasi_det->nominal = $result->gross_amount;
+        $reservasi_det->payment_type = $result->payment_type;
+        $reservasi_det->transaction_time = $result->transaction_time;
+        $reservasi_det->transaction_status = $result->transaction_status;
+        $reservasi_det->va_number = $va_number;
+        $reservasi_det->fraud_status = $result->fraud_status;
+        $reservasi_det->bca_va_number = $bca_va_number;
+        $reservasi_det->permata_va_number = $permata_va_number;
+        $reservasi_det->pdf_url = $result->pdf_url;
+        $reservasi_det->finish_redirect_url = $result->finish_redirect_url;
+        $reservasi_det->bill_key = $bill_key;
+        $reservasi_det->biller_code = $biller_code;
+        $reservasi_det->created_at = Carbon::now()->format('Y-m-d H:i:s');
+
+        try{
+            $reservasi_det->save();
+
+            DB::commit();
+            return redirect(route('booking.after-payment', ['id' => $kode_t_reservasi]));
+           
+        }catch(\Exception $e){
+            DB::rollback();
+        }
+        // echo $result->status_message . '<br>';
+        // echo 'RESULT <br><pre>';
+        // var_dump($result);
+        // echo '</pre>' ;
     }
 
     public function notification()

@@ -61,8 +61,8 @@ Route::group([
     Route::post('/save-pembayaran', [BookingController::class, 'savePembayaran'])->name('save-pembayaran');
     Route::get('/after-payment/{id}', [BookingController::class, 'afterPayment'])->name('after-payment');
 
-    Route::get('/snaptoken/', [SnapController::class, 'token'])->name('snaptoken');
-    Route::post('/snapfinish', [SnapController::class, 'finish'])->name('snsnapfinishap');
+    Route::get('/snaptoken', [BookingController::class, 'token'])->name('snaptoken');
+    Route::post('/snapfinish', [BookingController::class, 'finish'])->name('snsnapfinishap');
 
     Route::get('/coba', [BookingController::class, 'jajalEmail'])->name('coba');
 });
