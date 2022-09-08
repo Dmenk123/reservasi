@@ -7,7 +7,7 @@
 
 <!-- ======================= Content ======================== -->
 <style>
-    @import 'https://fonts.googleapis.com/css?family=Roboto:400,700';
+@import 'https://fonts.googleapis.com/css?family=Roboto:400,700';
 @import 'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css';
 
 .clearfix::before, .clearfix::after {
@@ -106,7 +106,7 @@
 <section class="space gray">
     <br>
     <div class="container">
-    
+
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 {{-- <div class="sec_title position-relative text-center mb-5">
@@ -115,7 +115,7 @@
                 </div> --}}
             </div>
         </div>
-        
+
         <div class="row" >
             <div class="icon-box" style="transition: none;transform: none; width: 100%">
                 <div class="row" style="justify-content: center;">
@@ -145,7 +145,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                       
+
                                     </tbody>
                                 </table>
                                 <br>
@@ -159,15 +159,15 @@
                                     <div class="main-content">
                                       <div class="status-label">Pembayaran</div>
                                       <div class="card-title">Rincian</div>
-                                  
+
                                       <dl class="info-listing clearfix">
                                         <dt class="ion-ios-pricetag" style="margin: 0px!important">{{ $reservasi->jenis_t_reservasi == 'cash' ? 'Paket Lunas' : 'Paket Ngecup'  }}</dt>
-                                        <dd>3.000.000</dd>
+                                        <dd>{{number_format($harga->nominal_m_harga,0,',','.')}}</dd>
                                         {{-- <dt class="ion-ios-pricetag" style="margin: 0px!important">Status</dt>
                                         <dd>Stable</dd> --}}
                                       </dl>
                                     </div>
-                                    
+
                                     <div class="sub-note">
                                         <div class="d-flex align-items-center">
                                             <div class="rounded-circle bg-light-success theme-cl p-2 small d-flex align-items-center justify-content-center">
@@ -177,18 +177,18 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
                             </div>
                         </div>
-                      
+
                     </div>
-                    
-                   
+
+
                 </div>
 
             </div>
         </div>
-          
+
 
     </div>
 </section>
@@ -198,5 +198,4 @@
 
 @endsection
 
-			
-		
+

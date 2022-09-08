@@ -95,9 +95,15 @@ class T_reservasi_controller extends Controller
                         <a class="dropdown-item detail" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">View Detail</a>
                         <a class="dropdown-item verifikasi" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">Verifikasi</a>
                     ';
-                }else{
+                }elseif($val->id_m_proses == M_proses::ID_M_PROSES_TRANSAKSI_SELESAI) {
+                    $str_aksi = '
+                        <a class="dropdown-item detail_pembayaran" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">View Detail</a>
+                    ';
+                }
+                else{
                     $str_aksi = '
                         <a class="dropdown-item detail" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">View Detail</a>
+                        <a class="dropdown-item reject" data-id_t_reservasi="'.$val->id_t_reservasi.'" href="javascript:void(0)">Reject</a>
                     ';
                 }
 
@@ -125,7 +131,9 @@ class T_reservasi_controller extends Controller
 
     public function detail_modal(Request $request)
     {
-        $query = T_reservasi::with(['m_proses'])->firstOrFail();
+        $id_t_reservasi = $request->id_t_reservasi;
+        $query = T_reservasi::with(['m_proses'])->where('id_t_reservasi', $id_t_reservasi)->firstOrFail();
+
         $data = [
             'head_title' => 'Reservasi',
             'page_title' => 'Reservasi',
@@ -155,6 +163,25 @@ class T_reservasi_controller extends Controller
         // dd($data);
 
         return view('admin.t_reservasi.verifikasi_modal')->with($data);
+    }
+
+    public function detail_pembayaran_modal(Request $request)
+    {
+        if(!$request->filled('id_t_reservasi')) {
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        $query = T_pembayaran::with(['t_reservasi', 't_pembayaran_det'])->where('id_t_reservasi', $request->id_t_reservasi)->firstOrFail();
+
+        $data = [
+            'old' => $query,
+        ];
+
+        // dd($query);
+
+        return view('admin.t_pembayaran.detail_modal')->with($data);
     }
 
     public function verifikasi(Request $request)
@@ -307,6 +334,61 @@ class T_reservasi_controller extends Controller
         $rand =  substr(str_shuffle(str_repeat($pool, 5)), 0, 16);
 
         return $rand;
+    }
+
+    public function transaksi_reject(Request $request)
+    {
+        // dd($request->all());
+        if(request()->filled('id_t_reservasi')) {
+            $cek = T_reservasi::where('id_t_reservasi', $request->id_t_reservasi)->first();
+
+            if(!$cek) {
+                return response()->json([
+                    'message' => 'Transaksi tidak ditemukan',
+                    'status'  => false,
+                ]);
+            }
+
+
+            DB::beginTransaction();
+
+            ### update reservasi
+            $cek->id_m_proses = M_proses::ID_M_PROSES_REJECT;
+            $cek->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+
+            ### proses
+            $proses = new T_log_proses;
+            $proses->id_t_log_proses = T_log_proses::MaxId();
+            $proses->id_t_reservasi = $cek->id_t_reservasi;
+            $proses->id_m_proses = M_proses::ID_M_PROSES_REJECT;
+            $proses->created_at = Carbon::now()->format('Y-m-d H:i:s');
+
+            try{
+
+                $cek->save();
+                $proses->save();
+
+                DB::commit();
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data Saved',
+                    // 'redirect' => route('admin.t_pembayaran.index'),
+                ]);
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json([
+                    'message' => $e->getMessage(),
+                    'status'  => false,
+                ]);
+            }
+
+        }else{
+            return response()->json([
+                'message' => 'Invalid data',
+                'status'  => false,
+            ]);
+        }
+
     }
 
     //////////////////////////////////////////

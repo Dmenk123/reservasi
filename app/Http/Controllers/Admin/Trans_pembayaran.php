@@ -262,7 +262,7 @@ class Trans_pembayaran extends Controller
             }
 
             $reservasi->id_m_proses = M_proses::ID_M_PROSES_TRANSAKSI_SELESAI;
-            $cek->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+            $reservasi->updated_at = Carbon::now()->format('Y-m-d H:i:s');
 
             ### proses
             $proses = new T_log_proses;

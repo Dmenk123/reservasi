@@ -219,16 +219,15 @@ Route::group([
     ], function () {
         Route::get('/', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'index'])->name('index');
         Route::post('/detail_modal', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'detail_modal'])->name('detail_modal');
+        Route::post('/detail_pembayaran_modal', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'detail_pembayaran_modal'])->name('detail_pembayaran_modal');
         Route::post('/verifikasi_modal', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'verifikasi_modal'])->name('verifikasi_modal');
         Route::post('/datatable', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'datatable'])->name('datatable');
         Route::post('/verifikasi', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'verifikasi'])->name('verifikasi');
+        Route::post('/transaksi_reject', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'transaksi_reject'])->name('transaksi_reject');
 
         Route::get('/add', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'add'])->name('add');
         Route::post('/update', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'update'])->name('update');
         Route::post('/delete', [\App\Http\Controllers\Admin\T_reservasi_controller::class, 'delete'])->name('delete');
-
-        // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
-        // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });
 
     /**
@@ -249,8 +248,6 @@ Route::group([
         Route::post('/delete_detail', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'delete_detail'])->name('delete_detail');
         Route::post('/datatable', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'datatable'])->name('datatable');
         Route::post('/load_html_table', [\App\Http\Controllers\Admin\Trans_jadwal_rutin::class, 'load_html_table'])->name('load_html_table');
-        // Route::get('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage'])->name('manage');
-        // Route::post('/manage', [\App\Http\Controllers\Admin\Master_menu_bo::class, 'manage_post'])->name('manage_post');
     });
 
     /**
@@ -269,6 +266,16 @@ Route::group([
         Route::get('/add', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'add'])->name('add');
         Route::post('/update', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'update'])->name('update');
         Route::post('/delete', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'delete'])->name('delete');
+    });
+
+    /**
+     * Report Penerimaan
+     */
+    Route::group([
+        'prefix' => 'report_penerimaan',
+        'as' => 'report_penerimaan.',
+    ], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'index'])->name('index');
     });
 });
 

@@ -106,7 +106,7 @@
 <section class="space gray">
     <br>
     <div class="container">
-    
+
         <div class="row justify-content-center">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="sec_title position-relative text-center mb-5">
@@ -115,31 +115,21 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="row" >
             <div class="icon-box" style="transition: none;transform: none; width: 100%">
                 <div class="row" style="justify-content: center;">
                     <div class="col-xl-6 " style="border-right: 2px solid #314d97;">
                         <div class="row">
                             <div class="col-sm-7 ">
-                                <div class="card positive">
-                                    <div class="main-content">
-                                      <div class="status-label">Tagihan</div>
-                                      <div class="card-title">Rincian</div>
-                                  
-                                      <dl class="info-listing clearfix">
-                                        <dt class="ion-ios-pricetag" style="margin: 0px!important">{{ $reservasi->jenis_t_reservasi == 'cash' ? 'Paket Lunas' : 'Paket Ngecup'  }}</dt>
-                                        <dd>3.000.000</dd>
-                                        {{-- <dt class="ion-ios-pricetag" style="margin: 0px!important">Status</dt>
-                                        <dd>Stable</dd> --}}
-                                      </dl>
-                                    </div>
-                                    
-                                    <div class="sub-note">
-                                       status : Belum Dibayar
-                                    </div>
-                                </div>
+                                @include('web.fo.pages.include_box_rinci_pembayaran', [
+                                    'reservasi' => $reservasi,
+                                    'harga' => $harga
+                                ])
                             </div>
+
+
+
                             <div class="col-sm-5">
                                 <table width="50%" style="font-size: 12px">
                                     <tbody>
@@ -155,55 +145,55 @@
                                             <td>Telepon</td>
                                             <td><strong>{{ $reservasi->telp_t_reservasi }}</strong></td>
                                         </tr>
-                                       
+
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                      
 
-                        
+
+
                         <hr class="style10">
                         <div class="form-pmb-manual">
                             <form class="_apply_form_form" id="payment-manual">
-                        
+
                                 <div class="form-group">
                                     <input type="hidden" name="kode_verifikasi" value="{{ $kode_verifikasi ?? ''}}">
                                     <label class="text-dark mb-1 ft-medium medium">Nama Rekening Bank</label>
                                     <input type="text" class="form-control" placeholder="Nama Bank Rekening" name="bank">
                                     <span id="bank_error" class="text-error"></span>
                                 </div>
-                                
-                                
+
+
                                 <div class="form-group">
                                     <label class="text-dark mb-1 ft-medium medium">Nominal Transfer:</label>
                                     <input type="number" class="form-control" placeholder="x.xxx.xxx" name="nominal">
                                     <span id="nominal_error" class="text-error"></span>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="text-dark mb-1 ft-medium medium">Upload Bukti:<font>.png, .jpg, .jpeg</font></label>
-                                    
+
                                     <div class="custom-file">
                                         <div class="holder" style="display: none">
                                             <img id="imgPreview" class="img-preview" src="#" alt="pic" width="100"/>
                                         </div>
                                         <input type="file" class="custom-file-input" id="customFile" name="foto">
-                                        
+
                                         <label class="custom-file-label" for="customFile">Pilih file</label>
                                         <span id="foto_error" class="text-error"></span>
                                     </div>
                                 </div>
-                                
+
                                 <div class="form-group row" style="justify-content: center">
                                     <button type="button" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm" onclick="save()">Submit</button>
                                 </div>
-                                
+
                             </form>
                         </div>
                         <div class="form-pmb-gateway" style="display: none;">
                             <form class="_apply_form_form" id="payment-form" method="post" action="{{ url('booking/snapfinish') }}" >
-                        
+
                                 <div class="form-group">
                                     <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                                     <label class="text-dark mb-1 ft-medium medium">&nbsp;</label>
@@ -217,14 +207,14 @@
                                     <span id="nominal_error" class="text-error"></span>
                                 </div>
                             </form>
-                            
+
                             <button id="pay-button" class="btn btn-md theme-bg-light rounded theme-cl hover-theme">Bayar</button>
                         </div>
-                       
 
-                       
+
+
                     </div>
-                    
+
                     <div class="col-xl-6 ">
                         <h3>Ketentuan Transfer</h3>
                         <br>
@@ -241,7 +231,7 @@
 
             </div>
         </div>
-          
+
 
     </div>
 </section>
@@ -335,7 +325,7 @@
         var code = $('#kode-reservasi').val();
         $(this).attr("disabled", "disabled");
         $.ajax({
-          
+
           // url: './snaptoken',
           type: 'GET',
         //   headers: {
@@ -349,7 +339,7 @@
             //location = data;
 
             console.log('token = '+data);
-            
+
             var resultType = document.getElementById('result-type');
             var resultData = document.getElementById('result-data');
 
@@ -361,7 +351,7 @@
             }
 
             snap.pay(data, {
-              
+
               onSuccess: function(result){
                 changeResult('success', result);
                 console.log(result.status_message);
@@ -382,11 +372,10 @@
           }
         });
     });
-   
 
-   
+
+
 </script>
 @endsection
 
-			
-		
+

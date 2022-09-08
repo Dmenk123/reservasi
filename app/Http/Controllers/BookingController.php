@@ -38,7 +38,7 @@ use App\Veritrans\Midtrans;
 class BookingController extends Controller
 {
     public function __construct()
-    {   
+    {
         Midtrans::$serverKey = 'SB-Mid-server-sZaLLb9rc5_mfPasoa9Hy96d';
         //set is production to true for production mode
         Midtrans::$isProduction = false;
@@ -227,7 +227,7 @@ class BookingController extends Controller
         $object->email_reservasi = $request->email;
         $object->telp_t_reservasi = $request->telp;
         $object->hari_t_reservasi = $hari;
-        // $object->nominal_total = $harga->nominal_m_harga;
+        $object->nominal_total = $harga->nominal_m_harga;
         $object->id_m_proses = M_proses::ID_M_PROSES_PENGISIAN_DATA_DIRI;
         $object->tanggal_t_reservasi = $request->date;
         $object->jam_t_reservasi = $request->time;
@@ -268,11 +268,13 @@ class BookingController extends Controller
 
     public function formUploadPembayaran(Request $request)
     {
+        $harga = M_harga::Active()->first();
         $reservasi = T_reservasi::where('kode_t_reservasi', $request->code)->first();
         if ($reservasi) {
             $data = [
                 'kode_verifikasi' => $request->code,
-                'reservasi'       => $reservasi
+                'reservasi'       => $reservasi,
+                'harga' => $harga
             ];
             return view('web.fo.pages.upload-pembayaran')->with($data);
         } else {
@@ -328,7 +330,7 @@ class BookingController extends Controller
 
         $image = $request->file('foto');
         if ($image) {
-            $name = 'bukti_'.$request->kode_verifikasi;
+            $name = 'bukti_'.$request->kode_verifikasi.time();
             $fileName = $name . '.' . $image->getClientOriginalExtension();
 
             $folder = T_reservasi::UPLOAD_DIR;
@@ -442,6 +444,7 @@ class BookingController extends Controller
     public function afterPayment($id)
     {
         $reservasi = T_reservasi::where('kode_t_reservasi', $id)->first();
+        $harga = M_harga::Active()->first();
         if ($reservasi) {
             $proses_selanjutnya = $reservasi->id_m_proses + 1;
             $status = M_proses::findOrFail($proses_selanjutnya);
@@ -449,7 +452,8 @@ class BookingController extends Controller
             $data = [
                 // 'kode_verifikasi' => $request->code,
                 'reservasi'       => $reservasi,
-                'keterangan_status' => $keterangan_status
+                'keterangan_status' => $keterangan_status,
+                'harga' => $harga
             ];
             return view('web.fo.pages.after-payment')->with($data);
         } else {
@@ -484,20 +488,21 @@ class BookingController extends Controller
             $date = Carbon::createFromFormat('Y-m-d H:i:s', $tanggal.' '.$value->pukul)->format('Y-m-d');
 
             $url = route('booking.konfirmasi-data-diri') .'?type='.$request->tipe.'&date='.$date.'&time='.$time_url;
-            $is_booking = T_reservasi::where('tanggal_t_reservasi', $tanggal)->where('jam_t_reservasi', $value->pukul)->where('id_m_proses', 4)->whereNull('deleted_at')->first();
+            $is_booking = T_reservasi::where('tanggal_t_reservasi', $tanggal)->where('jam_t_reservasi', $value->pukul)->where('id_m_proses', M_proses::ID_M_PROSES_TRANSAKSI_SELESAI)->whereNull('deleted_at')->first();
+
             if ($is_booking) {
                 $res .= '<a href="" onclick="return false;" class="btn btn-sm btn-danger" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;background-color: #cfcfcf;border-color: #cfcfcf;">'. $time . ' WIB';
             }else{
                 $res .= '<a href="'.$url.'" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
             }
-           
-           
+
+
         }
 
         echo $res;
     }
 
-    public function token(Request $request) 
+    public function token(Request $request)
     {
         error_log('masuk ke snap token dri ajax');
         $midtrans = new Midtrans;
@@ -559,10 +564,10 @@ class BookingController extends Controller
         $time = time();
         $custom_expiry = array(
             'start_time' => date("Y-m-d H:i:s O",$time),
-            'unit'       => 'hour', 
+            'unit'       => 'hour',
             'duration'   => 2
         );
-        
+
         $transaction_data = array(
             'transaction_details'=> $transaction_details,
             'item_details'       => $items,
@@ -570,16 +575,16 @@ class BookingController extends Controller
             'credit_card'        => $credit_card,
             'expiry'             => $custom_expiry
         );
-    
+
         try
         {
             $snap_token = $midtrans->getSnapToken($transaction_data);
             //return redirect($vtweb_url);
             echo $snap_token;
             // echo json_encode(['token'=>$snap_token, 'transData' => $transaction_data]);
-        } 
-        catch (Exception $e) 
-        {   
+        }
+        catch (Exception $e)
+        {
             return $e->getMessage;
         }
     }
@@ -591,7 +596,7 @@ class BookingController extends Controller
         $result = json_decode($result);
 
         DB::beginTransaction();
-        
+
         if (isset($result->va_number[0]->bank)) {
 			$bank = $result->va_number[0]->bank;
 		} else {
@@ -655,7 +660,7 @@ class BookingController extends Controller
 
             DB::commit();
             return redirect(route('booking.after-payment', ['id' => $kode_t_reservasi]));
-           
+
         }catch(\Exception $e){
             DB::rollback();
         }
@@ -691,7 +696,7 @@ class BookingController extends Controller
               // TODO set payment status in merchant's database to 'Challenge by FDS'
               // TODO merchant should decide whether this transaction is authorized or not in MAP
               echo "Transaction order_id: " . $order_id ." is challenged by FDS";
-              } 
+              }
               else {
               // TODO set payment status in merchant's database to 'Success'
               echo "Transaction order_id: " . $order_id ." successfully captured using " . $type;
@@ -701,15 +706,15 @@ class BookingController extends Controller
         else if ($transaction == 'settlement'){
           // TODO set payment status in merchant's database to 'Settlement'
           echo "Transaction order_id: " . $order_id ." successfully transfered using " . $type;
-          } 
+          }
           else if($transaction == 'pending'){
           // TODO set payment status in merchant's database to 'Pending'
           echo "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
-          } 
+          }
           else if ($transaction == 'deny') {
           // TODO set payment status in merchant's database to 'Denied'
           echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
         }*/
-   
+
     }
 }
