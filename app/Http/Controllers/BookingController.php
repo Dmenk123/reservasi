@@ -269,7 +269,8 @@ class BookingController extends Controller
     public function formUploadPembayaran(Request $request)
     {
         $harga = M_harga::Active()->first();
-        $reservasi = T_reservasi::where('kode_t_reservasi', $request->code)->first();
+        $reservasi = T_reservasi::with('m_proses')->where('kode_t_reservasi', $request->code)->first();
+        // dd($reservasi);
         if ($reservasi) {
             $data = [
                 'kode_verifikasi' => $request->code,

@@ -236,8 +236,6 @@ class T_reservasi_controller extends Controller
                     $id_t_pembayaran = $cek_bayar->id_t_pembayaran;
                 }
 
-                $nominal_total_t_pembayaran = 0;
-
                 foreach ($request->verify as $key => $value) {
                     // $cek = T_reservasi::with(['t_reservasi_det' => function($q) use($value){
                     //     $q->where("id_t_reservasi_det", $value);
@@ -251,7 +249,6 @@ class T_reservasi_controller extends Controller
                         ]);
                     }
 
-                    $nominal_total_t_pembayaran += $cek->nominal;
                     $kode_konfirmasi = 'CFRM-'.$this->random();
                     ### PEMBAYARAN DET
                     $pembayaran_det = T_pembayaran_det::create([
@@ -270,27 +267,25 @@ class T_reservasi_controller extends Controller
                     // DB::commit();
                 }
 
-                ### get last record pembayaran
-                $cek_bayar_final = T_pembayaran::where('id_t_pembayaran', $id_t_pembayaran)->first();
-                if(!$cek_bayar_final) {
-                    DB::rollback();
-                    return response()->json([
-                        'message' => 'Transaksi Gagal',
-                        'status'  => false,
-                    ]);
+                $nominal_total_t_pembayaran = 0;
+
+                $bayar_det = T_pembayaran_det::where('id_t_pembayaran', $id_t_pembayaran)->get();
+                foreach ($bayar_det as $key => $val) {
+                    $nominal_total_t_pembayaran += $val->nominal_t_pembayaran_det;
                 }
 
-                $last_balance = $cek_bayar_final->balance_t_pembayaran;
-                $balance = $nominal_total_t_pembayaran - $last_balance;
+                ### get last record pembayaran
+                $nilai_total = $cek_bayar->nilai_t_pembayaran;
+                $balance = $nilai_total - $nominal_total_t_pembayaran;
 
                 // if((int)$balance == 0) {
                 //     $cek_bayar_final->tgl_pelunasan_t_pembayaran = Carbon::now()->format('Y-m-d');
                 // }
 
-                $cek_bayar_final->nominal_total_t_pembayaran = $nominal_total_t_pembayaran;
-                $cek_bayar_final->balance_t_pembayaran = $balance;
-                $cek_bayar_final->updated_at = Carbon::now()->format('Y-m-d H:i:s');
-                $cek_bayar_final->save();
+                $cek_bayar->nominal_total_t_pembayaran = $nominal_total_t_pembayaran;
+                $cek_bayar->balance_t_pembayaran = $balance;
+                $cek_bayar->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                $cek_bayar->save();
 
                 ### update header
                 $header->id_m_proses = M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN;

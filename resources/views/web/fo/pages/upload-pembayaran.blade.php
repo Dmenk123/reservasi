@@ -151,8 +151,7 @@
                             </div>
                         </div>
 
-
-
+                        @if ($reservasi->m_proses->id_m_proses != \App\Models\M_proses::ID_M_PROSES_TRANSAKSI_SELESAI)
                         <hr class="style10">
                         <div class="form-pmb-manual">
                             <form class="_apply_form_form" id="payment-manual">
@@ -210,11 +209,16 @@
 
                             <button id="pay-button" class="btn btn-md theme-bg-light rounded theme-cl hover-theme">Bayar</button>
                         </div>
-
+                        @else
+                        <br>
+                        <div class="col-12 position-relative text-left">
+                            <a href="{{ url('/') }}" class="btn btn-md theme-bg-light rounded theme-cl hover-theme">Beranda<i class="lni lni-arrow-right-circle ml-2"></i></a>
+                        </div>
+                        <br>
+                        @endif
 
 
                     </div>
-
                     <div class="col-xl-6 ">
                         <h3>Ketentuan Transfer</h3>
                         <br>
