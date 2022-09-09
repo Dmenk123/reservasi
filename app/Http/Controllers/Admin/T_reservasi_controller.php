@@ -233,7 +233,8 @@ class T_reservasi_controller extends Controller
                     $objBayar->save();
                     // DB::commit();
                 }else{
-                    $id_t_pembayaran = $cek_bayar->id_t_pembayaran;
+                    $objBayar = $cek_bayar;
+                    $id_t_pembayaran = $objBayar->id_t_pembayaran;
                 }
 
                 foreach ($request->verify as $key => $value) {
@@ -275,17 +276,17 @@ class T_reservasi_controller extends Controller
                 }
 
                 ### get last record pembayaran
-                $nilai_total = $cek_bayar->nilai_t_pembayaran;
+                $nilai_total = $objBayar->nilai_t_pembayaran;
                 $balance = $nilai_total - $nominal_total_t_pembayaran;
 
                 // if((int)$balance == 0) {
                 //     $cek_bayar_final->tgl_pelunasan_t_pembayaran = Carbon::now()->format('Y-m-d');
                 // }
 
-                $cek_bayar->nominal_total_t_pembayaran = $nominal_total_t_pembayaran;
-                $cek_bayar->balance_t_pembayaran = $balance;
-                $cek_bayar->updated_at = Carbon::now()->format('Y-m-d H:i:s');
-                $cek_bayar->save();
+                $objBayar->nominal_total_t_pembayaran = $nominal_total_t_pembayaran;
+                $objBayar->balance_t_pembayaran = $balance;
+                $objBayar->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+                $objBayar->save();
 
                 ### update header
                 $header->id_m_proses = M_proses::ID_M_PROSES_KONFIRMASI_PEMBAYARAN;
