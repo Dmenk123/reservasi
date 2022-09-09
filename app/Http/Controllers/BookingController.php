@@ -660,7 +660,7 @@ class BookingController extends Controller
             $reservasi_det->save();
 
             DB::commit();
-            return redirect(route('booking.after-payment', ['id' => $kode_t_reservasi]));
+            return redirect(route('booking.after-payment', ['id' => $kode_reservasi]));
 
         }catch(\Exception $e){
             DB::rollback();
