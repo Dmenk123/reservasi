@@ -656,8 +656,12 @@ class BookingController extends Controller
         $reservasi_det->biller_code = $biller_code;
         $reservasi_det->created_at = Carbon::now()->format('Y-m-d H:i:s');
 
+        $reservasi = T_reservasi::where('kode_t_reservasi', $kode_reservasi)->first();
+        $reservasi->id_m_proses = 3;
+
         try{
             $reservasi_det->save();
+            $reservasi->save();
 
             DB::commit();
             return redirect(route('booking.after-payment', ['id' => $kode_reservasi]));
