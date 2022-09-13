@@ -12,7 +12,7 @@
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/responsive-datatables.min.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/select2.min.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css')}}/form-flat-pickr.min.css">

@@ -269,13 +269,15 @@ Route::group([
     });
 
     /**
-     * Report Penerimaan
+     * Report Pendapatan
      */
     Route::group([
-        'prefix' => 'report_penerimaan',
-        'as' => 'report_penerimaan.',
+        'prefix' => 'lap_pendapatan',
+        'as' => 'lap_pendapatan.',
     ], function () {
-        Route::get('/', [\App\Http\Controllers\Admin\Trans_pembayaran::class, 'index'])->name('index');
+        Route::get('/show_report', [\App\Http\Controllers\Admin\Lap_pendapatan::class, 'show_report'])->name('show_report');
+        Route::get('/iframe_lap_pendapatan', [\App\Http\Controllers\Admin\Lap_pendapatan::class, 'iframe_lap_pendapatan'])->name('iframe_lap_pendapatan');
+        Route::get('/pdf_lap_pendapatan', [\App\Http\Controllers\Admin\Lap_pendapatan::class, 'pdf_lap_pendapatan'])->name('pdf_lap_pendapatan');
     });
 });
 

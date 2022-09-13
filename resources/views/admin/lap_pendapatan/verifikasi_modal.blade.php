@@ -4,22 +4,17 @@
 
     <div class="bs-stepper vertical wizard-modern create-app-wizard">
         <div class="bs-stepper-header" role="tablist">
-            @if ($old && $old->t_reservasi_det->isNotEmpty())
-                @foreach ($old->t_reservasi_det as $key => $item)
-                    <div class="step" data-target="{{'#konten-bukti-pembayaran-'.$item->id_t_reservasi_det}}" role="tab" id="{{'konten-bukti-pembayaran-trigger-'.$item->id_t_reservasi_det}}">
-                        <button type="button" class="step-trigger py-75">
-                            <span class="bs-stepper-box">
-                                <i data-feather="book" class="font-medium-3"></i>
-                            </span>
-                            <span class="bs-stepper-label">
-                                <span class="bs-stepper-title">Bukti #{{$key+1}}</span>
-                                <span class="bs-stepper-subtitle">Bukti Pembayaran ke - {{$key+1}}</span>
-                            </span>
-                        </button>
-                    </div>
-                @endforeach
-            @endif
-
+            <div class="step" data-target="#konten-bukti-pembayaran" role="tab" id="konten-bukti-pembayaran-trigger">
+                <button type="button" class="step-trigger py-75">
+                    <span class="bs-stepper-box">
+                        <i data-feather="book" class="font-medium-3"></i>
+                    </span>
+                    <span class="bs-stepper-label">
+                        <span class="bs-stepper-title">Bukti</span>
+                        <span class="bs-stepper-subtitle">Bukti Pembayaran</span>
+                    </span>
+                </button>
+            </div>
             <div class="step" data-target="#konten-detail-transaksi" role="tab" id="konten-detail-transaksi-trigger">
                 <button type="button" class="step-trigger py-75">
                     <span class="bs-stepper-box">
@@ -35,39 +30,35 @@
 
         <!-- content -->
         <div class="bs-stepper-content shadow-none">
-            @if ($old && $old->t_reservasi_det->isNotEmpty())
-                @foreach ($old->t_reservasi_det as $key => $val)
-                    <div id="{{'konten-bukti-pembayaran-'.$val->id_t_reservasi_det}}" class="content" role="tabpanel" aria-labelledby="{{'konten-bukti-pembayaran-trigger-'.$val->id_t_reservasi_det}}">
-                        <div class="card card-transaction">
-                            <div class="card-body" style="text-align: center;">
-                                <h5 class="pt-1">Bukti Pembayaran {{$key+1}}</h5>
-                                @if ($val && $val->medium)
-                                    {{-- @if (in_array($old->t_file_upload->mimetype, ['jpg', 'jpeg', 'png', 'svg'])) --}}
-                                        <img src="{{asset('storage/'.$val->medium)}}" height="400" width="600" style="max-width:100%;" alt="Bukti Pembayaran" class="bukti-bayar" />
-                                    {{-- @elseif (in_array($old->t_file_upload->mimetype, ['pdf']))
-                                        <embed type="application/pdf" src="{{asset('storage/'.$old->t_reservasi_det[0]->medium)}}" width="100%" height="400"></embed>
-                                    @endif --}}
+            <div id="konten-bukti-pembayaran" class="content" role="tabpanel" aria-labelledby="konten-bukti-pembayaran-trigger">
+                <div class="card card-transaction">
+                    <div class="card-body">
+                        <h5 class="pt-1">Bukti Pembayaran</h5>
+                        @if ($old && $old->t_file_upload)
+                            @if (in_array($old->t_file_upload->mimetype, ['jpg', 'jpeg', 'png', 'svg']))
+                                <img src="{{asset('storage/'.$old->t_file_upload->path_t_file_upload)}}" height="400" width="100%" alt="Bukti Pembayaran" />
+                            @elseif (in_array($old->t_file_upload->mimetype, ['pdf']))
+                                <embed type="application/pdf" src="{{asset('storage/'.$old->t_file_upload->path_t_file_upload)}}" width="100%" height="400"></embed>
+                            @endif
 
-                                    <div class="d-flex justify-content-between mt-2" style="justify-content: end !important;">
-                                        {{-- <button class="btn btn-outline-secondary btn-prev hidden" disabled>
-                                            <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
-                                            <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                        </button> --}}
-                                        <button class="btn btn-primary btn-next">
-                                            <span class="align-middle d-sm-inline-block d-none">Next</span>
-                                            <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
-                                        </button>
-                                    </div>
-                                @else
-                                    <div class="d-flex justify-content-between mt-2">
-                                        <h1>Belum Terdapat data upload !!!</h1>
-                                    </div>
-                                @endif
+                            <div class="d-flex justify-content-between mt-2" style="justify-content: end !important;">
+                                {{-- <button class="btn btn-outline-secondary btn-prev hidden" disabled>
+                                    <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                    <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                </button> --}}
+                                <button class="btn btn-primary btn-next">
+                                    <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                    <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                </button>
                             </div>
-                        </div>
+                        @else
+                            <div class="d-flex justify-content-between mt-2">
+                                <h1>Belum Terdapat data upload !!!</h1>
+                            </div>
+                        @endif
                     </div>
-                @endforeach
-            @endif
+                </div>
+            </div>
 
             <div id="konten-detail-transaksi" class="content" role="tabpanel" aria-labelledby="konten-detail-transaksi-trigger">
                 <div class="card card-transaction">
@@ -155,52 +146,21 @@
                                 </div>
                                 <div class="fw-bolder text-bold">{{$old->kode_payment_t_reservasi ?? '-'}}</div>
                             </div>
-                            @if ($old && $old->t_reservasi_det->isNotEmpty())
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center table-responsive">
-                                        <table id="datatable" class="table-striped table-hover table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>No</th>
-                                                    <th>Bank</th>
-                                                    <th>Nominal</th>
-                                                    <th>Verifikasi</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($old->t_reservasi_det as $key => $val)
-                                                <tr>
-                                                    <td>{{$key+1}}</td>
-                                                    <td>{{$val->bank}}</td>
-                                                    <td>{{($val->nominal) ? number_format($val->nominal,0,',','.') : 0}}</td>
-                                                    <td>
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="checkbox" value="{{$val->id_t_reservasi_det}}" id="{{'verify_'.$key}}" name="verify[]">
-                                                            <label class="form-check-label" for="{{'verify_'.$key}}">Pilih data ini</label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
 
-                                <div class="col-12">
-                                    <div class="d-flex align-items-center">
-                                        <div class="form-check form-switch form-check-primary me-25">
-                                            <input type="checkbox" class="form-check-input" name="verifikasi_transaksi" id="verifikasi_transaksi" />
-                                            <label class="form-check-label" for="verifikasi_transaksi">
-                                                <span class="switch-icon-left"><i data-feather="check"></i></span>
-                                                <span class="switch-icon-right"><i data-feather="x"></i></span>
-                                            </label>
-                                        </div>
-                                        <label class="form-check-label fw-bolder" for="verifikasi_transaksi">
-                                            Verifikasi Transaksi ini ?
+                            <div class="col-12">
+                                <div class="d-flex align-items-center">
+                                    <div class="form-check form-switch form-check-primary me-25">
+                                        <input type="checkbox" class="form-check-input" name="verifikasi_transaksi" id="verifikasi_transaksi" />
+                                        <label class="form-check-label" for="verifikasi_transaksi">
+                                            <span class="switch-icon-left"><i data-feather="check"></i></span>
+                                            <span class="switch-icon-right"><i data-feather="x"></i></span>
                                         </label>
                                     </div>
+                                    <label class="form-check-label fw-bolder" for="verifikasi_transaksi">
+                                        Verifikasi Transaksi ini ?
+                                    </label>
                                 </div>
-                            @endif
+                            </div>
                         </form>
 
                         <div class="d-flex justify-content-between mt-5 pt-1">

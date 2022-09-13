@@ -287,7 +287,7 @@ const generateDataTabel = (month = null, year = null, proses = null, metode_baya
         processing: true,
         serverSide: true,
         pageLength: 20,
-        // responsive:true,
+        responsive:true,
         ajax: {
             url: '{{ route('admin.t_reservasi.datatable') }}',
             method: 'post',

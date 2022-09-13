@@ -107,6 +107,24 @@ class M_menu_bo_seeder extends Seeder
                 'id_parent' => 5,
                 'order_m_menu_bo' => 3,
             ],
+            [
+                'id_m_menu_bo' => 11,
+                'nm_menu_bo' => 'Laporan',
+                'aktif' => '1',
+                'icon' => 'book',
+                'route' => null,
+                'id_parent' => null,
+                'order_m_menu_bo' => 3,
+            ],
+            [
+                'id_m_menu_bo' => 12,
+                'nm_menu_bo' => 'Pendapatan',
+                'aktif' => '1',
+                'icon' => 'circle',
+                'route' => 'admin.lap_pendapatan.show_report',
+                'id_parent' => '11',
+                'order_m_menu_bo' => 1,
+            ],
         ]);
     }
 }
