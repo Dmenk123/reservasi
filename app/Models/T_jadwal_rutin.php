@@ -57,6 +57,6 @@ class T_jadwal_rutin extends Model
 
     public function t_jadwal_rutin_det()
     {
-        return $this->hasMany(t_jadwal_rutin_det::class, 'id_t_jadwal_rutin', 'id_t_jadwal_rutin');
+        return $this->hasMany(T_jadwal_rutin_det::class, 'id_t_jadwal_rutin', 'id_t_jadwal_rutin');
     }
 }

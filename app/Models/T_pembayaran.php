@@ -35,7 +35,7 @@ class T_pembayaran extends Model
 
     public function t_pembayaran_det()
     {
-        return $this->hasMany(t_pembayaran_det::class, 'id_t_pembayaran', 'id_t_pembayaran');
+        return $this->hasMany(T_pembayaran_det::class, 'id_t_pembayaran', 'id_t_pembayaran');
     }
 
     public function t_reservasi()

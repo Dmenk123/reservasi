@@ -57,6 +57,6 @@ class T_jadwal_rutin_det extends Model
 
     public function t_jadwal_rutin()
     {
-        return $this->belongsTo(t_jadwal_rutin::class, 'id_t_jadwal_rutin', 'id_t_jadwal_rutin');
+        return $this->belongsTo(T_jadwal_rutin::class, 'id_t_jadwal_rutin', 'id_t_jadwal_rutin');
     }
 }
