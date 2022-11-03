@@ -5,20 +5,21 @@ use Carbon\Carbon;
 use App\Models\M_app;
 use App\Models\M_menu;
 use App\Models\M_proses;
-use App\Models\T_log_proses;
-use App\Models\T_reservasi;
 use App\Models\M_interval;
+use App\Models\T_reservasi;
+use App\Models\T_log_proses;
+use App\Models\T_pembayaran;
 use Illuminate\Http\Request;
+use App\Models\T_jadwal_rutin;
 use App\Models\T_group_content;
+use App\Models\T_pembayaran_det;
+use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\T_jadwal_rutin;
-use App\Models\T_pembayaran;
-use App\Models\T_pembayaran_det;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\Collection;
-use Yajra\Datatables\Datatables;
 
 class Trans_pembayaran extends Controller
 {
@@ -278,6 +279,11 @@ class Trans_pembayaran extends Controller
                 $proses->save();
 
                 DB::commit();
+
+                $email = new MailController;
+                ### send email
+                $send_email = $email->send_email_link_upload(trim($reservasi->email_t_reservasi), $reservasi);
+
                 return response()->json([
                     'status' => true,
                     'message' => 'Data Saved',
