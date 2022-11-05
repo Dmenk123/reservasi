@@ -282,7 +282,7 @@ class Trans_pembayaran extends Controller
 
                 $email = new MailController;
                 ### send email
-                $send_email = $email->send_email_link_upload(trim($reservasi->email_t_reservasi), $reservasi);
+                $send_email = $email->send_email_transaksi_finish(trim($reservasi->email_t_reservasi), $reservasi);
 
                 return response()->json([
                     'status' => true,
