@@ -22,7 +22,7 @@
         <div class="row" >
             <div class="icon-box" style="transition: none;transform: none; width: 100%">
                 <div class="row" style="justify-content: center;">  
-                    <div class="col-xl-12 ">
+                    <div class="col-xl-6 ">
                         <div class="cats-wrap text-center border-div">
                             <div class="cats-box d-block rounded bg-white px-2 py-4 ">
                                 <img src="{{ asset('assets/fo/flaticon/calendar.svg') }}" width="150">
@@ -34,71 +34,72 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 no-padding">
-                    <div class="jb-apply-form bg-white rounded box-static">
-                        <h4 class="ft-medium fs-md mb-3">Lengkapi data diri Anda.</h4>
-
-                        <form class="_apply_form_form">
-
-                            <div class="form-group">
-                                <input type="hidden" name="type" value="{{ $type }}" id="type">
-                                <input type="hidden" name="date" value="{{ $date }}" id="date">
-                                <input type="hidden" name="time" value="{{ $time }}" id="time">
-                                <label class="text-dark mb-1 ft-medium medium">Nama</label>
-                                <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama">
-                                <span id="nama_error" class="text-error"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="text-dark mb-1 ft-medium medium">Email</label>
-                                <input type="email" class="form-control" placeholder="emailanda@gmail.com" name="email">
-                                <span id="email_error" class="text-error"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="text-dark mb-1 ft-medium medium">Telepon / wa:</label>
-                                <input type="number" class="form-control" placeholder="081xxxxxxx" name="telp">
-                                <span id="telp_error" class="text-error"></span>
-                            </div>
-
-                            {{-- <div class="form-group">
-                                <label class="text-dark mb-1 ft-medium medium">Upload Resume:<font>pdf, doc, docx</font></label>
-                                <div class="custom-file">
-                                  <input type="file" class="custom-file-input" id="customFile">
-                                  <label class="custom-file-label" for="customFile">Choose file</label>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 no-padding">
+                        <div class="jb-apply-form bg-white rounded box-static">
+                            <h4 class="ft-medium fs-md mb-3 theme-cl">Lengkapi data diri Anda.</h4>
+    
+                            <form class="_apply_form_form">
+    
+                                <div class="form-group">
+                                    <input type="hidden" name="type" value="{{ $type }}" id="type">
+                                    <input type="hidden" name="date" value="{{ $date }}" id="date">
+                                    <input type="hidden" name="time" value="{{ $time }}" id="time">
+                                    <label class="text-dark mb-1 ft-medium medium">Nama</label>
+                                    <input type="text" class="form-control" placeholder="Nama Lengkap" name="nama">
+                                    <span id="nama_error" class="text-error"></span>
                                 </div>
-                            </div> --}}
-
-                            {{-- <div class="form-group">
-                                <div class="terms_con">
-                                    <input id="aa3" class="checkbox-custom" name="Coffee" type="checkbox">
-                                    <label for="aa3" class="checkbox-custom-label">Submit</label>
+    
+                                <div class="form-group">
+                                    <label class="text-dark mb-1 ft-medium medium">Email</label>
+                                    <input type="email" class="form-control" placeholder="emailanda@gmail.com" name="email">
+                                    <span id="email_error" class="text-error"></span>
                                 </div>
-                            </div> --}}
-                            <div class="form-group">
-                                <label class="text-dark mb-1 ft-medium medium radio-custom-label">Metode Pembayaran:</label>
-                                <div class="selector">
-                                    <div class="selecotr-item">
-                                        <input type="radio" id="radio1" name="pembayaran" value="upload" class="selector-item_radio" checked>
-                                        <label for="radio1" class="selector-item_label">Manual</label>
+    
+                                <div class="form-group">
+                                    <label class="text-dark mb-1 ft-medium medium">Telepon / wa:</label>
+                                    <input type="number" class="form-control" placeholder="081xxxxxxx" name="telp">
+                                    <span id="telp_error" class="text-error"></span>
+                                </div>
+    
+                                {{-- <div class="form-group">
+                                    <label class="text-dark mb-1 ft-medium medium">Upload Resume:<font>pdf, doc, docx</font></label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile">
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
                                     </div>
-                                    <div class="selecotr-item">
-                                        <input type="radio" id="radio2" name="pembayaran" value="gateway" class="selector-item_radio">
-                                        <label for="radio2" class="selector-item_label">Gateway</label>
+                                </div> --}}
+    
+                                {{-- <div class="form-group">
+                                    <div class="terms_con">
+                                        <input id="aa3" class="checkbox-custom" name="Coffee" type="checkbox">
+                                        <label for="aa3" class="checkbox-custom-label">Submit</label>
                                     </div>
-
+                                </div> --}}
+                                <div class="form-group">
+                                    <label class="text-dark mb-1 ft-medium medium radio-custom-label">Metode Pembayaran:</label>
+                                    <div class="selector">
+                                        <div class="selecotr-item">
+                                            <input type="radio" id="radio1" name="pembayaran" value="upload" class="selector-item_radio" checked>
+                                            <label for="radio1" class="selector-item_label">Manual</label>
+                                        </div>
+                                        <div class="selecotr-item">
+                                            <input type="radio" id="radio2" name="pembayaran" value="gateway" class="selector-item_radio">
+                                            <label for="radio2" class="selector-item_label">Gateway</label>
+                                        </div>
+    
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group row" style="justify-content: center">
-                                <button type="button" id="btnSave" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm" onclick="save()">Konfirmasi</button>
-                            </div>
-
-                        </form>
+    
+                                <div class="form-group row" style="justify-content: center">
+                                    <button type="button" id="btnSave" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm" onclick="save()">Konfirmasi</button>
+                                </div>
+    
+                            </form>
+                        </div>
                     </div>
                 </div>
+
+                
             </div>
         </div>
 
