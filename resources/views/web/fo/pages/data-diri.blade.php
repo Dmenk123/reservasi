@@ -21,28 +21,15 @@
 
         <div class="row" >
             <div class="icon-box" style="transition: none;transform: none; width: 100%">
-                <div class="row" style="justify-content: center;">
-                    <div class="col-xl-6 ">
-                        <div class="cats-wrap text-center border-div">
-                            <div class="cats-box d-block rounded bg-white px-2 py-4 ">
-                                <img src="{{ asset('assets/fo/flaticon/cash-payment.png') }}" width="150">
-                                <div class="cats-box-caption">
-                                    <br>
-                                    <h4 class="tulisan-custom">Kategori Pembayaran</h4>
-                                    <span class="text-muted">{!! ( ($type == 'lunas') ? 'Lunas':'Angsuran').'<br>&nbsp;' !!}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-6 ">
+                <div class="row" style="justify-content: center;">  
+                    <div class="col-xl-12 ">
                         <div class="cats-wrap text-center border-div">
                             <div class="cats-box d-block rounded bg-white px-2 py-4 ">
                                 <img src="{{ asset('assets/fo/flaticon/calendar.svg') }}" width="150">
                                 <div class="cats-box-caption">
                                     <br>
                                     <h4 class="tulisan-custom" >Jadwal</h4>
-                                    <span class="text-muted blink">{!! 'Tanggal : <b>'. (\Carbon\Carbon::parse($date)->isoFormat('D MMMM Y') ?? '').'</b><br>Pukul : <b>'.\Carbon\Carbon::parse($time)->format('H:i').' WIB</b>'  !!}</span>
+                                    <span class="text-muted blink">{!! 'Tanggal : <b>'. (\Carbon\Carbon::parse($date)->isoFormat('D MMMM Y') ?? '').'</b><br>Pukul : <b>'.\Carbon\Carbon::parse($time)->format('H:i').' WIB</b><br>Jenis Pembayaran : '.( ($type == 'lunas') ? '<b>Cash</b>':'<b>Angsuran</b>')  !!}</span>
                                 </div>
                             </div>
                         </div>
