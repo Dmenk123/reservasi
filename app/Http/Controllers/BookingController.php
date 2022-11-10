@@ -246,9 +246,9 @@ class BookingController extends Controller
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
 
-            $email = new MailController;
+            // $email = new MailController;
             ### send email
-            $send_email = $email->send_email_link_upload(trim($request->email), $object);
+            // $send_email = $email->send_email_link_upload(trim($request->email), $object);
 
             DB::commit();
             return response()->json([
@@ -320,7 +320,17 @@ class BookingController extends Controller
             ]);
         }
 
-
+        $harga_cash = M_harga::where('status_m_harga', 1)->first();
+        if ($request->type == 'cash') {
+            if ($request->nominal != $harga_cash->nominal_m_harga) {
+                return response()->json([
+                    'error' => [
+                        'nominal' => 'Pastikan jumlah isian sama dengan total paket lunas',
+                    ]
+                ]);
+            }
+        }
+        
 
 
         DB::beginTransaction();
@@ -492,7 +502,7 @@ class BookingController extends Controller
             $is_booking = T_reservasi::where('tanggal_t_reservasi', $tanggal)->where('jam_t_reservasi', $value->pukul)->where('id_m_proses', M_proses::ID_M_PROSES_TRANSAKSI_SELESAI)->whereNull('deleted_at')->first();
 
             if ($is_booking) {
-                $res .= '<a href="" onclick="return false;" class="btn btn-sm btn-danger" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;background-color: #cfcfcf;border-color: #cfcfcf;">'. $time . ' WIB';
+                $res .= '<a href="" onclick="return false;" class="btn btn-sm btn-danger disabled" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;background-color: #cfcfcf;border-color: #cfcfcf;">'. $time . ' WIB';
             }else{
                 $res .= '<a href="'.$url.'" class="btn btn-sm btn-success-custom" style="margin-left:5px;margin-bottom:5px;width: 125px;font-size: 1.2rem!important;">' . $time . ' WIB';
             }

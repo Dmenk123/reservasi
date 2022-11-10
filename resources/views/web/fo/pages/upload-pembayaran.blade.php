@@ -155,7 +155,7 @@
                         <hr class="style10">
                         <div class="form-pmb-manual">
                             <form class="_apply_form_form" id="payment-manual">
-
+                                <input type="hidden" value="{{ $reservasi->jenis_t_reservasi }}" name="type">
                                 <div class="form-group">
                                     <input type="hidden" name="kode_verifikasi" value="{{ $kode_verifikasi ?? ''}}">
                                     <label class="text-dark mb-1 ft-medium medium">Nama Rekening Bank</label>
