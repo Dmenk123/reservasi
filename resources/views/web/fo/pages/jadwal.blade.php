@@ -22,6 +22,11 @@
         
         <div class="row">
             <div class="icon-box" style="transition: none;transform: none;">
+                 @if ($type == 'lunas')
+                    <label>Jenis Pembayaran : <span class="medium theme-cl theme-bg-light px-2 py-1 rounded">Cash</span></label>
+                @else 
+                    <label>Jenis Pembayaran : <span class="medium bg-light-warning text-warning px-2 py-1 rounded">Ngecup</span></label>
+                @endif
             <div id="calendarIO"></div>
             </div>
         </div>

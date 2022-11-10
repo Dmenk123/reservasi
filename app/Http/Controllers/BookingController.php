@@ -92,6 +92,7 @@ class BookingController extends Controller
 
         $data = [
             'get_data'=> json_encode($calendar),
+            'type' => $type
 		];
 
         return view('web.fo.pages.jadwal')->with($data);
@@ -246,9 +247,9 @@ class BookingController extends Controller
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             ]);
 
-            // $email = new MailController;
+            $email = new MailController;
             ### send email
-            // $send_email = $email->send_email_link_upload(trim($request->email), $object);
+            $send_email = $email->send_email_link_upload(trim($request->email), $object);
 
             DB::commit();
             return response()->json([
