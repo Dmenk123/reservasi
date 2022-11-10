@@ -166,7 +166,8 @@
 
                                 <div class="form-group">
                                     <label class="text-dark mb-1 ft-medium medium">Nominal Transfer:</label>
-                                    <input type="number" class="form-control" placeholder="x.xxx.xxx" name="nominal">
+                                    <input type="text" class="form-control" id="money">
+                                    <input type="hidden" class="form-control" name="nominal" id="nominal">
                                     <span id="nominal_error" class="text-error"></span>
                                 </div>
 
@@ -245,6 +246,46 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
+
+        var money = document.getElementById('money');
+        money.addEventListener('keyup', function(e)
+        {
+            money.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        $('#money').on('input', function(e) {
+            text = currency_to_int($('#money').val());
+            $('#nominal').val(text);
+        });
+        
+        /* Fungsi */
+        function formatRupiah(angka, prefix)
+        {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split    = number_string.split(','),
+                sisa     = split[0].length % 3,
+                rupiah     = split[0].substr(0, sisa),
+                ribuan     = split[0].substr(sisa).match(/\d{3}/gi);
+                
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+
+        var currency_to_int = function (value = '', symbol = 'Rp. ', thousandSeparator = '.', centSeparator = ',', defaultCent = '00', lengthOfCent = 3) {
+            value = value.replace(symbol, "");
+            value = value.replace(thousandSeparator, "");
+            value = value.replace(thousandSeparator, "");
+            value = value.replace(thousandSeparator, "");
+            // value = value.replace(centSeparator + defaultCent, "");
+            return parseInt(value);
+        }
+
+
         var div_from =  '{{ $reservasi->metode_pembayaran_t_reservasi }}';
         if (div_from != 'upload') {
             $('.form-pmb-gateway').show();
